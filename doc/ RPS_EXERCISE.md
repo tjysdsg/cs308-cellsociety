@@ -1,46 +1,63 @@
-# Player
+# Simulation Lab Discussion
 
-## Responsibilities
+## Rock Paper Scissors
+
+## Names and NetIDs
+
+- Jiyang Tang, jt304
+- Andre Wang, jw542
+- Tinglong Zhu, tz88
+
+### High Level Design Ideas
+
+### CRC Card Classes
+
+#### Player
+
+##### Responsibilities
 
 - Score counting
 - Ask for input
 
-## Collaborators
+##### Collaborators
 
 - Game
 - Weapon
 
-# Weapon
+##### Weapon
 
-## Responsibilities
+##### Responsibilities
 
 - Stores an unique identifier
 
-## Collaborators
+##### Collaborators
 
 - Player
 - Rule
 
-# Rule
+#### Rule
 
-## Responsibilities
+##### Responsibilities
 
 - Load config file
 - Compare two weapons and find out which wins
 - Add new weapons, update relationships
 
-## Collaborators
+##### Collaborators
 
 - Weapon
 
-# Game
+#### Game
 
-## Responsibilities
+##### Responsibilities
 
 - For each round, use player input to update their scores according to rules
 - Choose a set of rules
 
-## Collaborators
+##### Collaborators
 
 - Player
 - Rule
+
+### Use Cases
+
