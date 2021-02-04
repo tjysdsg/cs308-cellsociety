@@ -5,6 +5,10 @@ This project implements a cellular automata simulator.
 
 Names:
 
+- Jiyang Tang, jt304
+- Andre Wang, jw542
+- Tinglong Zhu, tz88
+
 ### Timeline
 
 Start Date: 
