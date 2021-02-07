@@ -30,6 +30,20 @@ inputs by calling relevant methods of models and telling views to render the mod
 
 ## User Interface
 
+![GUI init](GUI_init_design.jpg)
+
+With reference to [Scott Wator World](https://www2.cs.duke.edu/courses/spring21/compsci308/assign/02_simulation/nifty/scott-wator-world/)
+
+The graphical user interface (GUI) will include the things listed below.
+* A canvas for displaying the Cell Automata simulation.
+* A status board to show the status of the simulation.
+* 4 buttons for: step, start, stop, reset the simulation.
+* 5 buttons for switching simulation rules.
+* Two input boxes for inputting the row and column numbers.
+* A bar that can be moved right and left to adjust the speed of the simulation. 
+* Other buttons needed for the configuring the simulation.
+
+
 ## Configuration File Format
 
 ## Design Details
