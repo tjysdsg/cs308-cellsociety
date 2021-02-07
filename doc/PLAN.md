@@ -18,10 +18,10 @@ For the models, `Simulation` is responsible for storing, updating the simulation
 coordinating `Grid`, `Cell`, and `State`.
 
 For views, `MainView` combines `SimulationView`, `UIView` together and renders the final
-visualization seen by users. `SimulationView` is the visual representation of the cellular
-simulation. `StatusView` and `SettingsView` are both `UIView`, the former serves as a display of
-current simulation status, while the latter provides interactive UI widgets for users to control
-game settings.
+visualization seen by users. `MainView` also passes the received user inputs to `InputController`.
+`SimulationView` is the visual representation of the cellular simulation. `StatusView`
+and `SettingsView` are both `UIView`, the former serves as a display of current simulation status,
+while the latter provides interactive UI widgets for users to control game settings.
 
 In terms of controllers, `InputController` handles user input events and passes them
 to `MainController`. `ConfigController` is used to read configuration files.
@@ -47,6 +47,28 @@ The graphical user interface (GUI) will include the things listed below.
 ## Configuration File Format
 
 ## Design Details
+
+### Simulation
+
+Simulation is an abstract class, we can create its subclasses to implement different game rules.
+
+- `MainController` can call `setStates()` provided by `Simulation` to set states of all cells.
+- `MainController` can call `update()` provided by `Simulation` to simulate one step.
+- `MainController` can call `setConfig()` provided by `Simulation` to change simulation settings.
+- Views get call `getGrid()` provided by `Simulation` to get a 2D list of states representing the
+  whole grid, and renders according to the states.
+
+### View
+
+- `MainController` can call `MainView`'s `update()` to render the simulation and UI to screen.
+- `MainController` retrieves `SimulationView` and `UIView`'s javafx `Node` object and renders them
+  in `update()`.
+
+### Controllers
+
+- `MainController` get the initial configuration by calling `readConfigs()` of `ConfigController`.
+- View can call `setInputValue()` provided by `InputController` to pass user inputs to controllers.
+- `MainController` retrieves user inputs by calling `getInputValue()` of `InputController`.
 
 ## Design Considerations
 
