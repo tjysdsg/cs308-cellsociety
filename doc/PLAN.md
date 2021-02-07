@@ -1,8 +1,12 @@
 # Cell Society Design Plan
 
-### Team Number
+### Team 10
 
 ### Names
+
+- Andre Wang, jw542
+- Jiyang Tang, jt304
+- Tinglong Zhu, tz88
 
 ## Introduction
 
@@ -96,8 +100,8 @@ Andre Wang: Views
 
 * Team Member #2
 
-Tinglong Zhu: Controllers
+Jiyang Tang: Models
 
 * Team Member #3
 
-Jiyang Tang: Models
+Tinglong Zhu: Controllers
