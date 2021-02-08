@@ -80,6 +80,45 @@ The graphical user interface (GUI) will include the things listed below.
 
 ## Configuration File Format
 
+- Game of life:
+
+```xml
+
+<simulation type="Game of life">
+  <gameSpeed speed="1"/>
+  <stateEnum name="alive"/>
+  <stateEnum name="dead"/>
+
+  <grid width="80" height="50">
+    <cell id="0" state="alive"></cell>
+    <cell id="1" state="dead"></cell>
+    <!-- ... -->
+    <edge id1="0" id2="1"></edge>
+    <!-- ... -->
+  </grid>
+</simulation>
+```
+
+- Fire spreading
+
+```xml
+
+<simulation type="Fire spreading">
+  <gameSpeed speed="1"/>
+  <stateEnum name="empty"/>
+  <stateEnum name="tree"/>
+  <stateEnum name="burning"/>
+
+  <grid width="50" height="50">
+    <cell id="0" state="burning"></cell>
+    <cell id="1" state="tree"></cell>
+    <!-- ... -->
+    <edge id1="0" id2="1"></edge>
+    <!-- ... -->
+  </grid>
+</simulation>
+```
+
 ## Design Details
 
 ### Simulation
