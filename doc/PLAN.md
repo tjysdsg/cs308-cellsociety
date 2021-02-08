@@ -105,3 +105,7 @@ Jiyang Tang: Models
 * Team Member #3
 
 Tinglong Zhu: Controllers
+
+Due to the complex relationships between components, our team needs to work together to figure out
+the details of how they interact with each others, we will have a discussion later to narrow down
+our coordination roles.
