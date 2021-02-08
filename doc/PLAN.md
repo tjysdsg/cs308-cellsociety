@@ -32,6 +32,35 @@ to `MainController`. `ConfigController` is used to read configuration files.
 `MainController` apply the configuration to the models at start, update the game according to user
 inputs by calling relevant methods of models and telling views to render the models.
 
+### Possible data structures for Grid
+
+- 2D array: the most straightforward way, access a cell directly using 2D coordinate, but cannot
+  represent anything other than a rectangular 2D grid.
+- Graph: much more general than 2D arrays, it can represent a general grid with custom definition of
+  vertices and edges. The downside is that accessing or iterating the grid can be inconvenient.
+
+### Configuration file format
+
+- Value is written inside the tag:
+
+```xml
+
+<simulation>Game of Life</simulation>
+```
+
+- Value is written as an attribute of a tag:
+
+```xml
+
+<simulation type="Game of Life">
+  <!-- subtags -->
+</simulation>
+```
+
+- The first one is easier to parse.
+- The second one allows multiple values of a tag, indexed by keys, which allows more flexible
+  configurations.
+
 ## User Interface
 
 ![GUI init](GUI_init_design.jpg)
