@@ -54,9 +54,4 @@ public class SimulationFire extends Simulation {
     }
   }
 
-  @Override
-  public List<List<State>> getGrid() {
-    return null;
-  }
-
 }

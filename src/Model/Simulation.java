@@ -25,7 +25,10 @@ public abstract class Simulation {
     return grid.update();
   }
 
-  public abstract List<List<State>> getGrid();
+  public List<List<State>> getGrid() {
+    // TODO: implement this
+    return null;
+  }
 
   @Override
   public String toString() {

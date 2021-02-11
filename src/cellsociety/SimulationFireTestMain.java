@@ -4,7 +4,7 @@ import Model.Simulation;
 import Model.SimulationFire;
 import Model.StateFire;
 
-public class ModelTestMain {
+public class SimulationFireTestMain {
 
   public static void main(String[] args) {
     boolean isRunning = true;
