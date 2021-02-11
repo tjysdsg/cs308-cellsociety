@@ -103,14 +103,14 @@ public class Grid {
   public String toString() {
     StringBuilder ret = new StringBuilder();
     ret.append("|");
+    int r = 0;
     for (var row : grid) {
-      int col = 0;
       for (var cell : row) {
         ret.append(cell.toString()).append("|");
-        ++col;
       }
+      ++r;
       ret.append("\n");
-      if (col < nCols - 1) {
+      if (r <= nRows - 1) {
         ret.append("|");
       }
     }
