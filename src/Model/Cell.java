@@ -5,14 +5,20 @@ public class Cell {
   private State state;
   private State nextState;
 
-  public Cell() {
+  public Cell(State s) {
+    this.state = s;
+    this.nextState = s;
   }
 
   /**
    * Lazy write the value of state, call update() to actually change the value
    */
-  public void setState(State state) {
-    this.nextState = state;
+  public void setState(State state, boolean immediate) {
+    if (immediate) {
+      this.state = state;
+    } else {
+      this.nextState = state;
+    }
   }
 
   public State getState() {

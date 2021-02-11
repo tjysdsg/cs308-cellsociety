@@ -8,8 +8,8 @@ public abstract class Simulation {
 
   public abstract <T> void setConfig(String name, T value);
 
-  public void setState(int r, int c, State s) {
-    grid.setState(r, c, s);
+  public void setState(int r, int c, State s, boolean immediate) {
+    grid.setState(r, c, s, immediate);
   }
 
   protected abstract void updateNextStates();

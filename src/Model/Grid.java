@@ -15,14 +15,14 @@ public class Grid {
   private List<List<Cell>> grid;
   private Neighborhood neighborhood;
 
-  public Grid(int nRows, int nCols, Neighborhood neighborhood) {
+  public Grid(int nRows, int nCols, State defaultState, Neighborhood neighborhood) {
     this.nRows = nRows;
     this.nCols = nCols;
     grid = new ArrayList<>(nRows);
     for (int i = 0; i < nRows; ++i) {
       ArrayList<Cell> row = new ArrayList<>(nCols);
       for (int j = 0; j < nCols; ++j) {
-        row.add(new Cell());
+        row.add(new Cell(defaultState));
       }
       grid.add(row);
     }
@@ -30,10 +30,20 @@ public class Grid {
   }
 
   /**
-   * Lazy write to State at (r, c), call update() to actually change the value of all cells
+   * @param immediate Lazy write to the cell state at (r, c) if true, call update() to actually
+   *                  change the value of all cells
+   */
+  public void setState(int r, int c, State state, boolean immediate) {
+    grid.get(r).get(c).setState(state, immediate);
+  }
+
+  /**
+   * Lazy write to a cell state
+   *
+   * @see Grid#setState(int, int, State, boolean)
    */
   public void setState(int r, int c, State state) {
-    grid.get(r).get(c).setState(state);
+    grid.get(r).get(c).setState(state, false);
   }
 
   public State getState(int r, int c) {
