@@ -4,6 +4,7 @@ public class Cell {
 
   private State state;
   private State nextState;
+  private boolean needUpdate = false;
 
   public Cell(State s) {
     this.state = s;
@@ -18,6 +19,7 @@ public class Cell {
       this.state = state;
     } else {
       this.nextState = state;
+      needUpdate = true;
     }
   }
 
@@ -26,9 +28,12 @@ public class Cell {
   }
 
   public boolean update() {
-    boolean ret = state != nextState;
-    state = nextState;
-    return ret;
+    if (needUpdate) {
+      state = nextState;
+      needUpdate = false;
+      return true;
+    }
+    return false;
   }
 
   @Override
