@@ -11,7 +11,7 @@ public enum StateGOL implements State {
   public String toString() {
     return switch (this) {
       case DEAD -> " ";
-      case ALIVE -> "@";
+      case ALIVE -> "\u25A0";
     };
   }
 }
