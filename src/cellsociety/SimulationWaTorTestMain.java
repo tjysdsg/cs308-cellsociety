@@ -11,10 +11,10 @@ public class SimulationWaTorTestMain {
     Simulation sim = new SimulationWaTor(20);
     // glider pattern
     sim.setState(10, 10, StateWaTor.FISH, true);
-    System.out.println(sim.grid.toString());
+    System.out.println(sim.toString());
     while (isRunning) {
       isRunning = sim.update();
-      System.out.println(sim.grid.toString());
+      System.out.println(sim.toString());
     }
   }
 }

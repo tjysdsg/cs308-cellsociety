@@ -38,10 +38,10 @@ public class SimulationPercolationTestMain {
     sim.setState(7, 2, StatePercolation.BLOCKED, true);
     sim.setState(7, 3, StatePercolation.BLOCKED, true);
     sim.setState(7, 4, StatePercolation.BLOCKED, true);
-    System.out.println(sim.grid.toString());
+    System.out.println(sim.toString());
     while (isRunning) {
       isRunning = sim.update();
-      System.out.println(sim.grid.toString());
+      System.out.println(sim.toString());
     }
   }
 }

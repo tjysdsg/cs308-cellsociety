@@ -15,10 +15,10 @@ public class SimulationGOLTestMain {
     sim.setState(12, 10, StateGOL.ALIVE, true);
     sim.setState(12, 9, StateGOL.ALIVE, true);
     sim.setState(11, 8, StateGOL.ALIVE, true);
-    System.out.println(sim.grid.toString());
+    System.out.println(sim.toString());
     while (isRunning) {
       isRunning = sim.update();
-      System.out.println(sim.grid.toString());
+      System.out.println(sim.toString());
     }
   }
 }

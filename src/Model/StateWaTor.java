@@ -1,7 +1,6 @@
 package Model;
 
 /**
- * DEAD, ALIVE
  */
 public enum StateWaTor implements State {
 
@@ -14,8 +13,7 @@ public enum StateWaTor implements State {
     return switch (this) {
       case EMPTY -> "\u3000";
       case SHARK -> "\uD83E\uDD88";
-      case FISH -> "\uD83D\uDC1F";
-      case MOVED_FISH -> "\uD83D\uDC1F";
+      case FISH, MOVED_FISH -> "\uD83D\uDC1F";
     };
   }
 }
