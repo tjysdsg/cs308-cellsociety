@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<data media="Game">
-    <title>Minecraft</title>
-    <publisher>Microsoft</publisher>
-    <year>2011</year>
-    <rating>E10+</rating>
+<data simulation="Fire">
+    <grid>
+        <sizex>30</sizex>
+    </grid>
+    <cell>
+        <row>10</row>
+        <col>20</col>
+        <state>1</state>
+    </cell>
+    <speed>20</speed>
 </data>
