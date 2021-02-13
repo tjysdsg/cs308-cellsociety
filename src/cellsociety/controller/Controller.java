@@ -85,6 +85,24 @@ public class Controller {
     }
   }
 
+  public <T> void changeConfig(String name, T value){
+    switch (name){
+      case "reset":
+        reset();
+        return;
+      case "stepMode":
+        setStepMode();
+        return;
+      case "pause":
+        setPause();
+        return;
+      case "start":
+        setStart();
+        return;
+    }
+    simulation.setConfig(name,value);
+  }
+
   public static void main(String[] args){
     String fileName= "gameconfig/Minecraft.xml";
     Controller tmp =new Controller();
