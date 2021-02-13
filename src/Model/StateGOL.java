@@ -3,15 +3,20 @@ package Model;
 /**
  * DEAD, ALIVE
  */
-public enum StateGOL implements State {
+public class StateGOL extends State {
 
-  DEAD, ALIVE;
+  public static final StateGOL DEAD = new StateGOL(0);
+  public static final StateGOL ALIVE = new StateGOL(1);
+
+  StateGOL(int val) {
+    super(val);
+  }
 
   @Override
   public String toString() {
-    return switch (this) {
-      case DEAD -> " ";
-      case ALIVE -> "\u25A0";
-    };
+    if (this == ALIVE) {
+      return "\u25A0";
+    }
+    return " ";
   }
 }

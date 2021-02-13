@@ -26,20 +26,15 @@ public class SimulationGOL extends Simulation {
           }
         }
         boolean updated = false;
-        switch (s) {
-          case DEAD -> {
-            if (nAliveNeighbors == 3) {
-              grid.setState(r, c, StateGOL.ALIVE);
-              updated = true;
-            }
+        if (StateGOL.DEAD == s) {
+          if (nAliveNeighbors == 3) {
+            grid.setState(r, c, StateGOL.ALIVE);
+            updated = true;
           }
-          case ALIVE -> {
-            if (nAliveNeighbors < 2 || nAliveNeighbors > 3) {
-              grid.setState(r, c, StateGOL.DEAD);
-              updated = true;
-            }
-          }
-          default -> {
+        } else if (StateGOL.ALIVE == s) {
+          if (nAliveNeighbors < 2 || nAliveNeighbors > 3) {
+            grid.setState(r, c, StateGOL.DEAD);
+            updated = true;
           }
         }
         if (!updated) {

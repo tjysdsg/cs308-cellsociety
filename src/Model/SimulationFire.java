@@ -27,25 +27,20 @@ public class SimulationFire extends Simulation {
         StateFire s = (StateFire) grid.getState(r, c);
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
         boolean updated = false;
-        switch (s) {
-          case TREE -> {
-            for (Cell neighbor : neighbors) {
-              if ((neighbor.getState()) == StateFire.BURNING) {
-                Random rand = new Random();
-                if (rand.nextDouble() <= probCatch) {
-                  grid.setState(r, c, StateFire.BURNING);
-                  updated = true;
-                  break;
-                }
+        if (StateFire.TREE == s) {
+          for (Cell neighbor : neighbors) {
+            if ((neighbor.getState()) == StateFire.BURNING) {
+              Random rand = new Random();
+              if (rand.nextDouble() <= probCatch) {
+                grid.setState(r, c, StateFire.BURNING);
+                updated = true;
+                break;
               }
             }
           }
-          case BURNING -> {
-            grid.setState(r, c, StateFire.EMPTY);
-            updated = true;
-          }
-          default -> {
-          }
+        } else if (StateFire.BURNING == s) {
+          grid.setState(r, c, StateFire.EMPTY);
+          updated = true;
         }
         if (!updated) {
           grid.setState(r, c, s);

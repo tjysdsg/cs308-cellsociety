@@ -3,16 +3,24 @@ package Model;
 /**
  * BLOCKED, OPEN, PERCOLATED
  */
-public enum StatePercolation implements State {
+public class StatePercolation extends State {
 
-  BLOCKED, OPEN, PERCOLATED;
+  public static final StatePercolation BLOCKED = new StatePercolation(0);
+  public static final StatePercolation OPEN = new StatePercolation(1);
+  public static final StatePercolation PERCOLATED = new StatePercolation(2);
+
+  StatePercolation(int val) {
+    super(val);
+  }
 
   @Override
   public String toString() {
-    return switch (this) {
-      case BLOCKED -> "\u25A0";
-      case OPEN -> " ";
-      case PERCOLATED -> "~";
-    };
+    if (this == OPEN) {
+      return " ";
+    } else if (this == PERCOLATED) {
+      return "~";
+    } else {
+      return "\u25A0";
+    }
   }
 }

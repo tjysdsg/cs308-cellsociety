@@ -26,14 +26,10 @@ public class SimulationPercolation extends Simulation {
           }
         }
         boolean updated = false;
-        switch (s) {
-          case OPEN -> {
-            if (nPercolatedNeighbors >= 1) {
-              grid.setState(r, c, StatePercolation.PERCOLATED);
-              updated = true;
-            }
-          }
-          default -> {
+        if (StatePercolation.OPEN.equals(s)) {
+          if (nPercolatedNeighbors >= 1) {
+            grid.setState(r, c, StatePercolation.PERCOLATED);
+            updated = true;
           }
         }
         if (!updated) {
