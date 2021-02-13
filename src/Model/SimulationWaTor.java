@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-// TODO: customize stop condition
 public class SimulationWaTor extends Simulation {
 
   private int fishBreedDuration = 2;
-  private int sharkBreedDuration = 5;
+  private int sharkBreedDuration = 4;
+  private int sharkStarveDuration = 6;
 
   public SimulationWaTor(int n) {
     grid = new Grid(n, n, StateWaTor.EMPTY, Neighborhood.Preset4());
@@ -17,7 +17,7 @@ public class SimulationWaTor extends Simulation {
   public List<Cell> sublistWithStateEquals(List<Cell> list, StateWaTor s) {
     ArrayList<Cell> ret = new ArrayList<>();
     for (var neighbor : list) {
-      if (neighbor.getState() == s) {
+      if (neighbor.getState().equals(s)) {
         ret.add(neighbor);
       }
     }
@@ -33,55 +33,108 @@ public class SimulationWaTor extends Simulation {
   public <T> void setConfig(String name, T value) {
   }
 
+  private boolean starve(int r, int c) {
+    StateWaTor s = (StateWaTor) grid.getState(r, c);
+    if (++s.nDaysStarve > sharkStarveDuration) {
+      grid.setState(r, c, StateWaTor.EMPTY);
+      return true;
+    }
+    return false;
+  }
+
+  private boolean move(int r, int c) {
+    StateWaTor s = (StateWaTor) grid.getState(r, c);
+
+    List<Cell> neighbors = grid.getNeighborsOf(r, c);
+    List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateWaTor.EMPTY);
+    if (emptyNeighbors.size() > 0) {
+      int idx = randomChoose(emptyNeighbors);
+      s.setMoved(true);
+      emptyNeighbors.get(idx).setState(s, true);
+      grid.setState(r, c, StateWaTor.EMPTY, true);
+      return true;
+    }
+    return false;
+  }
+
+  private boolean eat(int r, int c) {
+    StateWaTor s = (StateWaTor) grid.getState(r, c);
+    List<Cell> neighbors = grid.getNeighborsOf(r, c);
+    List<Cell> fishNeighbors = sublistWithStateEquals(neighbors, StateWaTor.FISH);
+
+    if (fishNeighbors.size() > 0) {
+      Cell cell = fishNeighbors.get(randomChoose(fishNeighbors));
+      cell.setState(StateWaTor.EMPTY, true);
+      s.nDaysStarve = 0;
+      return true;
+    }
+    return false;
+  }
+
+  private boolean breed(int r, int c) {
+    StateWaTor s = (StateWaTor) grid.getState(r, c);
+    // assuming s == MOVED_FISH or MOVED_SHARK
+    ++s.nDaysBreed;
+    int breedDuration = s.equals(StateWaTor.MOVED_FISH) ? fishBreedDuration : sharkBreedDuration;
+
+    StateWaTor childState = s.equals(StateWaTor.MOVED_FISH) ? StateWaTor.FISH : StateWaTor.SHARK;
+
+    List<Cell> neighbors = grid.getNeighborsOf(r, c);
+    List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateWaTor.EMPTY);
+    if (s.nDaysBreed > breedDuration && emptyNeighbors.size() > 0) {
+      Cell cell = emptyNeighbors.get(randomChoose(emptyNeighbors));
+      cell.setState(childState, true);
+
+      s.nDaysBreed = 0;
+      s.setMoved(false);
+      return true;
+    } else {
+      s.setMoved(false);
+    }
+    return false;
+  }
+
+  /**
+   * In this method, all the updates are applied immediately, since modifications of other cells can
+   * directly affect how current cell updates.
+   */
   @Override
   protected void updateNextStates() {
-    // two pass
-    // first pass process SHARK
+    boolean updated = false;
+
+    // three passes
+    // 1. SHARK movement and eating
     for (int r = 0; r < grid.nRows; ++r) {
       for (int c = 0; c < grid.nRows; ++c) {
-        StateWaTor s = (StateWaTor) grid.getState(r, c);
-        ++s.nDaysAlive;
-        List<Cell> neighbors = grid.getNeighborsOf(r, c);
-        if (s == StateWaTor.SHARK) {
-          // breed
-          List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateWaTor.EMPTY);
-          if (s.nDaysAlive > sharkBreedDuration && emptyNeighbors.size() > 0) {
-            Cell cell = emptyNeighbors.get(randomChoose(emptyNeighbors));
-            cell.setState(StateWaTor.SHARK, true);
-          }
-
-          // eat
-          List<Cell> fishNeighbors = sublistWithStateEquals(neighbors, StateWaTor.FISH);
-          if (fishNeighbors.size() > 0) {
-            Cell cell = fishNeighbors.get(randomChoose(fishNeighbors));
-            cell.setState(StateWaTor.EMPTY, true);
-          }
+        if (grid.getState(r, c).equals(StateWaTor.SHARK)) {
+          updated |= starve(r, c);
+          updated |= move(r, c);
+          updated |= eat(r, c);
         }
       }
     }
 
-    // second pass process FISH, so we can make sure that fish eaten by SHARK cannot move
+    // 2. FISH movement
     for (int r = 0; r < grid.nRows; ++r) {
       for (int c = 0; c < grid.nRows; ++c) {
-        StateWaTor s = (StateWaTor) grid.getState(r, c);
-        List<Cell> neighbors = grid.getNeighborsOf(r, c);
-        if (s == StateWaTor.FISH) {
-          // move
-          List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateWaTor.EMPTY);
-          if (emptyNeighbors.size() > 0) {
-            int idx = randomChoose(emptyNeighbors);
-            emptyNeighbors.get(idx).setState(StateWaTor.MOVED_FISH, true);
-            grid.setState(r, c, StateWaTor.EMPTY, true);
-          }
-        } else if (s == StateWaTor.MOVED_FISH) {
-          // breed
-          List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateWaTor.EMPTY);
-          if (s.nDaysAlive > fishBreedDuration && emptyNeighbors.size() > 0) {
-            Cell cell = emptyNeighbors.get(randomChoose(emptyNeighbors));
-            cell.setState(StateWaTor.FISH, true);
-          }
+        if (grid.getState(r, c).equals(StateWaTor.FISH)) {
+          updated |= move(r, c);
         }
       }
+    }
+
+    // 3. FISH and SHARK breeding
+    for (int r = 0; r < grid.nRows; ++r) {
+      for (int c = 0; c < grid.nRows; ++c) {
+        if (grid.getState(r, c).equals(StateWaTor.MOVED_FISH)
+            || grid.getState(r, c).equals(StateWaTor.MOVED_SHARK)) {
+          updated |= breed(r, c);
+        }
+      }
+    }
+
+    if (!updated) {
+      isOver = true;
     }
   }
 }
