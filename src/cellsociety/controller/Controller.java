@@ -13,15 +13,45 @@ public class Controller {
   private XMLParser xmlParser;
   private SimulationParser xmlReader;
   private String configName;
+  private boolean pause;
+  private boolean stepMode;
   private Simulation simulation;
 
   public Controller() {
   }
 
   public void setView(){}
+
+  public void setPause(){
+    pause=true;
+  }
+
+  public void setStart(){
+    pause=false;
+  }
+
+  public void setStepMode(){
+    pause=false;
+    stepMode=true;
+  }
+
+  public void reset(){
+    xmlParser.initSimulation();
+  }
+
   public void step(){
+    if(pause)return;
+
+    if(stepMode){
+      pause=true;
+    }
+
+    simulation.update();
+
+    //View update
 
   }
+
   public void setConfig(String filename) {
     configName = filename;
     xmlReader = new SimulationParser(filename);
