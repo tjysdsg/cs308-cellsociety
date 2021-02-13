@@ -1,7 +1,7 @@
 package Model;
 
 /**
- * DEAD, ALIVE
+ * DEAD = 0, ALIVE = 1
  */
 public class StateGOL extends State {
 

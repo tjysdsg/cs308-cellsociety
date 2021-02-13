@@ -8,7 +8,11 @@ public class State {
     this.val = val;
   }
 
-  int toInteger() {
+  /**
+   * Convert State to a integer, the integer is guaranteed to uniquely identify different states.
+   * See docs of individual State subclasses to find out the specific int value.
+   */
+  public int toInteger() {
     return this.val;
   }
 }

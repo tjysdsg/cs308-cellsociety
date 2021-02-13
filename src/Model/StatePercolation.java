@@ -1,7 +1,7 @@
 package Model;
 
 /**
- * BLOCKED, OPEN, PERCOLATED
+ * BLOCKED = 0, OPEN = 1, PERCOLATED = 2
  */
 public class StatePercolation extends State {
 
