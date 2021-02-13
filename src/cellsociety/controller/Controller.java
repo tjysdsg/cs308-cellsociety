@@ -19,7 +19,7 @@ public class Controller {
   }
 
   public void setView(){}
-  public void step{
+  public void step(){
 
   }
   public void setConfig(String filename) {
