@@ -27,13 +27,11 @@ public class Cell {
     return state;
   }
 
-  public boolean update() {
+  public void update() {
     if (needUpdate) {
       state = nextState;
       needUpdate = false;
-      return true;
     }
-    return false;
   }
 
   @Override

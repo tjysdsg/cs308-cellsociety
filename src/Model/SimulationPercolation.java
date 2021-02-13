@@ -14,6 +14,7 @@ public class SimulationPercolation extends Simulation {
 
   @Override
   protected void updateNextStates() {
+    boolean updated = false;
     // calculate next state
     for (int r = 0; r < grid.nRows; ++r) {
       for (int c = 0; c < grid.nRows; ++c) {
@@ -25,17 +26,16 @@ public class SimulationPercolation extends Simulation {
             ++nPercolatedNeighbors;
           }
         }
-        boolean updated = false;
         if (StatePercolation.OPEN.equals(s)) {
           if (nPercolatedNeighbors >= 1) {
             grid.setState(r, c, StatePercolation.PERCOLATED);
             updated = true;
           }
         }
-        if (!updated) {
-          grid.setState(r, c, s);
-        }
       }
+    }
+    if (!updated) {
+      isOver = true;
     }
   }
 

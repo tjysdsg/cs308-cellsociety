@@ -14,6 +14,7 @@ public class SimulationGOL extends Simulation {
 
   @Override
   protected void updateNextStates() {
+    boolean updated = false;
     // calculate next state
     for (int r = 0; r < grid.nRows; ++r) {
       for (int c = 0; c < grid.nRows; ++c) {
@@ -25,7 +26,6 @@ public class SimulationGOL extends Simulation {
             ++nAliveNeighbors;
           }
         }
-        boolean updated = false;
         if (StateGOL.DEAD == s) {
           if (nAliveNeighbors == 3) {
             grid.setState(r, c, StateGOL.ALIVE);
@@ -37,10 +37,10 @@ public class SimulationGOL extends Simulation {
             updated = true;
           }
         }
-        if (!updated) {
-          grid.setState(r, c, s);
-        }
       }
+    }
+    if (!updated) {
+      isOver = true;
     }
   }
 

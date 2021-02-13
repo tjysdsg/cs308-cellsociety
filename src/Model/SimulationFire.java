@@ -21,31 +21,30 @@ public class SimulationFire extends Simulation {
 
   @Override
   protected void updateNextStates() {
+    int nBurning = 0;
     // calculate next state
     for (int r = 0; r < grid.nRows; ++r) {
       for (int c = 0; c < grid.nRows; ++c) {
         StateFire s = (StateFire) grid.getState(r, c);
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
-        boolean updated = false;
         if (StateFire.TREE == s) {
           for (Cell neighbor : neighbors) {
             if ((neighbor.getState()) == StateFire.BURNING) {
               Random rand = new Random();
               if (rand.nextDouble() <= probCatch) {
                 grid.setState(r, c, StateFire.BURNING);
-                updated = true;
                 break;
               }
             }
           }
         } else if (StateFire.BURNING == s) {
+          ++nBurning;
           grid.setState(r, c, StateFire.EMPTY);
-          updated = true;
-        }
-        if (!updated) {
-          grid.setState(r, c, s);
         }
       }
+    }
+    if (nBurning == 0) {
+      isOver = true;
     }
   }
 

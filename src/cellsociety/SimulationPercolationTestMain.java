@@ -7,7 +7,6 @@ import Model.StatePercolation;
 public class SimulationPercolationTestMain {
 
   public static void main(String[] args) {
-    boolean isRunning = true;
     Simulation sim = new SimulationPercolation(8);
     // glider pattern
     sim.setState(0, 1, StatePercolation.BLOCKED, true);
@@ -39,8 +38,8 @@ public class SimulationPercolationTestMain {
     sim.setState(7, 3, StatePercolation.BLOCKED, true);
     sim.setState(7, 4, StatePercolation.BLOCKED, true);
     System.out.println(sim.toString());
-    while (isRunning) {
-      isRunning = sim.update();
+    while (!sim.isOver()) {
+      sim.update();
       System.out.println(sim.toString());
     }
   }

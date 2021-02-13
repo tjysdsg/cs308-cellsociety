@@ -54,14 +54,12 @@ public class Grid {
     return grid.get(r).get(c);
   }
 
-  public boolean update() {
-    boolean ret = false;
+  public void update() {
     for (int r = 0; r < nRows; ++r) {
       for (int c = 0; c < nRows; ++c) {
-        ret |= grid.get(r).get(c).update();
+        grid.get(r).get(c).update();
       }
     }
-    return ret;
   }
 
   public List<Cell> getNeighborsOf(int r, int c) {

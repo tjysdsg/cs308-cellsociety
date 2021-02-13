@@ -5,6 +5,7 @@ import java.util.List;
 public abstract class Simulation {
 
   protected Grid grid;
+  protected boolean isOver = false;
 
   /**
    * Set configuration variables
@@ -34,13 +35,17 @@ public abstract class Simulation {
 
   /**
    * Update simulation to the next generation
-   *
-   * @return true if at least one cell's state is updated, can be used to determine if the
-   * simulation is over
    */
-  public boolean update() {
+  public void update() {
     updateNextStates();
-    return grid.update();
+    grid.update();
+  }
+
+  /**
+   * Returns true if the simulation is over
+   */
+  public boolean isOver() {
+    return isOver;
   }
 
   /**
