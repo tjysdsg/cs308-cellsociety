@@ -39,6 +39,7 @@ public class SegregationXMLParser extends XMLParser{
 
   @Override
   public void initSimulation() {
+    simulation = new SimulationSegregation(sizeX,sizeY);
     super.initSimulation();
     initThreshold();
   }
