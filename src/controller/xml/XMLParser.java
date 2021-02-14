@@ -146,7 +146,7 @@ public abstract class XMLParser {
   public String getTextValue(Element e, String tagName) {
     NodeList nodeList = e.getElementsByTagName(tagName);
     if (nodeList != null && nodeList.getLength() > 0) {
-      return nodeList.item(0).getTextContent();
+      return nodeList.item(0).getTextContent().trim();
     } else {
       // FIXME: empty string or exception? In some cases it may be an error to not find any text
       return "";
