@@ -82,15 +82,15 @@ public abstract class Simulation {
   /**
    * Get 2D list of states representing all states in the gird.
    */
-  public List<List<State>> getGrid() {
+  public List<List<Integer>> getGrid() {
     int nRows = grid.getNumRows();
     int nCols = grid.getNumCols();
-    ArrayList<List<State>> ret = new ArrayList<>(nRows);
+    ArrayList<List<Integer>> ret = new ArrayList<>(nRows);
 
     for (int r = 0; r < nRows; ++r) {
-      ArrayList<State> row = new ArrayList<>(nCols);
+      ArrayList<Integer> row = new ArrayList<>(nCols);
       for (int c = 0; c < nCols; ++c) {
-        row.add(grid.getState(r, c));
+        row.add(grid.getState(r, c).toInteger());
       }
       ret.add(row);
     }
