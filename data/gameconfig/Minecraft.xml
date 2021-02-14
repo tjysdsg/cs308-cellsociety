@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data simulation="Fire">
+    <grid>
+        <sizex>30</sizex>
+    </grid>
+    <cell>
+        <row>10</row>
+        <col>20</col>
+        <state>1</state>
+    </cell>
+    <speed>20</speed>
+</data>
