@@ -1,16 +1,14 @@
 package view;
 
+import controller.Controller;
 import java.util.ArrayList;
-import java.util.HashMap;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Application;
+import java.util.List;
+import java.util.Map;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
@@ -28,18 +26,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
-public class MainView extends Application {
-  private Color[] colors = {Color.BLACK,  Color.RED,Color.BLUE, Color.GREEN,};
-  private int numRow =10;
-  private int numCol =10;
-  private HashMap<String,Integer> StatesMap = new HashMap<>(); // number of different states, dead or alive or ,
+public class MainView {
+
+  private Color[] colors = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,};
   private final double gridHeight = 400.0;
-  private  final double gridWidth = 600.0;
+  private final double gridWidth = 600.0;
   private String configFile;
-  private Slider speed = new Slider(1,30,1);
+  private Slider speed = new Slider(1, 30, 1);
   private Label speedValue = new Label(Double.toString(speed.getValue()));
   private Label speedLabel = new Label("speed:");
   private Pane root;
@@ -47,88 +41,82 @@ public class MainView extends Application {
   private Boolean animationIsStopped = true;
   private VBox statusbox;
   private ArrayList<ArrayList<Rectangle>> gridelements = new ArrayList<>();
-  private Timeline animation;
-  private int sec=0;
-  public static final int FRAMES_PER_SECOND = 1;
-  public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+  private int sec = 0;
+  private Controller controller;
 
-
-
-  @Override
-  public void start(Stage stage){
-    Scene scene = new Scene(createContent());
-    stage.setScene(scene);
-    KeyFrame frame = new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step());
-    animation = new Timeline();
-    animation.setCycleCount(Timeline.INDEFINITE);
-    animation.getKeyFrames().add(frame);
-    stage.show();
+  public MainView(Controller controller) {
+    this.controller = controller;
   }
 
-  private void step(){
+  public void step(List<List<Integer>> grid, Map<String, Number> statesMap) {
     sec++;
-    DisplayStatus();
-    UpdateGridPane();
+    displayStatus(statesMap);
+    updateGridPane(grid);
   }
 
-  private void StartSimulation(){
-    if (configFile ==null){
+  public void startSimulation(List<List<Integer>> states, Map<String, Number> statesMap) {
+    if (configFile == null) {
       Alert alert = new Alert(AlertType.WARNING);
       alert.setContentText("Please select a config file to start");
       alert.show();
-    }
-    else if (!animationIsStopped){
+    } else if (!animationIsStopped) {
       return;
-    } else if (root.getChildren().contains(grid)){
+    } else if (root.getChildren().contains(grid)) {
       return;
-    }
-    else {
-      numRow = sample_controller.getnumRow(configFile);
-      numCol = sample_controller.getnumCol(configFile);
-      SetGridPane(numRow, numCol);
-      DisplayStatus();
-      animation.play();
-      animationIsStopped =false;
+    } else {
+      setGridPane(states);
+      displayStatus(statesMap);
+      animationIsStopped = false;
     }
   }
 
-  private void PauseSimulation(){
-    animation.stop();
+  public void pauseSimulation() {
     animationIsStopped = true;
   }
 
-  private void ResumeSimulation(){
-    if (configFile!=null && animationIsStopped){
-    animation.play();
-    animationIsStopped = false;}
+  public void resumeSimulation() {
+    if (configFile != null && animationIsStopped) {
+      animationIsStopped = false;
+    }
   }
 
-  private void ResetSimulation(){
-    sec=0;
-    PauseSimulation();
-    if (root.getChildren().contains(grid)){
-    root.getChildren().remove(grid);
-    gridelements.clear();}
-    StartSimulation();
+  public void resetSimulation(List<List<Integer>> states, Map<String, Number> statesMap) {
+    sec = 0;
+    pauseSimulation();
+    if (root.getChildren().contains(grid)) {
+      grid.getChildren().clear();
+      gridelements.clear();
+    }
+    startSimulation(states, statesMap);
   }
 
-  private void StepSimulation(){
-    PauseSimulation();
-    step();
-  }
-
-  private void MakeAllButtons(){
-    makeButton pausebtn = new makeButton("pause", 30, 100, 40, 0, e->PauseSimulation());
-    makeButton resumebtn = new makeButton("resume", 30, 100, 40, 0, e->ResumeSimulation());
-    makeButton exitbtn = new makeButton("exit", 30, 100, 40, 0, e->System.exit(0));
+  private void makeAllButtons() {
+    makeButton pausebtn = new makeButton("pause", 30, 100, 40, 0,
+        e -> controller.setPause()
+    );
+    makeButton resumebtn = new makeButton("resume", 30, 100, 40, 0,
+        e -> controller.setResume()
+    );
+    makeButton exitbtn = new makeButton("exit", 30, 100, 40, 0,
+        e -> System.exit(0)
+    );
     HBox hbox1 = new HBox(15);
-    hbox1.getChildren().addAll(pausebtn,resumebtn, exitbtn);
+    hbox1.getChildren().addAll(pausebtn, resumebtn, exitbtn);
 
-    makeButton resetbtn = new makeButton("reset", 30, 100, 40, 0, e->ResetSimulation());
-    makeButton startbtn = new makeButton("start", 20, 100, 40, 0, e->StartSimulation());
-    makeButton ffbtn = new makeButton("step", 20, 150, 40, 0, e->StepSimulation());
+    makeButton resetbtn = new makeButton("reset", 30, 100, 40, 0,
+        e -> controller.reset()
+    );
+    makeButton startbtn = new makeButton("start", 20, 100, 40, 0,
+        e -> controller.setStart()
+    );
+    makeButton ffbtn = new makeButton("step", 20, 150, 40, 0,
+        e -> {
+          controller.setPause();
+          controller.step();
+        }
+    );
     HBox hbox2 = new HBox(15);
-    hbox2.getChildren().addAll(resetbtn,startbtn,ffbtn);
+    hbox2.getChildren().addAll(resetbtn, startbtn, ffbtn);
 
     VBox allbtn = new VBox(15);
     allbtn.setTranslateX(400);
@@ -137,56 +125,50 @@ public class MainView extends Application {
         BorderStrokeStyle.SOLID,
         CornerRadii.EMPTY,
         BorderWidths.DEFAULT)));
-    allbtn.getChildren().addAll(hbox1,hbox2);
+    allbtn.getChildren().addAll(hbox1, hbox2);
     root.getChildren().addAll(allbtn);
   }
 
-  private void DisplayStatus(){
-    StatesMap = sample_controller.getStatisticsMap(configFile);
-    StatesMap.put(configFile+" Time Elapsed: ", sec);
+  private void displayStatus(Map<String, Number> statesMap) {
     statusbox.getChildren().clear();
-    for (String s : StatesMap.keySet()){
+    for (String s : statesMap.keySet()) {
       HBox temp = new HBox(15);
       Text display_text = new Text();
       Label text_lable = new Label(s);
-      display_text.setText(Integer.toString(StatesMap.get(s)));
+      display_text.setText(statesMap.get(s).toString());
       display_text.setFont(display_text.getFont().font(20));
-      temp.getChildren().addAll(text_lable,display_text);
+      temp.getChildren().addAll(text_lable, display_text);
       statusbox.getChildren().add(temp);
     }
   }
 
-  private void SetSpeed(){
-    speed.valueProperty().addListener(new ChangeListener<Number>() {
-      @Override
-      public void changed(ObservableValue<? extends Number> observable, Number oldValue,
-          Number newValue) {
-        speedValue.setText(Double.toString(newValue.doubleValue()));
-        animation.setRate(newValue.doubleValue());
-      }
+  private void setSpeed() {
+    speed.valueProperty().addListener((observable, oldValue, newValue) -> {
+      speedValue.setText(Double.toString(newValue.doubleValue()));
+      controller.setSpeed(newValue.doubleValue());
     });
     HBox hbox3 = new HBox(15);
-    hbox3.getChildren().addAll(speedLabel,speed,speedValue);
+    hbox3.getChildren().addAll(speedLabel, speed, speedValue);
     hbox3.setTranslateX(700);
     hbox3.setTranslateY(100);
     root.getChildren().addAll(hbox3);
   }
 
-  private void SetGridPane(int r, int c){
-    ArrayList<ArrayList<Integer>> doublearray = sample_controller.getGrid(configFile);
-    grid = new GridPane();
+  private void setGridPane(List<List<Integer>> states) {
+    int r = states.size();
+    int c = states.get(0).size();
     grid.setTranslateX(100);
     grid.setTranslateY(100);
-    for (int i=0; i<r; i++){
+    for (int i = 0; i < r; i++) {
       ArrayList<Rectangle> temp = new ArrayList<>();
-      for (int j=0; j<c;j++){
-        int n = doublearray.get(i).get(j);
+      for (int j = 0; j < c; j++) {
+        int n = states.get(i).get(j);
         Rectangle rec = new Rectangle();
         rec.setFill(colors[n]);
-        rec.setWidth(gridWidth/c);
-        rec.setHeight(gridHeight/r);
+        rec.setWidth(gridWidth / c);
+        rec.setHeight(gridHeight / r);
         GridPane.setRowIndex(rec, i);
-        GridPane.setColumnIndex(rec,j);
+        GridPane.setColumnIndex(rec, j);
         grid.getChildren().add(rec);
         temp.add(rec);
       }
@@ -195,19 +177,16 @@ public class MainView extends Application {
     root.getChildren().addAll(grid);
   }
 
-  private void UpdateGridPane(){
-    ArrayList<ArrayList<Integer>> doublearray = sample_controller.getGrid(configFile);
-    for (int i =0; i<10; i++){
-      for (int j =0; j<10; j++) {
-        int n = doublearray.get(i).get(j);
+  private void updateGridPane(List<List<Integer>> grid) {
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 10; j++) {
+        int n = grid.get(i).get(j);
         gridelements.get(i).get(j).setFill(colors[n]);
       }
     }
   }
 
-
-
-  private void MakeComboBox(){
+  private void makeComboBox() {
     ObservableList<String> options =
         FXCollections.observableArrayList(
             "config 1",
@@ -217,47 +196,44 @@ public class MainView extends Application {
     ComboBox configlist = new ComboBox(options);
     HBox hbox4 = new HBox(15);
     Label configlabel = new Label("config files: ");
-    hbox4.getChildren().addAll(configlabel,configlist);
+    hbox4.getChildren().addAll(configlabel, configlist);
     hbox4.setTranslateX(800);
     hbox4.setTranslateY(500);
-    configlist.valueProperty().addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-        configFile = newValue.toString();
-        if (newValue!=oldValue && oldValue!=null){
-          PauseSimulation();
-          Alert alert = new Alert(AlertType.INFORMATION);
-          alert.setContentText("You have selected a different config file, press RESET to run it\n "
-              + "but current progress will be cleared");
-          alert.show();
-        }
+    configlist.valueProperty().addListener((observable, oldValue, newValue) -> {
+      configFile = newValue.toString();
+      if (newValue != oldValue && oldValue != null) {
+        controller.setPause();
+        controller.setConfig(configFile);
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("You have selected a different config file, press RESET to run it\n "
+            + "but current progress will be cleared");
+        alert.show();
       }
     });
     root.getChildren().addAll(hbox4);
   }
 
-
-
-  private Parent createContent(){
+  public Parent createContent() {
     root = new Pane();
-    root.setPrefSize(1000,600);
+    root.setPrefSize(1000, 600);
 
-    statusbox = new VBox(15);;
+    // init grid
+    grid = new GridPane();
+    root.getChildren().addAll(grid);
+
+    // init status box
+    statusbox = new VBox(15);
     statusbox.setTranslateX(50);
     statusbox.setTranslateY(500);
     root.getChildren().add(statusbox);
 
-    MakeComboBox();
-    MakeAllButtons();
-    SetSpeed();
-
+    makeComboBox();
+    makeAllButtons();
+    setSpeed();
 
     return root;
 
-  }
-
-  public static void main(String[] args) {
-    launch(args);
   }
 
 }

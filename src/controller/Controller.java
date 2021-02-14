@@ -1,5 +1,8 @@
 package controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import model.Simulation;
 import controller.xml.FireXMLParser;
 import controller.xml.GOLXMLParser;
@@ -7,6 +10,7 @@ import controller.xml.PercolationXMLParser;
 import controller.xml.SimulationParser;
 import controller.xml.WaTorXMLParser;
 import controller.xml.XMLParser;
+import view.MainView;
 
 public class Controller {
 
@@ -14,41 +18,60 @@ public class Controller {
   private SimulationParser xmlReader;
   private String configName;
   private boolean pause;
-  private boolean stepMode;
   private Simulation simulation;
+  private MainView view;
+  private Timeline animation;
+  public static final int FRAMES_PER_SECOND = 1;
+  public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
   public Controller() {
+    KeyFrame frame = new KeyFrame(Duration.seconds(SECOND_DELAY), e -> this.step());
+    animation = new Timeline();
+    animation.setCycleCount(Timeline.INDEFINITE);
+    animation.getKeyFrames().add(frame);
   }
 
-  public void setView(){}
-
-  public void setPause(){
-    pause=true;
+  public void setView(MainView view) {
+    this.view = view;
   }
 
-  public void setStart(){
-    pause=false;
+  public void setSpeed(double speed) {
+    animation.setRate(speed);
   }
 
-  public void setStepMode(){
-    pause=false;
-    stepMode=true;
+  public void setPause() {
+    pause = true;
+    animation.stop();
+    view.pauseSimulation();
   }
 
-  public void reset(){
+  public void setResume() {
+    pause = false;
+    animation.play();
+    view.resumeSimulation();
+  }
+
+  public void setStart() {
+    pause = false;
+    animation.play();
+    view.startSimulation(simulation.getGrid(), simulation.getStatsMap());
+  }
+
+  public void reset() {
     xmlParser.initSimulation();
+    view.resetSimulation(simulation.getGrid(), simulation.getStatsMap());
   }
 
-  public void step(){
-    if(pause)return;
-
-    if(stepMode){
-      pause=true;
+  public void step() {
+    if (pause) {
+      return;
     }
 
+    // sim update
     simulation.update();
 
-    //view update
+    // view update
+    view.step(simulation.getGrid(), simulation.getStatsMap());
 
   }
 
@@ -85,27 +108,13 @@ public class Controller {
     }
   }
 
-  public <T> void changeConfig(String name, T value){
-    switch (name){
-      case "reset":
-        reset();
-        return;
-      case "stepMode":
-        setStepMode();
-        return;
-      case "pause":
-        setPause();
-        return;
-      case "start":
-        setStart();
-        return;
-    }
-    simulation.setConfig(name,value);
+  public <T> void changeConfig(String name, T value) {
+    simulation.setConfig(name, value);
   }
 
-  public static void main(String[] args){
-    String fileName= "gameconfig/Minecraft.xml";
-    Controller tmp =new Controller();
+  public static void main(String[] args) {
+    String fileName = "gameconfig/Minecraft.xml";
+    Controller tmp = new Controller();
     tmp.setConfig(fileName);
   }
 
