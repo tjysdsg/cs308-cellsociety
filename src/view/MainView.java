@@ -181,10 +181,12 @@ public class MainView {
     //root.getChildren().addAll(grid);
   }
 
-  private void updateGridPane(List<List<Integer>> grid) {
-    for (int i = 0; i < 10; i++) {
-      for (int j = 0; j < 10; j++) {
-        int n = grid.get(i).get(j);
+  private void updateGridPane(List<List<Integer>> states) {
+    int r = states.size();
+    int c = states.get(0).size();
+    for (int i = 0; i < r; i++) {
+      for (int j = 0; j < c; j++) {
+        int n = states.get(i).get(j);
         gridelements.get(i).get(j).setFill(colors[n]);
       }
     }

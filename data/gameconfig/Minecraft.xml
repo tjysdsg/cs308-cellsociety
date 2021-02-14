@@ -4,11 +4,16 @@
         <sizex>30</sizex>
         <sizey>40</sizey>
     </grid>
-    <probCatch>0.6</probCatch>
+    <probCatch>1.0</probCatch>
     <cell>
         <row>10</row>
         <col>20</col>
         <state>1</state>
+    </cell>
+    <cell>
+        <row>10</row>
+        <col>21</col>
+        <state>2</state>
     </cell>
     <speed>20</speed>
     <title>title</title>
