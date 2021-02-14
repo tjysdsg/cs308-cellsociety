@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data simulation="Fire">
+  <grid>
+    <sizex>
+      10
+    </sizex>
+    <sizey>
+      15
+    </sizey>
+  </grid>
+  <cell>
+    <row>
+      9
+    </row>
+    <col>
+      14
+    </col>
+    <state>
+      1
+    </state>
+  </cell>
+  <cell>
+    <row>
+      9
+    </row>
+    <col>
+      14
+    </col>
+    <state>
+      2
+    </state>
+  </cell>
+  <speed>
+    20
+  </speed>
+  <title>
+    Fire simulation
+  </title>
+  <author>
+    jt304
+  </author>
+  <description>
+    Fire simulation 1
+  </description>
+  <probCatch>
+    0.6
+  </probCatch>
+</data>

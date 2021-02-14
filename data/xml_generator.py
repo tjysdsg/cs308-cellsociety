@@ -63,6 +63,7 @@ def make_grid(n_rows, n_cols) -> Tag:
 
 
 def generate_file(
+        filename: str,
         simulation_type: str,
         n_rows: int,
         n_cols: int,
@@ -97,7 +98,11 @@ def generate_file(
         make_simple_tag("description", desc),
     ])
 
+    data.add_children(
+      [make_simple_tag(k, v) for k, v in sim_configs.items()]
+    )
+
     xml_str = xml_base + str(data)
 
-    with open('FireEdge1.xml', 'w') as f:
+    with open(filename, 'w') as f:
         f.write(xml_str)
