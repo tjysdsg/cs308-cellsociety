@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MainView extends Application {
+  private Color[] colors = {Color.BLACK,  Color.RED,Color.BLUE, Color.GREEN,};
   private int numRow =10;
   private int numCol =10;
   private HashMap<String,Integer> StatesMap = new HashMap<>(); // number of different states, dead or alive or ,
@@ -78,6 +79,8 @@ public class MainView extends Application {
       alert.show();
     }
     else if (!animationIsStopped){
+      return;
+    } else if (root.getChildren().contains(grid)){
       return;
     }
     else {
@@ -170,15 +173,14 @@ public class MainView extends Application {
   }
 
   private void SetGridPane(int r, int c){
-    Random rand = new Random();
-    Color[] colors = {Color.BLACK, Color.BLUE, Color.GREEN, Color.RED};
+    ArrayList<ArrayList<Integer>> doublearray = sample_controller.getGrid(configFile);
     grid = new GridPane();
     grid.setTranslateX(100);
     grid.setTranslateY(100);
     for (int i=0; i<r; i++){
       ArrayList<Rectangle> temp = new ArrayList<>();
       for (int j=0; j<c;j++){
-        int n = rand.nextInt(4);
+        int n = doublearray.get(i).get(j);
         Rectangle rec = new Rectangle();
         rec.setFill(colors[n]);
         rec.setWidth(gridWidth/c);
@@ -194,18 +196,17 @@ public class MainView extends Application {
   }
 
   private void UpdateGridPane(){
-    Random rand = new Random();
-    Color[] colors = {Color.BLACK, Color.BLUE, Color.GREEN, Color.RED};
+    ArrayList<ArrayList<Integer>> doublearray = sample_controller.getGrid(configFile);
     for (int i =0; i<10; i++){
       for (int j =0; j<10; j++) {
-        int n = rand.nextInt(4);
+        int n = doublearray.get(i).get(j);
         gridelements.get(i).get(j).setFill(colors[n]);
       }
     }
   }
 
 
-  private String getConfigFile(){
+  public String getConfigFile(){
     return configFile;
   }
 
