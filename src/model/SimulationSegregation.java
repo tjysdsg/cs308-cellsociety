@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +38,11 @@ public class SimulationSegregation extends Simulation {
   }
 
   @Override
-  public Map<String, Number> getStatsMap() {
-    return Map.of("nSatisfied", nSatisfied, "nDissatisfied", nDissatisfied);
+  public Map<String, Object> getStatsMap() {
+    HashMap<String, Object> ret = new HashMap<>();
+    ret.put("nSatisfied", nSatisfied);
+    ret.put("nDissatisfied", nDissatisfied);
+    return ret;
   }
 
   @Override

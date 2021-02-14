@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +26,10 @@ public class SimulationGOL extends Simulation {
   }
 
   @Override
-  public Map<String, Number> getStatsMap() {
-    return Map.of("nAlive", nAlive);
+  public Map<String, Object> getStatsMap() {
+    HashMap<String, Object> ret = new HashMap<>();
+    ret.put("nAlive", nAlive);
+    return ret;
   }
 
   @Override

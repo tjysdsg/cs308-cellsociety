@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -37,8 +38,11 @@ public class SimulationFire extends Simulation {
   }
 
   @Override
-  public Map<String, Number> getStatsMap() {
-    return Map.of("nTrees", nTrees, "nBurning", nBurning);
+  public Map<String, Object> getStatsMap() {
+    HashMap<String, Object> ret = new HashMap<>();
+    ret.put("nTrees", nTrees);
+    ret.put("nBurning", nBurning);
+    return ret;
   }
 
   @Override

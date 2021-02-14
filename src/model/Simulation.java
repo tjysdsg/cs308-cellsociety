@@ -39,7 +39,7 @@ public abstract class Simulation {
    */
   public abstract <T> void setConfig(String name, T value);
 
-  public abstract Map<String, Number> getStatsMap();
+  public abstract Map<String, Object> getStatsMap();
 
   /**
    * Get simulation type name, such as "Fire", "Game of Life", "Wa-Tor", etc.
