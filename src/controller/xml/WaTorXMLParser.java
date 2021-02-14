@@ -12,6 +12,13 @@ import model.State;
 
 public class WaTorXMLParser extends XMLParser {
 
+  public static final String FISH_BREED_DURATION_TAG = "fishBreedDuration";
+  public static final String SHARK_BREED_DURATION_TAG = "sharkBreedDuration";
+  public static final String SHARK_STARVE_DURATION_TAG = "sharkStarveDuration";
+  private int fishBreedDuration;
+  private int sharkBreedDuration;
+  private int sharkStarveDuration;
+
   public WaTorXMLParser(String fileName) {
     super(fileName);
     initStateArray();
@@ -21,8 +28,9 @@ public class WaTorXMLParser extends XMLParser {
   @Override
   public Simulation getSimulation() throws XMLException {
     root = getRootElement();
-    sizeX = getGridSize();
-    simulation = new SimulationWaTor(sizeX);
+    sizeX = getGridSizeX();
+    sizeY= getGridSizeY();
+    simulation = new SimulationWaTor(sizeX,sizeY);
     initSimulation();
     return simulation;
   }
@@ -36,5 +44,26 @@ public class WaTorXMLParser extends XMLParser {
     states[2] = FISH();
     states[3] = MOVED_SHARK();
     states[4] = MOVED_FISH();
+  }
+
+  @Override
+  public void initSimulation() {
+    super.initSimulation();
+    initFishBreedDuration();
+    initSharkBreedDuration();
+    initSharkStarveDuration();
+  }
+
+  private void initFishBreedDuration(){
+    fishBreedDuration= getIntTextValue(root, FISH_BREED_DURATION_TAG);
+    simulation.setConfig(FISH_BREED_DURATION_TAG, fishBreedDuration);
+  }
+  private void initSharkBreedDuration(){
+    sharkBreedDuration=getIntTextValue(root, SHARK_BREED_DURATION_TAG);
+    simulation.setConfig(SHARK_BREED_DURATION_TAG,sharkBreedDuration);
+  }
+  private void initSharkStarveDuration(){
+    sharkStarveDuration=getIntTextValue(root, SHARK_STARVE_DURATION_TAG);
+    simulation.setConfig(SHARK_STARVE_DURATION_TAG,sharkStarveDuration);
   }
 }

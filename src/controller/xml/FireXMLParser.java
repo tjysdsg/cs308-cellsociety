@@ -10,12 +10,15 @@ import model.State;
 
 public class FireXMLParser extends XMLParser {
 
+
+  public static final String PROB_CATCH_TAG ="probCatch";
   /**
    * Create parser for XML files of given fileName.
    *
    * @param fileName
    */
 
+  private double probCatch;
 
   public FireXMLParser(String fileName) throws XMLException {
     super(fileName);
@@ -34,10 +37,21 @@ public class FireXMLParser extends XMLParser {
   @Override
   public Simulation getSimulation() throws XMLException {
     root = getRootElement();
-    sizeX = getGridSize();
-    simulation = new SimulationFire(sizeX);
+    sizeX = getGridSizeX();
+    sizeY = getGridSizeY();
+    simulation = new SimulationFire(sizeX,sizeY);
     initSimulation();
     return simulation;
   }
 
+  @Override
+  public void initSimulation() {
+    super.initSimulation();
+    initProbCatch();
+  }
+
+  private void initProbCatch(){
+    probCatch=getDoubleTextValue(root, PROB_CATCH_TAG);
+    simulation.setConfig(PROB_CATCH_TAG,probCatch);
+  }
 }

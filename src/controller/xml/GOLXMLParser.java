@@ -17,8 +17,9 @@ public class GOLXMLParser extends XMLParser {
   @Override
   public Simulation getSimulation() throws XMLException {
     root = getRootElement();
-    sizeX = getGridSize();
-    simulation = new SimulationGOL(sizeX);
+    sizeX = getGridSizeX();
+    sizeY = getGridSizeY();
+    simulation = new SimulationGOL(sizeX,sizeY);
     initSimulation();
     return simulation;
 

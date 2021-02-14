@@ -2,6 +2,7 @@
 <data simulation="Fire">
     <grid>
         <sizex>30</sizex>
+        <sizey>40</sizey>
     </grid>
     <cell>
         <row>10</row>
@@ -9,4 +10,7 @@
         <state>1</state>
     </cell>
     <speed>20</speed>
+    <title>title</title>
+    <author>tz88</author>
+    <description>HAHA</description>
 </data>
