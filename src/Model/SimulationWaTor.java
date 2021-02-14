@@ -24,11 +24,6 @@ public class SimulationWaTor extends Simulation {
     return ret;
   }
 
-  public int randomChoose(List<Cell> list) {
-    Random rand = new Random();
-    return rand.nextInt(list.size());
-  }
-
   @Override
   public <T> void setConfig(String name, T value) {
   }
@@ -48,7 +43,7 @@ public class SimulationWaTor extends Simulation {
     List<Cell> neighbors = grid.getNeighborsOf(r, c);
     List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateWaTor.EMPTY());
     if (emptyNeighbors.size() > 0) {
-      int idx = randomChoose(emptyNeighbors);
+      int idx = Utils.randomChoose(emptyNeighbors);
       s.setMoved(true);
       emptyNeighbors.get(idx).setState(s, true);
       grid.setState(r, c, StateWaTor.EMPTY(), true);
@@ -63,7 +58,7 @@ public class SimulationWaTor extends Simulation {
     List<Cell> fishNeighbors = sublistWithStateEquals(neighbors, StateWaTor.FISH());
 
     if (fishNeighbors.size() > 0) {
-      Cell cell = fishNeighbors.get(randomChoose(fishNeighbors));
+      Cell cell = fishNeighbors.get(Utils.randomChoose(fishNeighbors));
       cell.setState(StateWaTor.EMPTY(), true);
       s.nDaysStarve = 0;
       return true;
@@ -83,7 +78,7 @@ public class SimulationWaTor extends Simulation {
     List<Cell> neighbors = grid.getNeighborsOf(r, c);
     List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateWaTor.EMPTY());
     if (s.nDaysBreed > breedDuration && emptyNeighbors.size() > 0) {
-      Cell cell = emptyNeighbors.get(randomChoose(emptyNeighbors));
+      Cell cell = emptyNeighbors.get(Utils.randomChoose(emptyNeighbors));
       cell.setState(childState, true);
 
       s.nDaysBreed = 0;
