@@ -113,8 +113,9 @@ public class MainView extends Application {
     StartSimulation();
   }
 
-  private void FastForwordSimulation(){
-    System.out.println("fast forward");
+  private void StepSimulation(){
+    PauseSimulation();
+    step();
   }
 
   private void MakeAllButtons(){
@@ -126,7 +127,7 @@ public class MainView extends Application {
 
     makeButton resetbtn = new makeButton("reset", 30, 100, 40, 0, e->ResetSimulation());
     makeButton startbtn = new makeButton("start", 20, 100, 40, 0, e->StartSimulation());
-    makeButton ffbtn = new makeButton("fast forward", 20, 150, 40, 0, e->FastForwordSimulation());
+    makeButton ffbtn = new makeButton("step", 20, 150, 40, 0, e->StepSimulation());
     HBox hbox2 = new HBox(15);
     hbox2.getChildren().addAll(resetbtn,startbtn,ffbtn);
 
