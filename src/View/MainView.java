@@ -206,9 +206,6 @@ public class MainView extends Application {
   }
 
 
-  public String getConfigFile(){
-    return configFile;
-  }
 
   private void MakeComboBox(){
     ObservableList<String> options =
