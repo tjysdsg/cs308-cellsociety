@@ -22,6 +22,7 @@ import view.MainView;
 public class Controller {
 
   private XMLParser xmlParser;
+  private boolean stepIsPressedFlag = false;
   private SimulationParser xmlReader;
   private String configName;
   private boolean pause;
@@ -55,7 +56,14 @@ public class Controller {
   public void setResume() {
     if (view.getConfig()!= null && pause){
     pause = false;
-    animation.play();}
+    animation.play();
+    if (stepIsPressedFlag){
+      stepIsPressedFlag = false;
+    }}
+  }
+
+  public void stepIsPressed(){
+    stepIsPressedFlag = true;
   }
 
   public void setStart() {
@@ -63,7 +71,7 @@ public class Controller {
       Alert alert = new Alert(AlertType.WARNING);
       alert.setContentText("Please select a config file to start");
       alert.show();
-    } else if (!pause){
+    } else if (!pause || stepIsPressedFlag){
       return;
     } else {
       view.setGridPane(simulation.getGrid());
@@ -74,6 +82,9 @@ public class Controller {
   }
 
   public void reset() {
+    if (stepIsPressedFlag){
+      return;
+    }
     setPause();
     xmlParser.initSimulation();
     simulation=xmlParser.simulation;

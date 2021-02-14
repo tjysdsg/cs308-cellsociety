@@ -146,6 +146,7 @@ public class MainView {
     makeButton ffbtn = new makeButton("Step", 30, 100, 40, 0,
         e -> {
           controller.setPause();
+          controller.stepIsPressed();
           controller.step();
         }
     );
