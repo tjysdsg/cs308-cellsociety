@@ -9,6 +9,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
@@ -29,6 +30,7 @@ import javafx.scene.text.Text;
 
 public class MainView {
 
+  private String STYLESHEET = "default.css";
   private Color[] colors = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,};
   private final double gridHeight = 400.0;
   private final double gridWidth = 600.0;
@@ -214,7 +216,7 @@ public class MainView {
     root.getChildren().addAll(hbox4);
   }
 
-  public Parent createContent() {
+  public Scene createScene() {
     root = new Pane();
     root.setPrefSize(1000, 600);
 
@@ -232,7 +234,9 @@ public class MainView {
     makeAllButtons();
     setSpeed();
 
-    return root;
+    Scene scene = new Scene(root);
+    scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    return scene;
 
   }
 

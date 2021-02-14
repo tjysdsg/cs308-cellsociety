@@ -16,7 +16,7 @@ public class Main extends Application {
   public void start(Stage stage) throws Exception {
     Controller controller = new Controller();
     MainView view = new MainView(controller);
-    Scene scene = new Scene(view.createContent());
+    Scene scene = view.createScene();
     stage.setScene(scene);
     stage.show();
 
