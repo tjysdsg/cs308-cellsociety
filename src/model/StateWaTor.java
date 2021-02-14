@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 /**
  *
  */
@@ -30,6 +32,12 @@ public class StateWaTor extends State {
   public static StateWaTor MOVED_FISH() {
     return new StateWaTor(MOVED_FISH_VAL);
   }
+
+  public static final Map<Integer, StateWaTor> INT_TO_STATES = Map.of(
+      EMPTY_VAL, EMPTY(),
+      FISH_VAL, FISH(),
+      SHARK_VAL, SHARK()
+  );
 
   public int nDaysBreed = 0;
   public int nDaysStarve = 0;
