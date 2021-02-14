@@ -104,8 +104,8 @@ public abstract class Simulation {
     ret.append(grid.toString());
 
     // also print statistics
-    Map<String, Number> stats = getStatsMap();
-    for (Map.Entry<String, Number> entry : stats.entrySet()) {
+    Map<String, Object> stats = getStatsMap();
+    for (Map.Entry<String, Object> entry : stats.entrySet()) {
       ret.append(entry.getKey())
           .append(":")
           .append(entry.getValue().toString())
