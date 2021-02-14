@@ -236,7 +236,7 @@ public class MainView {
     HBox hbox4 = new HBox(10);
     Label configlabel = new Label("config files: ");
     hbox4.getChildren().addAll(configlabel, configlist);
-    hbox4.setTranslateX(30+gridWidth);
+    hbox4.setTranslateX(100+gridWidth);
     hbox4.setTranslateY(200);
     configlist.valueProperty().addListener((observable, oldValue, newValue) -> {
       configFile = newValue.toString();
