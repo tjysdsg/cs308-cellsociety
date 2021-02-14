@@ -14,7 +14,7 @@ public class WaTorXMLParser extends XMLParser {
 
   public static final String FISH_BREED_DURATION_TAG = "fishBreedDuration";
   public static final String SHARK_BREED_DURATION_TAG = "sharkBreedDuration";
-  public static final String SHARK_STARVE_DURATION_TAG = "sharckStarveDuration";
+  public static final String SHARK_STARVE_DURATION_TAG = "sharkStarveDuration";
   private int fishBreedDuration;
   private int sharkBreedDuration;
   private int sharkStarveDuration;
