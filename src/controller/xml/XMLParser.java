@@ -24,7 +24,7 @@ public abstract class XMLParser {
   // Readable error message that can be displayed by the GUI
   public static final String ERROR_MESSAGE = "XML file does not represent %s";
   public static final String ERROR_SPEED = "Speed is not valid %ld";
-  public static final String ERROR_COORDINATE = "Coordinate is not valid %d";
+  public static final String ERROR_COORDINATE = "Coordinate is not valid row: %d col: %d";
   public static final String ERROR_STATE = "State is not valid %d";
   public static final String GRID_TAG = "grid";
   public static final String SIZEX_TAG = "sizex";
@@ -91,8 +91,7 @@ public abstract class XMLParser {
       Element cell = (Element) stateList.item(i);
       int row = getIntTextValue(cell, ROW_TAG);
       int col = getIntTextValue(cell, COL_TAG);
-      checkCoordinate(row);
-      checkCoordinate(col);
+      checkCoordinate(row,col);
       int stateNum = getIntTextValue(cell, STATE_TAG);
       checkStates(stateNum);
       State cellState = states[stateNum];
@@ -101,9 +100,9 @@ public abstract class XMLParser {
   }
 
 
-  public void checkCoordinate(int n) throws XMLException {
-    if (n < 0 || n >= sizeX) {
-      throw new XMLException(ERROR_COORDINATE, n);
+  public void checkCoordinate(int row, int col) throws XMLException {
+    if (row < 0 || row >= sizeX || col<0 || col >=sizeY) {
+      throw new XMLException(ERROR_COORDINATE, row, col);
     }
   }
 
