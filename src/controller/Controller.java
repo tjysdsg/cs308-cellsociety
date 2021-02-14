@@ -76,6 +76,7 @@ public class Controller {
   public void reset() {
     setPause();
     xmlParser.initSimulation();
+    simulation=xmlParser.simulation;
     view.resetSimulation(simulation.getGrid(), simulation.getStatsMap());
   }
 

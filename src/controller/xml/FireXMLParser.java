@@ -46,6 +46,7 @@ public class FireXMLParser extends XMLParser {
 
   @Override
   public void initSimulation() {
+    simulation = new SimulationFire(sizeX,sizeY);
     super.initSimulation();
     initProbCatch();
   }

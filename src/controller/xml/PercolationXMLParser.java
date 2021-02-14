@@ -26,6 +26,12 @@ public class PercolationXMLParser extends XMLParser {
   }
 
   @Override
+  public void initSimulation() {
+    simulation = new SimulationPercolation(sizeX,sizeY);
+    super.initSimulation();
+  }
+
+  @Override
   public void initStateArray() {
     stateRange = 3;
     states = new State[stateRange];
