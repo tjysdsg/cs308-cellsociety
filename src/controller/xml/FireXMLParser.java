@@ -50,7 +50,7 @@ public class FireXMLParser extends XMLParser {
     initProbCatch();
   }
 
-  public void initProbCatch(){
+  private void initProbCatch(){
     probCatch=getDoubleTextValue(root, PROB_CATCH_TAG);
     simulation.setConfig(PROB_CATCH_TAG,probCatch);
   }

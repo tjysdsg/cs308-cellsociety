@@ -54,15 +54,15 @@ public class WaTorXMLParser extends XMLParser {
     initSharkStarveDuration();
   }
 
-  public void initFishBreedDuration(){
+  private void initFishBreedDuration(){
     fishBreedDuration= getIntTextValue(root, FISH_BREED_DURATION_TAG);
     simulation.setConfig(FISH_BREED_DURATION_TAG, fishBreedDuration);
   }
-  public void initSharkBreedDuration(){
+  private void initSharkBreedDuration(){
     sharkBreedDuration=getIntTextValue(root, SHARK_BREED_DURATION_TAG);
     simulation.setConfig(SHARK_BREED_DURATION_TAG,sharkBreedDuration);
   }
-  public void initSharkStarveDuration(){
+  private void initSharkStarveDuration(){
     sharkStarveDuration=getIntTextValue(root, SHARK_STARVE_DURATION_TAG);
     simulation.setConfig(SHARK_STARVE_DURATION_TAG,sharkStarveDuration);
   }
