@@ -32,7 +32,6 @@ import javafx.scene.text.Text;
 
 public class MainView {
 
-  private String STYLESHEET = "default.css";
   private Color[] colors = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,};
   private final double gridHeight = 400.0;
   private final double gridWidth = 600.0;
@@ -134,7 +133,7 @@ public class MainView {
 
   private void displayStatus(Map<String, Object> statesMap) {
     statesMap.put(configFile+" time elapsed: ", sec);
-    statesMap.put("Authors: Andre Wang, Jiyang Tang, Tinglong Zhu", null);
+    //statesMap.put("Authors: Andre Wang, Jiyang Tang, Tinglong Zhu", null);
     statusbox.getChildren().clear();
     for (String s : statesMap.keySet()) {
       HBox temp = new HBox(15);
@@ -236,7 +235,7 @@ public class MainView {
     root.getChildren().addAll(grid);
 
     // init status box
-    statusbox = new VBox(15);
+    statusbox = new VBox(5);
     statusbox.setTranslateX(15);
     statusbox.setTranslateY(15+gridHeight);
     root.getChildren().add(statusbox);
@@ -246,7 +245,6 @@ public class MainView {
     setSpeed();
 
     Scene scene = new Scene(root);
-    //scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     return scene;
 
   }
