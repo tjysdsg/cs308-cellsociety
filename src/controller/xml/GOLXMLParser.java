@@ -26,6 +26,12 @@ public class GOLXMLParser extends XMLParser {
   }
 
   @Override
+  public void initSimulation() {
+    simulation = new SimulationGOL(sizeX,sizeY);
+    super.initSimulation();
+  }
+
+  @Override
   public void initStateArray() {
     stateRange = 2;
     states = new State[stateRange];

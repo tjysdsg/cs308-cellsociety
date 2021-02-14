@@ -48,6 +48,7 @@ public class WaTorXMLParser extends XMLParser {
 
   @Override
   public void initSimulation() {
+    simulation = new SimulationWaTor(sizeX,sizeY);
     super.initSimulation();
     initFishBreedDuration();
     initSharkBreedDuration();
