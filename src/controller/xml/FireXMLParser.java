@@ -34,8 +34,9 @@ public class FireXMLParser extends XMLParser {
   @Override
   public Simulation getSimulation() throws XMLException {
     root = getRootElement();
-    sizeX = getGridSize();
-    simulation = new SimulationFire(sizeX);
+    sizeX = getGridSizeX();
+    sizeY = getGridSizeY();
+    simulation = new SimulationFire(sizeX,sizeY);
     initSimulation();
     return simulation;
   }

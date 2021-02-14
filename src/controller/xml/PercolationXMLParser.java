@@ -18,8 +18,9 @@ public class PercolationXMLParser extends XMLParser {
   @Override
   public Simulation getSimulation() throws XMLException {
     root = getRootElement();
-    sizeX = getGridSize();
-    simulation = new SimulationPercolation(sizeX);
+    sizeX = getGridSizeX();
+    sizeY=getGridSizeY();
+    simulation = new SimulationPercolation(sizeX,sizeY);
     initSimulation();
     return simulation;
   }

@@ -1,5 +1,8 @@
 package controller;
 
+import java.awt.dnd.DropTargetAdapter;
+import java.io.File;
+import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -23,6 +26,7 @@ public class Controller {
   private Timeline animation;
   public static final int FRAMES_PER_SECOND = 1;
   public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+  public static final String DATA_GAMECONFIG="data/gameconfig/";
 
   public Controller() {
     KeyFrame frame = new KeyFrame(Duration.seconds(SECOND_DELAY), e -> this.step());
@@ -112,10 +116,18 @@ public class Controller {
     simulation.setConfig(name, value);
   }
 
+  public ArrayList<String> getGameConfigFileList(){
+    File tmp= new File(DATA_GAMECONFIG);
+    File[] gameXMLS= tmp.listFiles();
+    ArrayList<String> configList=new ArrayList<>();
+    for(int i=0;i<gameXMLS.length;i++){
+      configList.add(gameXMLS[i].toString().split(DATA_GAMECONFIG)[1]);
+    }
+    return configList;
+  }
+
   public static void main(String[] args) {
-    String fileName = "gameconfig/Minecraft.xml";
-    Controller tmp = new Controller();
-    tmp.setConfig(fileName);
+    System.out.println((String) null);
   }
 
 

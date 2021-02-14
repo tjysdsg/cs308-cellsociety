@@ -26,6 +26,19 @@ public abstract class XMLParser {
   public static final String ERROR_SPEED = "Speed is not valid %ld";
   public static final String ERROR_COORDINATE = "Coordinate is not valid %d";
   public static final String ERROR_STATE = "State is not valid %d";
+  public static final String GRID_TAG = "grid";
+  public static final String SIZEX_TAG = "sizex";
+  public static final String AUTHOR_TAG = "author";
+  public static final String SIZEY_TAG = "sizey";
+  public static final String CELL_TAG = "cell";
+  public static final String ROW_TAG = "row";
+  public static final String COL_TAG = "col";
+  public static final String STATE_TAG = "state";
+  public static final String SPEED_TAG = "speed";
+  public static final String _TAG = "title";
+  public static final String TTILE_TAG = _TAG;
+  public static final String DESCRIPTION_TAG = "description";
+  public static final String DATA_GAMECONFIG = "data/gameconfig/";
   // name of root attribute that notes the type of file expecting to parse
   private final String FILENAME;
   // keep only one documentBuilder because it is expensive to make and can reset it before parsing
@@ -33,7 +46,11 @@ public abstract class XMLParser {
   public File xmlFile;
   public State[] states;
   public int sizeX;
+  public int sizeY;
   public int stateRange;
+  public String author;
+  public String description;
+  public String title;
   public Simulation simulation;
   public Element root;
 
@@ -44,7 +61,7 @@ public abstract class XMLParser {
   public XMLParser(String fileName) throws XMLException {
     DOCUMENT_BUILDER = getDocumentBuilder();
     FILENAME = fileName;
-    xmlFile = new File("data/" + fileName);
+    xmlFile = new File(DATA_GAMECONFIG + fileName);
   }
 
 
@@ -62,18 +79,21 @@ public abstract class XMLParser {
   public void initSimulation() {
     initCell();
     initSpeed();
+    getAuthor();
+    getDescription();
+    getTitle();
   }
 
 
   public void initCell() throws XMLException {
-    NodeList stateList = root.getElementsByTagName("cell");
+    NodeList stateList = root.getElementsByTagName(CELL_TAG);
     for (int i = 0; i < stateList.getLength(); i++) {
       Element cell = (Element) stateList.item(i);
-      int row = getIntTextValue(cell, "row");
-      int col = getIntTextValue(cell, "col");
+      int row = getIntTextValue(cell, ROW_TAG);
+      int col = getIntTextValue(cell, COL_TAG);
       checkCoordinate(row);
       checkCoordinate(col);
-      int stateNum = getIntTextValue(cell, "state");
+      int stateNum = getIntTextValue(cell, STATE_TAG);
       checkStates(stateNum);
       State cellState = states[stateNum];
       simulation.setState(row, col, cellState, true);
@@ -126,14 +146,31 @@ public abstract class XMLParser {
     }
   }
 
-
-  public int getGridSize() {
-    Element gridSize = ((Element) root.getElementsByTagName("grid").item(0));
-    return getIntTextValue(gridSize, "sizex");
+  public void getAuthor(){
+    author = getTextValue(root, AUTHOR_TAG);
   }
 
+  public void getTitle(){
+    author = getTextValue(root, TTILE_TAG);
+  }
+
+  public void getDescription(){
+    author = getTextValue(root, DESCRIPTION_TAG);
+  }
+
+
+
+  public int getGridSizeX() {
+    Element gridSize = ((Element) root.getElementsByTagName(GRID_TAG).item(0));
+    return getIntTextValue(gridSize, SIZEX_TAG);
+  }
+
+  public int getGridSizeY() {
+    Element gridSize = ((Element) root.getElementsByTagName(GRID_TAG).item(0));
+    return getIntTextValue(gridSize, SIZEY_TAG);
+  }
   public void initSpeed() {
-    double sp = getDoubleTextValue(root, "speed");
+    double sp = getDoubleTextValue(root, SPEED_TAG);
     checkSpeed(sp);
     simulation.setConfig("gameSpeed", sp);
   }

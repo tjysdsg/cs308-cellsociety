@@ -21,8 +21,9 @@ public class WaTorXMLParser extends XMLParser {
   @Override
   public Simulation getSimulation() throws XMLException {
     root = getRootElement();
-    sizeX = getGridSize();
-    simulation = new SimulationWaTor(sizeX);
+    sizeX = getGridSizeX();
+    sizeY= getGridSizeY();
+    simulation = new SimulationWaTor(sizeX,sizeY);
     initSimulation();
     return simulation;
   }
