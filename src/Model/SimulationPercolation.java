@@ -2,6 +2,15 @@ package Model;
 
 import java.util.List;
 
+/**
+ * Simulation model of Percolation.
+ * <p>
+ * No configurable option.
+ * <p>
+ * See also https://www2.cs.duke.edu/courses/compsci308/spring21/assign/02_simulation/PercolationCA.pdf
+ *
+ * @author jt304
+ */
 public class SimulationPercolation extends Simulation {
 
   public SimulationPercolation(int nRows, int nCols) {

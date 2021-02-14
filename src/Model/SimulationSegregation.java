@@ -4,6 +4,20 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Simulation model of segregation.
+ * <p>
+ * Configurable options:
+ * <ul>
+ *   <li>
+ *     "threshold" (double): The threshold of an agent being satisfied, default 0.3
+ *   </li>
+ * </ul>
+ * <p>
+ * See also https://www2.cs.duke.edu/courses/compsci308/spring21/assign/02_simulation/nifty/mccown-schelling-model-segregation/
+ *
+ * @author jt304
+ */
 public class SimulationSegregation extends Simulation {
 
   private double threshold = 0.3;

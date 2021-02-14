@@ -3,6 +3,20 @@ package Model;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Simulation model of Fire.
+ * <p>
+ * Configurable options:
+ * <ul>
+ *   <li>
+ *     "probCatch" (double): The probability of a tree catching fire, default 0.5
+ *   </li>
+ * </ul>
+ * <p>
+ * See also https://www2.cs.duke.edu/courses/compsci308/spring21/assign/02_simulation/nifty/shiflet-fire/
+ *
+ * @author jt304
+ */
 public class SimulationFire extends Simulation {
 
   private double probCatch = 0.5;

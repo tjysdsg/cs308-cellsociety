@@ -2,8 +2,27 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
+/**
+ * Simulation model of Wa-Tor.
+ * <p>
+ * Configurable options:
+ * <ul>
+ *   <li>
+ *     "fishBreedDuration" (int): Number of days needed for a fish to successfully reproduce, default 2
+ *   </li>
+ *   <li>
+ *     "sharkBreedDuration" (int): Number of days needed for a shark to successfully reproduce, default 4
+ *   </li>
+ *   <li>
+ *     "sharkStarveDuration" (int): Max number of days of starvation before a shark dies, default 6
+ *   </li>
+ * </ul>
+ * <p>
+ * See also https://www2.cs.duke.edu/courses/compsci308/spring21/assign/02_simulation/nifty/scott-wator-world/WatorWorld.htm
+ *
+ * @author jt304
+ */
 public class SimulationWaTor extends Simulation {
 
   private int fishBreedDuration = 2;
@@ -14,7 +33,7 @@ public class SimulationWaTor extends Simulation {
     grid = new Grid(nRows, nCols, StateWaTor.EMPTY(), Neighborhood.Preset4());
   }
 
-  public List<Cell> sublistWithStateEquals(List<Cell> list, StateWaTor s) {
+  private List<Cell> sublistWithStateEquals(List<Cell> list, StateWaTor s) {
     ArrayList<Cell> ret = new ArrayList<>();
     for (var neighbor : list) {
       if (neighbor.getState().equals(s)) {
@@ -26,6 +45,11 @@ public class SimulationWaTor extends Simulation {
 
   @Override
   public <T> void setConfig(String name, T value) {
+    switch (name) {
+      case "fishBreedDuration" -> fishBreedDuration = (int) value;
+      case "sharkBreedDuration" -> sharkBreedDuration = (int) value;
+      case "sharkStarveDuration" -> sharkStarveDuration = (int) value;
+    }
   }
 
   private boolean starve(int r, int c) {

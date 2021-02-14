@@ -2,6 +2,15 @@ package Model;
 
 import java.util.List;
 
+/**
+ * Simulation model of Game of Life.
+ * <p>
+ * No configurable option.
+ * <p>
+ * See also en.wikipedia.org/wiki/Conway's_Game_of_Life
+ *
+ * @author jt304
+ */
 public class SimulationGOL extends Simulation {
 
   public SimulationGOL(int nRows, int nCols) {

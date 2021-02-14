@@ -2,6 +2,25 @@ package Model;
 
 import java.util.List;
 
+/**
+ * Base class of all simulation, responsible of:
+ * <ul>
+ *   <li>
+ *     update cells to next generation
+ *   </li>
+ *   <li>
+ *     receive configuration values
+ *   </li>
+ *   <li>
+ *     collect statistics
+ *   </li>
+ *   <li>
+ *     returns the grid
+ *   </li>
+ * </ul>
+ *
+ * @author jt304
+ */
 public abstract class Simulation {
 
   protected Grid grid;
