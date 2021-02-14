@@ -52,13 +52,13 @@ public class MainView {
     this.controller = controller;
   }
 
-  public void step(List<List<Integer>> grid, Map<String, Number> statesMap) {
+  public void step(List<List<Integer>> grid, Map<String, Object> statesMap) {
     sec++;
     displayStatus(statesMap);
     updateGridPane(grid);
   }
 
-  public void startSimulation(List<List<Integer>> states, Map<String, Number> statesMap) {
+  public void startSimulation(List<List<Integer>> states, Map<String, Object> statesMap) {
     if (configFile == null) {
       Alert alert = new Alert(AlertType.WARNING);
       alert.setContentText("Please select a config file to start");
@@ -83,7 +83,7 @@ public class MainView {
     }
   }
 
-  public void resetSimulation(List<List<Integer>> states, Map<String, Number> statesMap) {
+  public void resetSimulation(List<List<Integer>> states, Map<String, Object> statesMap) {
     sec = 0;
     pauseSimulation();
     if (root.getChildren().contains(grid)) {
@@ -132,8 +132,8 @@ public class MainView {
     root.getChildren().addAll(allbtn);
   }
 
-  private void displayStatus(Map<String, Number> statesMap) {
-    //statesMap.put(configFile+" time elapsed: ", sec);
+  private void displayStatus(Map<String, Object> statesMap) {
+    statesMap.put(configFile+" time elapsed: ", sec);
     statusbox.getChildren().clear();
     for (String s : statesMap.keySet()) {
       HBox temp = new HBox(15);
@@ -209,10 +209,13 @@ public class MainView {
       if (newValue != oldValue) {
         controller.setPause();
         controller.setConfig(configFile);
-
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("You have selected a different config file, press RESET to run it\n "
+        if (oldValue !=null){
+          alert.setContentText("You have selected a different config file, press RESET to run it\n "
             + "but current progress will be cleared");
+        } else {
+          alert.setContentText("press START to begin simulation");
+        }
         alert.show();
       }
     });
@@ -238,7 +241,7 @@ public class MainView {
     setSpeed();
 
     Scene scene = new Scene(root);
-    //scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     return scene;
 
   }
