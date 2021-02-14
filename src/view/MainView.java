@@ -33,8 +33,8 @@ import javafx.scene.text.Text;
 public class MainView {
 
   private Color[] colors = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,};
-  private final double gridHeight = 400.0;
-  private final double gridWidth = 600.0;
+  private final double gridHeight = 300.0;
+  private final double gridWidth = 500.0;
   private String configFile;
   private Slider speed = new Slider(1, 30, 1);
   private Label speedValue = new Label(Double.toString(speed.getValue()));
@@ -51,11 +51,24 @@ public class MainView {
     this.controller = controller;
   }
 
+  /**
+   *
+   * @param grid is a double array of integers, representing the states of each cell
+   * @param statesMap, is a map of statistics, such as number of tree, etc.
+   *                   this step function is called by the step function in controller.
+   */
   public void step(List<List<Integer>> grid, Map<String, Object> statesMap) {
     sec++;
     displayStatus(statesMap);
     updateGridPane(grid);
   }
+
+  /**
+   *
+   * @param states is a double array of integers, representing the states of each cell
+   * @param statesMap  is a map of statistics, such as number of tree, etc.
+   *                   called by the setStart in controller.
+   */
 
   public void startSimulation(List<List<Integer>> states, Map<String, Object> statesMap) {
     if (configFile == null) {
@@ -72,15 +85,30 @@ public class MainView {
     }
   }
 
+  /**
+   * called by setPause in controller
+   */
+
   public void pauseSimulation() {
     animationIsStopped = true;
   }
+
+  /**
+   * called by setResume in controller
+   */
 
   public void resumeSimulation() {
     if (configFile != null && animationIsStopped) {
       animationIsStopped = false;
     }
   }
+
+  /**
+   *
+   * @param states, double array of integers
+   * @param statesMap, statistics
+   * called by reset in controller
+   */
 
   public void resetSimulation(List<List<Integer>> states, Map<String, Object> statesMap) {
     sec = 0;
@@ -183,7 +211,6 @@ public class MainView {
       gridelements.add(temp);
     }
     statusbox.setTranslateX(15);
-    System.out.println(grid.getBoundsInParent().getMaxY());
     statusbox.setTranslateY(30+gridHeight);
     //root.getChildren().addAll(grid);
   }
