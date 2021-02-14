@@ -4,6 +4,7 @@ import controller.xml.SegregationXMLParser;
 import java.awt.dnd.DropTargetAdapter;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -76,7 +77,9 @@ public class Controller {
     simulation.update();
 
     // view update
-    view.step(simulation.getGrid(), simulation.getStatsMap());
+    Map<String, Object> mapToStatus=simulation.getStatsMap();
+    xmlParser.addXMLDescription(mapToStatus);
+    view.step(simulation.getGrid(), mapToStatus);
 
   }
 
