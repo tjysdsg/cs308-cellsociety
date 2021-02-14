@@ -1,5 +1,7 @@
 package controller.xml;
 
+import java.util.Map;
+import javafx.beans.binding.ObjectExpression;
 import model.Simulation;
 import model.State;
 import java.io.File;
@@ -99,6 +101,12 @@ public abstract class XMLParser {
     }
   }
 
+  public  void addXMLDescription(Map<String, Object> map){
+    map.put(AUTHOR_TAG,author );
+    map.put(TTILE_TAG, title);
+    map.put(DESCRIPTION_TAG, description);
+    return;
+  }
 
   public void checkCoordinate(int row, int col) throws XMLException {
     if (row < 0 || row >= sizeX || col<0 || col >=sizeY) {
@@ -150,11 +158,11 @@ public abstract class XMLParser {
   }
 
   public void getTitle(){
-    author = getTextValue(root, TTILE_TAG);
+    title = getTextValue(root, TTILE_TAG);
   }
 
   public void getDescription(){
-    author = getTextValue(root, DESCRIPTION_TAG);
+    description = getTextValue(root, DESCRIPTION_TAG);
   }
 
 
