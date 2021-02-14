@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -189,11 +190,10 @@ public class MainView {
   }
 
   private void makeComboBox() {
+    File f = new File("data/gameconfig");
     ObservableList<String> options =
         FXCollections.observableArrayList(
-            "config 1",
-            "config 2",
-            "config 3"
+            f.list()
         );
     ComboBox configlist = new ComboBox(options);
     HBox hbox4 = new HBox(15);
