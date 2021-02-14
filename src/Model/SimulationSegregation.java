@@ -39,8 +39,8 @@ public class SimulationSegregation extends Simulation {
 
     ArrayList<Cell> dissatisfiedAgents = new ArrayList<>();
     LinkedList<int[]> emptySpots = new LinkedList<>();
-    for (int r = 0; r < grid.nRows; ++r) {
-      for (int c = 0; c < grid.nCols; ++c) {
+    for (int r = 0; r < grid.getNumRows(); ++r) {
+      for (int c = 0; c < grid.getNumCols(); ++c) {
         StateSegregation s = (StateSegregation) grid.getState(r, c);
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
 

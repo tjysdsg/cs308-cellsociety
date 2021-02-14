@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,8 +72,18 @@ public abstract class Simulation {
    * Get 2D list of states representing all states in the gird.
    */
   public List<List<State>> getGrid() {
-    // TODO: implement this
-    return null;
+    int nRows = grid.getNumRows();
+    int nCols = grid.getNumCols();
+    ArrayList<List<State>> ret = new ArrayList<>(nRows);
+
+    for (int r = 0; r < nRows; ++r) {
+      ArrayList<State> row = new ArrayList<>(nCols);
+      for (int c = 0; c < nCols; ++c) {
+        row.add(grid.getState(r, c));
+      }
+      ret.add(row);
+    }
+    return ret;
   }
 
   @Override

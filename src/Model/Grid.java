@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class Grid {
 
-  public int nRows;
-  public int nCols;
+  private int nRows;
+  private int nCols;
   private List<List<Cell>> grid;
   private Neighborhood neighborhood;
 
   public Grid(int nRows, int nCols, State defaultState, Neighborhood neighborhood) {
-    this.nRows = nRows;
-    this.nCols = nCols;
+    this.setNumRows(nRows);
+    this.setNumCols(nCols);
     grid = new ArrayList<>(nRows);
     for (int i = 0; i < nRows; ++i) {
       ArrayList<Cell> row = new ArrayList<>(nCols);
@@ -55,8 +55,8 @@ public class Grid {
   }
 
   public void update() {
-    for (int r = 0; r < nRows; ++r) {
-      for (int c = 0; c < nCols; ++c) {
+    for (int r = 0; r < getNumRows(); ++r) {
+      for (int c = 0; c < getNumCols(); ++c) {
         grid.get(r).get(c).update();
       }
     }
@@ -65,8 +65,8 @@ public class Grid {
   public List<Cell> getNeighborsOf(int r, int c) {
     ArrayList<Cell> ret = new ArrayList<>();
     boolean n = r > 0;
-    boolean s = r < nRows - 1;
-    boolean e = c < nCols - 1;
+    boolean s = r < getNumRows() - 1;
+    boolean e = c < getNumCols() - 1;
     boolean w = c > 0;
 
     if (neighborhood.isValidNeighbor(Direction.NORTH) && n) {
@@ -108,10 +108,26 @@ public class Grid {
       }
       ++r;
       ret.append("\n");
-      if (r <= nRows - 1) {
+      if (r <= getNumRows() - 1) {
         ret.append("|");
       }
     }
     return ret.toString();
+  }
+
+  public int getNumRows() {
+    return nRows;
+  }
+
+  public void setNumRows(int nRows) {
+    this.nRows = nRows;
+  }
+
+  public int getNumCols() {
+    return nCols;
+  }
+
+  public void setNumCols(int nCols) {
+    this.nCols = nCols;
   }
 }

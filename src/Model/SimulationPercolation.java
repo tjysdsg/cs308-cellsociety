@@ -25,8 +25,8 @@ public class SimulationPercolation extends Simulation {
   protected void updateNextStates() {
     boolean updated = false;
     // calculate next state
-    for (int r = 0; r < grid.nRows; ++r) {
-      for (int c = 0; c < grid.nCols; ++c) {
+    for (int r = 0; r < grid.getNumRows(); ++r) {
+      for (int c = 0; c < grid.getNumCols(); ++c) {
         StatePercolation s = (StatePercolation) grid.getState(r, c);
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
         int nPercolatedNeighbors = 0;
