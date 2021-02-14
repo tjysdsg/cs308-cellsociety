@@ -134,12 +134,17 @@ public class MainView {
 
   private void displayStatus(Map<String, Object> statesMap) {
     statesMap.put(configFile+" time elapsed: ", sec);
+    statesMap.put("Authors: Andre Wang, Jiyang Tang, Tinglong Zhu", null);
     statusbox.getChildren().clear();
     for (String s : statesMap.keySet()) {
       HBox temp = new HBox(15);
       Text display_text = new Text();
       Label text_lable = new Label(s);
-      display_text.setText(statesMap.get(s).toString());
+      if (statesMap.get(s) != null){
+      display_text.setText(statesMap.get(s).toString());}
+      else {
+        display_text.setText("");
+      }
       display_text.setFont(display_text.getFont().font(20));
       temp.getChildren().addAll(text_lable, display_text);
       statusbox.getChildren().add(temp);
@@ -161,8 +166,8 @@ public class MainView {
   private void setGridPane(List<List<Integer>> states) {
     int r = states.size();
     int c = states.get(0).size();
-    grid.setTranslateX(100);
-    grid.setTranslateY(100);
+    grid.setTranslateX(10);
+    grid.setTranslateY(10);
     for (int i = 0; i < r; i++) {
       ArrayList<Rectangle> temp = new ArrayList<>();
       for (int j = 0; j < c; j++) {
@@ -232,8 +237,8 @@ public class MainView {
 
     // init status box
     statusbox = new VBox(15);
-    statusbox.setTranslateX(50);
-    statusbox.setTranslateY(500);
+    statusbox.setTranslateX(15);
+    statusbox.setTranslateY(15+gridHeight);
     root.getChildren().add(statusbox);
 
     makeComboBox();
@@ -241,7 +246,7 @@ public class MainView {
     setSpeed();
 
     Scene scene = new Scene(root);
-    scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    //scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     return scene;
 
   }
