@@ -22,6 +22,11 @@ public class SimulationGOL extends Simulation {
   }
 
   @Override
+  public String getSimType() {
+    return "Game of Life";
+  }
+
+  @Override
   protected void updateNextStates() {
     boolean updated = false;
     // calculate next state

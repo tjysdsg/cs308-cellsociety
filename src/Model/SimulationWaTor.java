@@ -52,6 +52,11 @@ public class SimulationWaTor extends Simulation {
     }
   }
 
+  @Override
+  public String getSimType() {
+    return "Wa-Tor";
+  }
+
   private boolean starve(int r, int c) {
     StateWaTor s = (StateWaTor) grid.getState(r, c);
     if (++s.nDaysStarve > sharkStarveDuration) {

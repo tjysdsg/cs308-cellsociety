@@ -34,6 +34,11 @@ public class SimulationFire extends Simulation {
   }
 
   @Override
+  public String getSimType() {
+    return "Fire";
+  }
+
+  @Override
   protected void updateNextStates() {
     int nBurning = 0;
     // calculate next state

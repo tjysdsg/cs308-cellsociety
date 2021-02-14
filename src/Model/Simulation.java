@@ -39,6 +39,11 @@ public abstract class Simulation {
   public abstract <T> void setConfig(String name, T value);
 
   /**
+   * Get simulation type name, such as "Fire", "Game of Life", "Wa-Tor", etc.
+   */
+  public abstract String getSimType();
+
+  /**
    * Set state of a cell
    *
    * @param r         Index of row, starting at 0

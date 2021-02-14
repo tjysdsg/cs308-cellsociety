@@ -34,6 +34,11 @@ public class SimulationSegregation extends Simulation {
   }
 
   @Override
+  public String getSimType() {
+    return "Segregation";
+  }
+
+  @Override
   protected void updateNextStates() {
     boolean updated = false;
 

@@ -22,6 +22,11 @@ public class SimulationPercolation extends Simulation {
   }
 
   @Override
+  public String getSimType() {
+    return "Percolation";
+  }
+
+  @Override
   protected void updateNextStates() {
     boolean updated = false;
     // calculate next state
