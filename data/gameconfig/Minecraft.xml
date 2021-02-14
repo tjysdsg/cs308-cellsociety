@@ -4,6 +4,7 @@
         <sizex>30</sizex>
         <sizey>40</sizey>
     </grid>
+    <probCatch>0.6</probCatch>
     <cell>
         <row>10</row>
         <col>20</col>

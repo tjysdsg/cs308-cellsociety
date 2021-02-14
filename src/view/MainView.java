@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.beans.value.ChangeListener;
@@ -64,9 +65,8 @@ public class MainView {
       alert.show();
     } else if (!animationIsStopped) {
       return;
-    } else if (root.getChildren().contains(grid)) {
-      return;
-    } else {
+    }
+    else {
       setGridPane(states);
       displayStatus(statesMap);
       animationIsStopped = false;
@@ -133,6 +133,7 @@ public class MainView {
   }
 
   private void displayStatus(Map<String, Number> statesMap) {
+    //statesMap.put(configFile+" time elapsed: ", sec);
     statusbox.getChildren().clear();
     for (String s : statesMap.keySet()) {
       HBox temp = new HBox(15);
@@ -177,7 +178,7 @@ public class MainView {
       }
       gridelements.add(temp);
     }
-    root.getChildren().addAll(grid);
+    //root.getChildren().addAll(grid);
   }
 
   private void updateGridPane(List<List<Integer>> grid) {
@@ -235,7 +236,7 @@ public class MainView {
     setSpeed();
 
     Scene scene = new Scene(root);
-    scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
+    //scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     return scene;
 
   }
