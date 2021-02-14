@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.Duration;
 import model.Simulation;
 import controller.xml.FireXMLParser;
@@ -48,30 +50,36 @@ public class Controller {
   public void setPause() {
     pause = true;
     animation.stop();
-    view.pauseSimulation();
   }
 
   public void setResume() {
+    if (view.getConfig()!= null && pause){
     pause = false;
-    animation.play();
-    view.resumeSimulation();
+    animation.play();}
   }
 
   public void setStart() {
-    pause = false;
-    animation.play();
-    view.startSimulation(simulation.getGrid(), simulation.getStatsMap());
+    if(view.getConfig()==null){
+      Alert alert = new Alert(AlertType.WARNING);
+      alert.setContentText("Please select a config file to start");
+      alert.show();
+    } else if (!pause){
+      return;
+    } else {
+      view.setGridPane(simulation.getGrid());
+      view.displayStatus(simulation.getStatsMap());
+      pause = false;
+      animation.play();
+    }
   }
 
   public void reset() {
+    setPause();
     xmlParser.initSimulation();
     view.resetSimulation(simulation.getGrid(), simulation.getStatsMap());
   }
 
   public void step() {
-    if (pause) {
-      return;
-    }
 
     // sim update
     simulation.update();

@@ -85,6 +85,10 @@ public class MainView {
     }
   }
 
+  public String getConfig(){
+    return configFile;
+  }
+
   /**
    * called by setPause in controller
    */
@@ -112,13 +116,13 @@ public class MainView {
 
   public void resetSimulation(List<List<Integer>> states, Map<String, Object> statesMap) {
     sec = 0;
-    pauseSimulation();
-    if (root.getChildren().contains(grid)) {
-      grid.getChildren().clear();
-      gridelements.clear();
-    }
-    startSimulation(states, statesMap);
+    grid.getChildren().clear();
+    gridelements.clear();
+    //startSimulation(states, statesMap);
+    controller.setStart();
   }
+
+
 
   private void makeAllButtons() {
     makeButton pausebtn = new makeButton("Pause", 30, 100, 40, 0,
@@ -159,7 +163,7 @@ public class MainView {
     root.getChildren().addAll(allbtn);
   }
 
-  private void displayStatus(Map<String, Object> statesMap) {
+  public void displayStatus(Map<String, Object> statesMap) {
     statesMap.put(configFile+" time elapsed: ", sec);
     //statesMap.put("Authors: Andre Wang, Jiyang Tang, Tinglong Zhu", null);
     statusbox.getChildren().clear();
@@ -190,7 +194,7 @@ public class MainView {
     root.getChildren().addAll(hbox3);
   }
 
-  private void setGridPane(List<List<Integer>> states) {
+  public void setGridPane(List<List<Integer>> states) {
     int r = states.size();
     int c = states.get(0).size();
     grid.setTranslateX(10);
