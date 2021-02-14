@@ -94,25 +94,25 @@ public class MainView {
   }
 
   private void makeAllButtons() {
-    makeButton pausebtn = new makeButton("pause", 30, 100, 40, 0,
+    makeButton pausebtn = new makeButton("Pause", 30, 100, 40, 0,
         e -> controller.setPause()
     );
-    makeButton resumebtn = new makeButton("resume", 30, 100, 40, 0,
+    makeButton resumebtn = new makeButton("Resume", 30, 100, 40, 0,
         e -> controller.setResume()
     );
-    makeButton exitbtn = new makeButton("exit", 30, 100, 40, 0,
+    makeButton exitbtn = new makeButton("Exit", 30, 100, 40, 0,
         e -> System.exit(0)
     );
     HBox hbox1 = new HBox(15);
     hbox1.getChildren().addAll(pausebtn, resumebtn, exitbtn);
 
-    makeButton resetbtn = new makeButton("reset", 30, 100, 40, 0,
+    makeButton resetbtn = new makeButton("Reset", 30, 100, 40, 0,
         e -> controller.reset()
     );
-    makeButton startbtn = new makeButton("start", 20, 100, 40, 0,
+    makeButton startbtn = new makeButton("Start", 30, 100, 40, 0,
         e -> controller.setStart()
     );
-    makeButton ffbtn = new makeButton("step", 20, 150, 40, 0,
+    makeButton ffbtn = new makeButton("Step", 30, 100, 40, 0,
         e -> {
           controller.setPause();
           controller.step();
@@ -199,11 +199,11 @@ public class MainView {
     HBox hbox4 = new HBox(15);
     Label configlabel = new Label("config files: ");
     hbox4.getChildren().addAll(configlabel, configlist);
-    hbox4.setTranslateX(800);
-    hbox4.setTranslateY(500);
+    hbox4.setTranslateX(600);
+    hbox4.setTranslateY(350);
     configlist.valueProperty().addListener((observable, oldValue, newValue) -> {
       configFile = newValue.toString();
-      if (newValue != oldValue && oldValue != null) {
+      if (newValue != oldValue) {
         controller.setPause();
         controller.setConfig(configFile);
 
