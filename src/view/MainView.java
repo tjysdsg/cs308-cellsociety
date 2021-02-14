@@ -182,6 +182,9 @@ public class MainView {
       }
       gridelements.add(temp);
     }
+    statusbox.setTranslateX(15);
+    System.out.println(grid.getBoundsInParent().getMaxY());
+    statusbox.setTranslateY(30+gridHeight);
     //root.getChildren().addAll(grid);
   }
 
@@ -203,11 +206,11 @@ public class MainView {
             f.list()
         );
     ComboBox configlist = new ComboBox(options);
-    HBox hbox4 = new HBox(15);
+    HBox hbox4 = new HBox(10);
     Label configlabel = new Label("config files: ");
     hbox4.getChildren().addAll(configlabel, configlist);
-    hbox4.setTranslateX(600);
-    hbox4.setTranslateY(350);
+    hbox4.setTranslateX(30+gridWidth);
+    hbox4.setTranslateY(200);
     configlist.valueProperty().addListener((observable, oldValue, newValue) -> {
       configFile = newValue.toString();
       if (newValue != oldValue) {
@@ -236,8 +239,6 @@ public class MainView {
 
     // init status box
     statusbox = new VBox(5);
-    statusbox.setTranslateX(15);
-    statusbox.setTranslateY(15+gridHeight);
     root.getChildren().add(statusbox);
 
     makeComboBox();

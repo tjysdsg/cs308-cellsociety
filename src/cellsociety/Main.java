@@ -20,6 +20,7 @@ public class Main extends Application {
     Scene scene = view.createScene();
     scene.getStylesheets().add(getClass().getResource("test.css").toExternalForm());
     stage.setScene(scene);
+    stage.setTitle("Cell Society");
     stage.show();
 
     controller.setView(view);
