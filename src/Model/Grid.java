@@ -56,7 +56,7 @@ public class Grid {
 
   public void update() {
     for (int r = 0; r < nRows; ++r) {
-      for (int c = 0; c < nRows; ++c) {
+      for (int c = 0; c < nCols; ++c) {
         grid.get(r).get(c).update();
       }
     }

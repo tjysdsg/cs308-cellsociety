@@ -7,8 +7,7 @@ import Model.StatePercolation;
 public class SimulationPercolationTestMain {
 
   public static void main(String[] args) {
-    Simulation sim = new SimulationPercolation(8);
-    // glider pattern
+    Simulation sim = new SimulationPercolation(8, 8);
     sim.setState(0, 1, StatePercolation.BLOCKED, true);
     sim.setState(0, 4, StatePercolation.BLOCKED, true);
     sim.setState(0, 5, StatePercolation.BLOCKED, true);

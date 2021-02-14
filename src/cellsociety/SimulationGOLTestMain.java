@@ -7,7 +7,7 @@ import Model.StateGOL;
 public class SimulationGOLTestMain {
 
   public static void main(String[] args) {
-    Simulation sim = new SimulationGOL(20);
+    Simulation sim = new SimulationGOL(20, 21);
     // glider pattern
     sim.setState(10, 10, StateGOL.ALIVE, true);
     sim.setState(11, 10, StateGOL.ALIVE, true);

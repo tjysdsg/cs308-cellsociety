@@ -7,9 +7,9 @@ import Model.StateFire;
 public class SimulationFireTestMain {
 
   public static void main(String[] args) {
-    Simulation sim = new SimulationFire(20);
+    Simulation sim = new SimulationFire(20, 18);
     for (int i = 0; i < 20; ++i) {
-      for (int j = 0; j < 20; ++j) {
+      for (int j = 0; j < 18; ++j) {
         sim.setState(i, j, StateFire.TREE, true);
       }
     }

@@ -4,8 +4,8 @@ import java.util.List;
 
 public class SimulationGOL extends Simulation {
 
-  public SimulationGOL(int n) {
-    grid = new Grid(n, n, StateGOL.DEAD, Neighborhood.Preset8());
+  public SimulationGOL(int nRows, int nCols) {
+    grid = new Grid(nRows, nCols, StateGOL.DEAD, Neighborhood.Preset8());
   }
 
   @Override
@@ -17,7 +17,7 @@ public class SimulationGOL extends Simulation {
     boolean updated = false;
     // calculate next state
     for (int r = 0; r < grid.nRows; ++r) {
-      for (int c = 0; c < grid.nRows; ++c) {
+      for (int c = 0; c < grid.nCols; ++c) {
         StateGOL s = (StateGOL) grid.getState(r, c);
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
         int nAliveNeighbors = 0;

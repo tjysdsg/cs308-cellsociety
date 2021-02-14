@@ -4,8 +4,8 @@ import java.util.List;
 
 public class SimulationPercolation extends Simulation {
 
-  public SimulationPercolation(int n) {
-    grid = new Grid(n, n, StatePercolation.OPEN, Neighborhood.Preset8());
+  public SimulationPercolation(int nRows, int nCols) {
+    grid = new Grid(nRows, nCols, StatePercolation.OPEN, Neighborhood.Preset8());
   }
 
   @Override
@@ -17,7 +17,7 @@ public class SimulationPercolation extends Simulation {
     boolean updated = false;
     // calculate next state
     for (int r = 0; r < grid.nRows; ++r) {
-      for (int c = 0; c < grid.nRows; ++c) {
+      for (int c = 0; c < grid.nCols; ++c) {
         StatePercolation s = (StatePercolation) grid.getState(r, c);
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
         int nPercolatedNeighbors = 0;
