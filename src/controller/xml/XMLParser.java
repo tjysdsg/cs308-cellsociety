@@ -78,7 +78,7 @@ public abstract class XMLParser {
 
   public void initSimulation() {
     initCell();
-    initSpeed();
+//    initSpeed();
     getAuthor();
     getDescription();
     getTitle();

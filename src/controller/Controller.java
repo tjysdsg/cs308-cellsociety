@@ -1,5 +1,6 @@
 package controller;
 
+import controller.xml.SegregationXMLParser;
 import java.awt.dnd.DropTargetAdapter;
 import java.io.File;
 import java.util.ArrayList;
@@ -107,6 +108,9 @@ public class Controller {
         xmlParser = new WaTorXMLParser(configName);
         break;
 
+      case "Segregation":
+        xmlParser = new SegregationXMLParser(configName);
+
       default:
         break;
     }
@@ -116,7 +120,7 @@ public class Controller {
     simulation.setConfig(name, value);
   }
 
-  public ArrayList<String> getGameConfigFileList(){
+  public ArrayList<String> getGameConfigFileNameList(){
     File tmp= new File(DATA_GAMECONFIG);
     File[] gameXMLS= tmp.listFiles();
     ArrayList<String> configList=new ArrayList<>();
