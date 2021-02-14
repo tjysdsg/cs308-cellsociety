@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<data simulation="Fire">
+<data simulation="Percolation">
 <grid>
 <sizex>
 10
@@ -16,7 +16,7 @@
 0
 </col>
 <state>
-1
+0
 </state>
 </cell>
 <cell>
@@ -27,7 +27,7 @@
 0
 </col>
 <state>
-1
+0
 </state>
 </cell>
 <cell>
@@ -49,7 +49,7 @@
 0
 </col>
 <state>
-1
+0
 </state>
 </cell>
 <cell>
@@ -60,7 +60,7 @@
 0
 </col>
 <state>
-1
+0
 </state>
 </cell>
 <cell>
@@ -82,7 +82,7 @@
 0
 </col>
 <state>
-1
+0
 </state>
 </cell>
 <cell>
@@ -93,7 +93,7 @@
 0
 </col>
 <state>
-1
+0
 </state>
 </cell>
 <cell>
@@ -115,20 +115,20 @@
 0
 </col>
 <state>
-1
+0
 </state>
 </cell>
 <speed>
 20
 </speed>
 <title>
-Fire edge 2
+Percolation edge 2
 </title>
 <author>
 jt304
 </author>
 <description>
-Fire simulation 2
+Percolation simulation 2
 </description>
 <probCatch>
 0.6
