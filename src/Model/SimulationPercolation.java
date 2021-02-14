@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Simulation model of Percolation.
@@ -13,12 +14,19 @@ import java.util.List;
  */
 public class SimulationPercolation extends Simulation {
 
+  private int nPercolated = 0;
+
   public SimulationPercolation(int nRows, int nCols) {
     grid = new Grid(nRows, nCols, StatePercolation.OPEN, Neighborhood.Preset8());
   }
 
   @Override
   public <T> void setConfig(String name, T value) {
+  }
+
+  @Override
+  public Map<String, Number> getStatsMap() {
+    return Map.of("nPercolated", nPercolated);
   }
 
   @Override
@@ -50,6 +58,18 @@ public class SimulationPercolation extends Simulation {
     }
     if (!updated) {
       isOver = true;
+    }
+  }
+
+  @Override
+  protected void updateStats() {
+    nPercolated = 0;
+    for (int r = 0; r < grid.getNumRows(); ++r) {
+      for (int c = 0; c < grid.getNumCols(); ++c) {
+        if (grid.getState(r, c).equals(StatePercolation.PERCOLATED)) {
+          ++nPercolated;
+        }
+      }
     }
   }
 

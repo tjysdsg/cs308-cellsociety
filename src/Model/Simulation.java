@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Base class of all simulation, responsible of:
@@ -38,6 +39,8 @@ public abstract class Simulation {
    */
   public abstract <T> void setConfig(String name, T value);
 
+  public abstract Map<String, Number> getStatsMap();
+
   /**
    * Get simulation type name, such as "Fire", "Game of Life", "Wa-Tor", etc.
    */
@@ -58,12 +61,15 @@ public abstract class Simulation {
 
   protected abstract void updateNextStates();
 
+  protected abstract void updateStats();
+
   /**
    * Update simulation to the next generation
    */
   public void update() {
     updateNextStates();
     grid.update();
+    updateStats();
   }
 
   /**
@@ -94,8 +100,17 @@ public abstract class Simulation {
   @Override
   public String toString() {
     // TODO: show config values
-    String ret = "";
-    ret += grid.toString();
-    return ret;
+    StringBuilder ret = new StringBuilder();
+    ret.append(grid.toString());
+
+    // also print statistics
+    Map<String, Number> stats = getStatsMap();
+    for (Map.Entry<String, Number> entry : stats.entrySet()) {
+      ret.append(entry.getKey())
+          .append(":")
+          .append(entry.getValue().toString())
+          .append("\n");
+    }
+    return ret.toString();
   }
 }

@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -20,6 +21,8 @@ import java.util.Random;
 public class SimulationFire extends Simulation {
 
   private double probCatch = 0.5;
+  private int nTrees = 0;
+  private int nBurning = 0;
 
   public SimulationFire(int nRows, int nCols) {
     grid = new Grid(nRows, nCols, StateFire.EMPTY, Neighborhood.Preset4());
@@ -31,6 +34,11 @@ public class SimulationFire extends Simulation {
       assert value instanceof Double;
       probCatch = (double) value;
     }
+  }
+
+  @Override
+  public Map<String, Number> getStatsMap() {
+    return Map.of("nTrees", nTrees, "nBurning", nBurning);
   }
 
   @Override
@@ -64,6 +72,20 @@ public class SimulationFire extends Simulation {
     }
     if (nBurning == 0) {
       isOver = true;
+    }
+  }
+
+  @Override
+  protected void updateStats() {
+    nTrees = nBurning = 0;
+    for (int r = 0; r < grid.getNumRows(); ++r) {
+      for (int c = 0; c < grid.getNumCols(); ++c) {
+        if (grid.getState(r, c).equals(StateFire.TREE)) {
+          ++nTrees;
+        } else if (grid.getState(r, c).equals(StateFire.BURNING)) {
+          ++nBurning;
+        }
+      }
     }
   }
 

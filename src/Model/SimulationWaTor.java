@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Simulation model of Wa-Tor.
@@ -29,6 +30,9 @@ public class SimulationWaTor extends Simulation {
   private int sharkBreedDuration = 4;
   private int sharkStarveDuration = 6;
 
+  private int nFish = 0;
+  private int nShark = 0;
+
   public SimulationWaTor(int nRows, int nCols) {
     grid = new Grid(nRows, nCols, StateWaTor.EMPTY(), Neighborhood.Preset4());
   }
@@ -50,6 +54,11 @@ public class SimulationWaTor extends Simulation {
       case "sharkBreedDuration" -> sharkBreedDuration = (int) value;
       case "sharkStarveDuration" -> sharkStarveDuration = (int) value;
     }
+  }
+
+  @Override
+  public Map<String, Number> getStatsMap() {
+    return Map.of("nFish", nFish, "nShark", nShark);
   }
 
   @Override
@@ -161,5 +170,20 @@ public class SimulationWaTor extends Simulation {
     if (!updated) {
       isOver = true;
     }
+  }
+
+  @Override
+  protected void updateStats() {
+    nFish = nShark = 0;
+    for (int r = 0; r < grid.getNumRows(); ++r) {
+      for (int c = 0; c < grid.getNumCols(); ++c) {
+        if (grid.getState(r, c).equals(StateWaTor.FISH())) {
+          ++nFish;
+        } else if (grid.getState(r, c).equals(StateWaTor.SHARK())) {
+          ++nShark;
+        }
+      }
+    }
+
   }
 }

@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Simulation model of Game of Life.
@@ -13,12 +14,19 @@ import java.util.List;
  */
 public class SimulationGOL extends Simulation {
 
+  private int nAlive = 0;
+
   public SimulationGOL(int nRows, int nCols) {
     grid = new Grid(nRows, nCols, StateGOL.DEAD, Neighborhood.Preset8());
   }
 
   @Override
   public <T> void setConfig(String name, T value) {
+  }
+
+  @Override
+  public Map<String, Number> getStatsMap() {
+    return Map.of("nAlive", nAlive);
   }
 
   @Override
@@ -55,6 +63,18 @@ public class SimulationGOL extends Simulation {
     }
     if (!updated) {
       isOver = true;
+    }
+  }
+
+  @Override
+  protected void updateStats() {
+    nAlive = 0;
+    for (int r = 0; r < grid.getNumRows(); ++r) {
+      for (int c = 0; c < grid.getNumCols(); ++c) {
+        if (grid.getState(r, c).equals(StateGOL.ALIVE)) {
+          ++nAlive;
+        }
+      }
     }
   }
 

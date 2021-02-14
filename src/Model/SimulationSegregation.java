@@ -3,6 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Simulation model of segregation.
@@ -21,6 +22,8 @@ import java.util.List;
 public class SimulationSegregation extends Simulation {
 
   private double threshold = 0.3;
+  private int nSatisfied = 0;
+  private int nDissatisfied = 0;
 
   public SimulationSegregation(int nRows, int nCols) {
     grid = new Grid(nRows, nCols, StateSegregation.EMPTY, Neighborhood.Preset8());
@@ -34,6 +37,11 @@ public class SimulationSegregation extends Simulation {
   }
 
   @Override
+  public Map<String, Number> getStatsMap() {
+    return Map.of("nSatisfied", nSatisfied, "nDissatisfied", nDissatisfied);
+  }
+
+  @Override
   public String getSimType() {
     return "Segregation";
   }
@@ -41,6 +49,7 @@ public class SimulationSegregation extends Simulation {
   @Override
   protected void updateNextStates() {
     boolean updated = false;
+    nSatisfied = nDissatisfied = 0; // FIXME: move this to updateStats
 
     ArrayList<Cell> dissatisfiedAgents = new ArrayList<>();
     LinkedList<int[]> emptySpots = new LinkedList<>();
@@ -61,6 +70,9 @@ public class SimulationSegregation extends Simulation {
           if ((double) nSimilarNeighbors / neighbors.size() < threshold) {
             // save to list, wait for emptySpots to be filled before moving them
             dissatisfiedAgents.add(grid.getCell(r, c));
+            ++nDissatisfied; // FIXME: move this to updateStats
+          } else {
+            ++nSatisfied; // FIXME: move this to updateStats
           }
         }
       }
@@ -79,6 +91,10 @@ public class SimulationSegregation extends Simulation {
     if (!updated) {
       isOver = true;
     }
+  }
+
+  @Override
+  protected void updateStats() {
   }
 
 }
