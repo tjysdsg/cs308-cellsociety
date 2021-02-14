@@ -1,6 +1,6 @@
-package Model;
+package model;
 
-import Model.Neighborhood.Direction;
+import model.Neighborhood.Direction;
 import java.util.ArrayList;
 import java.util.List;
 

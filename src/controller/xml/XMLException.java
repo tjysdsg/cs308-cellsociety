@@ -1,4 +1,4 @@
-package cellsociety.controller.xml;
+package controller.xml;
 
 import java.io.Serial;
 

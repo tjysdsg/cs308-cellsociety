@@ -10,9 +10,9 @@
 
 ## Introduction
 
-The project structure is similar to an MVC application, `View` renders `Model` using
+The project structure is similar to an MVC application, `view` renders `model` using
 javafx, `Controller` handles user inputs (or file inputs), interprets the inputs, and passes
-commands to `Model`, `Model` perform actions on its the data according to the received commands.
+commands to `model`, `model` perform actions on its the data according to the received commands.
 
 ## Overview
 
@@ -131,7 +131,7 @@ Simulation is an abstract class, we can create its subclasses to implement diffe
 - Views get call `getGrid()` provided by `Simulation` to get a 2D list of states representing the
   whole grid, and renders according to the states.
 
-### View
+### view
 
 - `MainController` can call `MainView`'s `update()` to render the simulation and UI to screen.
 - `MainController` retrieves `SimulationView` and `UIView`'s javafx `Node` object and renders them
@@ -140,7 +140,7 @@ Simulation is an abstract class, we can create its subclasses to implement diffe
 ### Controllers
 
 - `MainController` get the initial configuration by calling `readConfigs()` of `ConfigController`.
-- View can call `setInputValue()` provided by `InputController` to pass user inputs to controllers.
+- view can call `setInputValue()` provided by `InputController` to pass user inputs to controllers.
 - `MainController` retrieves user inputs by calling `getInputValue()` of `InputController`.
 
 ## Design Considerations

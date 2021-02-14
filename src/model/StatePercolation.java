@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * BLOCKED = 0, OPEN = 1, PERCOLATED = 2

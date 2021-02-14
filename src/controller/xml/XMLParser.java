@@ -1,7 +1,7 @@
-package cellsociety.controller.xml;
+package controller.xml;
 
-import Model.Simulation;
-import Model.State;
+import model.Simulation;
+import model.State;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;

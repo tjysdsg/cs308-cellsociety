@@ -1,8 +1,8 @@
 package cellsociety;
 
-import Model.Simulation;
-import Model.SimulationFire;
-import Model.StateFire;
+import model.Simulation;
+import model.SimulationFire;
+import model.StateFire;
 
 public class SimulationFireTestMain {
 

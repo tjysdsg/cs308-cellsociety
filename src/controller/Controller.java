@@ -1,12 +1,12 @@
-package cellsociety.controller;
+package controller;
 
-import Model.Simulation;
-import cellsociety.controller.xml.FireXMLParser;
-import cellsociety.controller.xml.GOLXMLParser;
-import cellsociety.controller.xml.PercolationXMLParser;
-import cellsociety.controller.xml.SimulationParser;
-import cellsociety.controller.xml.WaTorXMLParser;
-import cellsociety.controller.xml.XMLParser;
+import model.Simulation;
+import controller.xml.FireXMLParser;
+import controller.xml.GOLXMLParser;
+import controller.xml.PercolationXMLParser;
+import controller.xml.SimulationParser;
+import controller.xml.WaTorXMLParser;
+import controller.xml.XMLParser;
 
 public class Controller {
 
@@ -48,7 +48,7 @@ public class Controller {
 
     simulation.update();
 
-    //View update
+    //view update
 
   }
 

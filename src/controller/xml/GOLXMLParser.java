@@ -1,11 +1,11 @@
-package cellsociety.controller.xml;
+package controller.xml;
 
-import static Model.StateGOL.ALIVE;
-import static Model.StateGOL.DEAD;
+import static model.StateGOL.ALIVE;
+import static model.StateGOL.DEAD;
 
-import Model.Simulation;
-import Model.SimulationGOL;
-import Model.State;
+import model.Simulation;
+import model.SimulationGOL;
+import model.State;
 
 public class GOLXMLParser extends XMLParser {
 

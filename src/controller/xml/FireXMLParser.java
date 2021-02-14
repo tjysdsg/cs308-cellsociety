@@ -1,12 +1,12 @@
-package cellsociety.controller.xml;
+package controller.xml;
 
-import static Model.StateFire.BURNING;
-import static Model.StateFire.EMPTY;
-import static Model.StateFire.TREE;
+import static model.StateFire.BURNING;
+import static model.StateFire.EMPTY;
+import static model.StateFire.TREE;
 
-import Model.Simulation;
-import Model.SimulationFire;
-import Model.State;
+import model.Simulation;
+import model.SimulationFire;
+import model.State;
 
 public class FireXMLParser extends XMLParser {
 

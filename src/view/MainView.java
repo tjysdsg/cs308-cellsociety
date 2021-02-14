@@ -1,8 +1,7 @@
-package View;
+package view;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;

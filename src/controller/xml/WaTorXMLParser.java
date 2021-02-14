@@ -1,14 +1,14 @@
-package cellsociety.controller.xml;
+package controller.xml;
 
-import static Model.StateWaTor.EMPTY;
-import static Model.StateWaTor.FISH;
-import static Model.StateWaTor.MOVED_FISH;
-import static Model.StateWaTor.MOVED_SHARK;
-import static Model.StateWaTor.SHARK;
+import static model.StateWaTor.EMPTY;
+import static model.StateWaTor.FISH;
+import static model.StateWaTor.MOVED_FISH;
+import static model.StateWaTor.MOVED_SHARK;
+import static model.StateWaTor.SHARK;
 
-import Model.Simulation;
-import Model.SimulationWaTor;
-import Model.State;
+import model.Simulation;
+import model.SimulationWaTor;
+import model.State;
 
 public class WaTorXMLParser extends XMLParser {
 

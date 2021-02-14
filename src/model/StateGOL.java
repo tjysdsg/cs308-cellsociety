@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * DEAD = 0, ALIVE = 1

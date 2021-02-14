@@ -1,8 +1,8 @@
 package cellsociety;
 
-import Model.Simulation;
-import Model.SimulationWaTor;
-import Model.StateWaTor;
+import model.Simulation;
+import model.SimulationWaTor;
+import model.StateWaTor;
 
 public class SimulationWaTorTestMain {
 

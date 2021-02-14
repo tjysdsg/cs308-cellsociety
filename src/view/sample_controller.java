@@ -1,9 +1,8 @@
-package View;
+package view;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import javafx.scene.paint.Color;
 
 public class sample_controller {
     public static int getnumRow(String file){

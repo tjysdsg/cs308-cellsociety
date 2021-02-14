@@ -1,8 +1,8 @@
 package cellsociety;
 
-import Model.Simulation;
-import Model.SimulationSegregation;
-import Model.StateSegregation;
+import model.Simulation;
+import model.SimulationSegregation;
+import model.StateSegregation;
 
 public class SimulationSegregationTestMain {
 

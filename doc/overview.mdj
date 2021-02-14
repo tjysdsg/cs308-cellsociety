@@ -9,7 +9,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Model",
+			"name": "model",
 			"ownedElements": [
 				{
 					"_type": "UMLClassDiagram",
@@ -63,7 +63,7 @@
 											"top": 175,
 											"width": 87,
 											"height": 13,
-											"text": "Model"
+											"text": "model"
 										},
 										{
 											"_type": "LabelView",
@@ -77,7 +77,7 @@
 											"top": -320,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -238,7 +238,7 @@
 											"top": 95,
 											"width": 111,
 											"height": 13,
-											"text": "View"
+											"text": "view"
 										},
 										{
 											"_type": "LabelView",
@@ -251,7 +251,7 @@
 											"left": -192,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -424,7 +424,7 @@
 											"top": -336,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -600,7 +600,7 @@
 											"top": -428,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -870,7 +870,7 @@
 											"top": -364,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -1140,7 +1140,7 @@
 											"top": -208,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -1410,7 +1410,7 @@
 											"top": -208,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -1680,7 +1680,7 @@
 											"top": -208,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -1950,7 +1950,7 @@
 											"top": 244,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -2220,7 +2220,7 @@
 											"top": 288,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -2490,7 +2490,7 @@
 											"top": 32,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -2760,7 +2760,7 @@
 											"top": -510,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -3030,7 +3030,7 @@
 											"top": -482,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -3300,7 +3300,7 @@
 											"top": -482,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -3570,7 +3570,7 @@
 											"top": -482,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -3813,7 +3813,7 @@
 										"$ref": "AAAAAAF3e/7o8eMgxUk="
 									},
 									"edgePosition": 1,
-									"text": "+View renders Model"
+									"text": "+view renders model"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -4083,7 +4083,7 @@
 										"$ref": "AAAAAAF3fAABNuOYnyQ="
 									},
 									"edgePosition": 1,
-									"text": "+Controller sends commands to Model"
+									"text": "+Controller sends commands to model"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -4607,7 +4607,7 @@
 							"top": 328,
 							"width": 153,
 							"height": 64,
-							"text": "Controller tells View to render, View passes user inputs to Controller"
+							"text": "Controller tells view to render, view passes user inputs to Controller"
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -4633,7 +4633,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Model",
+					"name": "model",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -4668,7 +4668,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF3e99bzt68Y34="
 							},
-							"name": "View renders Model",
+							"name": "view renders model",
 							"end1": {
 								"_type": "UMLAssociationEnd",
 								"_id": "AAAAAAF3e/7o8eMdpGk=",
@@ -4698,7 +4698,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "View",
+					"name": "view",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -4706,7 +4706,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF3e+E/id7nVZY="
 							},
-							"name": "Controller tells View to render",
+							"name": "Controller tells view to render",
 							"end1": {
 								"_type": "UMLAssociationEnd",
 								"_id": "AAAAAAF3fACE8uQxbi4=",
@@ -4788,7 +4788,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF3e+E/id7nVZY="
 							},
-							"name": "Controller tells View to render",
+							"name": "Controller tells view to render",
 							"end1": {
 								"_type": "UMLAssociationEnd",
 								"_id": "AAAAAAF3fFpHgwfv3UE=",
@@ -4854,7 +4854,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF3e+GWJ98SfG4="
 							},
-							"name": "Controller sends commands to Model",
+							"name": "Controller sends commands to model",
 							"end1": {
 								"_type": "UMLAssociationEnd",
 								"_id": "AAAAAAF3fAABNeOV/pw=",

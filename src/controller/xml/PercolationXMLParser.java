@@ -1,12 +1,12 @@
-package cellsociety.controller.xml;
+package controller.xml;
 
-import static Model.StatePercolation.BLOCKED;
-import static Model.StatePercolation.OPEN;
-import static Model.StatePercolation.PERCOLATED;
+import static model.StatePercolation.BLOCKED;
+import static model.StatePercolation.OPEN;
+import static model.StatePercolation.PERCOLATED;
 
-import Model.Simulation;
-import Model.SimulationPercolation;
-import Model.State;
+import model.Simulation;
+import model.SimulationPercolation;
+import model.State;
 
 public class PercolationXMLParser extends XMLParser {
 

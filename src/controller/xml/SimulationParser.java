@@ -1,6 +1,6 @@
-package cellsociety.controller.xml;
+package controller.xml;
 
-import Model.Simulation;
+import model.Simulation;
 
 public class SimulationParser extends XMLParser {
 

@@ -1,8 +1,8 @@
 package cellsociety;
 
-import Model.Simulation;
-import Model.SimulationPercolation;
-import Model.StatePercolation;
+import model.Simulation;
+import model.SimulationPercolation;
+import model.StatePercolation;
 
 public class SimulationPercolationTestMain {
 

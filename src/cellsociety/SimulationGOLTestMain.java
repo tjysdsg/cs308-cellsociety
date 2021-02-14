@@ -1,8 +1,8 @@
 package cellsociety;
 
-import Model.Simulation;
-import Model.SimulationGOL;
-import Model.StateGOL;
+import model.Simulation;
+import model.SimulationGOL;
+import model.StateGOL;
 
 public class SimulationGOLTestMain {
 
