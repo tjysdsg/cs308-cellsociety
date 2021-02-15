@@ -89,6 +89,7 @@ public class SimulationSegregation extends Simulation {
         int[] dest = emptySpots.get(emptyIdx);
         grid.setState(dest[0], dest[1], da.getState());
         da.setState(StateSegregation.EMPTY, false);
+        emptySpots.remove(emptyIdx);
         updated = true;
       }
     }
