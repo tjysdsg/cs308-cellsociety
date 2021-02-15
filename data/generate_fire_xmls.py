@@ -33,15 +33,17 @@ if __name__ == "__main__":
     cell_r = []
     cell_c = []
     cell_s = []
-    for i in range(15):
-      for j in range(15):
+    for i in range(30):
+      for j in range(30):
         cell_r.append(i)
         cell_c.append(j)
-        cell_s.append(random.randint(1, 2))
+        cell_s.append(
+            random.choice([0, 0, 1, 1, 2])  # burning 1/5, tree 2/5, open 2/5
+        )
 
     generate_file(
         f"FireRandom{idx}.xml",
-        "Fire", 15, 15,
+        "Fire", 30, 30,
         cell_r, cell_c, cell_s,
         speed=20, title=f"Fire random {idx + 1}", author='jt304',
         desc=f'Fire simulation {idx + 1}',

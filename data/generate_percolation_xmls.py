@@ -31,15 +31,18 @@ if __name__ == "__main__":
     cell_r = []
     cell_c = []
     cell_s = []
-    for i in range(15):
-      for j in range(15):
+    for i in range(30):
+      for j in range(30):
         cell_r.append(i)
         cell_c.append(j)
-        cell_s.append(random.randint(0, 2))
+        cell_s.append(
+            # blocked 2/5, open 1/2, percolated 1/10
+            random.choice([0, 0, 0, 0, 1, 1, 1, 1, 1, 2])
+        )
 
     generate_file(
         f"PercolationRandom{idx}.xml",
-        "Percolation", 15, 15,
+        "Percolation", 30, 30,
         cell_r, cell_c, cell_s,
         speed=20, title=f"Percolation random {idx + 1}", author='jt304',
         desc=f'Percolation simulation {idx + 1}'
