@@ -24,6 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class MainView {
@@ -33,8 +34,8 @@ public class MainView {
   private final double gridWidth = 500.0;
   private String configFile;
   private Slider speed = new Slider(1, 30, 1);
-  private Label speedValue = new Label(Double.toString(speed.getValue()));
-  private Label speedLabel = new Label("speed:");
+  private Label speedValue;
+  private Label speedLabel;
   private Pane root;
   private GridPane grid;
   private Boolean animationIsStopped = true;
@@ -42,9 +43,13 @@ public class MainView {
   private ArrayList<ArrayList<Rectangle>> gridelements = new ArrayList<>();
   private int sec = 0;
   private Controller controller;
+  private LabelResource labelResource;
 
   public MainView(Controller controller) {
     this.controller = controller;
+    labelResource = new LabelResource("English"); // TODO: allow selection of language
+    speedValue = new Label(Double.toString(speed.getValue()));
+    speedLabel = new Label(labelResource.getString("SpeedLabel"));
   }
 
   /**
@@ -58,82 +63,47 @@ public class MainView {
     updateGridPane(grid);
   }
 
-  /**
-   * @param states    is a double array of integers, representing the states of each cell
-   * @param statesMap is a map of statistics, such as number of tree, etc. called by the setStart in
-   *                  controller.
-   */
-
-  public void startSimulation(List<List<Integer>> states, Map<String, Object> statesMap) {
-    if (configFile == null) {
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.setContentText("Please select a config file to start");
-      alert.show();
-    } else if (!animationIsStopped) {
-      return;
-    } else {
-      setGridPane(states);
-      displayStatus(statesMap);
-      animationIsStopped = false;
-    }
-  }
-
   public String getConfig() {
     return configFile;
-  }
-
-  /**
-   * called by setPause in controller
-   */
-
-  public void pauseSimulation() {
-    animationIsStopped = true;
-  }
-
-  /**
-   * called by setResume in controller
-   */
-
-  public void resumeSimulation() {
-    if (configFile != null && animationIsStopped) {
-      animationIsStopped = false;
-    }
   }
 
   /**
    * @param states,    double array of integers
    * @param statesMap, statistics called by reset in controller
    */
-
   public void resetSimulation(List<List<Integer>> states, Map<String, Object> statesMap) {
     sec = 0;
     grid.getChildren().clear();
     gridelements.clear();
-    //startSimulation(states, statesMap);
     controller.setStart();
   }
 
-
   private void makeAllButtons() {
-    ActionButton pausebtn = new ActionButton("Pause", 30, 100, 40, 0,
+    ActionButton pausebtn = new ActionButton(
+        labelResource.getString("PauseButton"), 30, 100, 40, 0,
         e -> controller.setPause()
     );
-    ActionButton resumebtn = new ActionButton("Resume", 30, 100, 40, 0,
+    ActionButton resumebtn = new ActionButton(
+        labelResource.getString("ResumeButton"), 30, 100, 40, 0,
         e -> controller.setResume()
     );
-    ActionButton exitbtn = new ActionButton("Exit", 30, 100, 40, 0,
+    ActionButton exitbtn = new ActionButton(
+        labelResource.getString("ExitButton"), 30, 100, 40, 0,
         e -> System.exit(0)
     );
     HBox hbox1 = new HBox(15);
     hbox1.getChildren().addAll(pausebtn, resumebtn, exitbtn);
 
-    ActionButton resetbtn = new ActionButton("Reset", 30, 100, 40, 0,
+    ActionButton resetbtn = new ActionButton(
+        labelResource.getString("ResetButton"), 30, 100, 40, 0,
         e -> controller.reset()
     );
-    ActionButton startbtn = new ActionButton("Start", 30, 100, 40, 0,
+    ActionButton startbtn = new ActionButton(
+        labelResource.getString("StartButton"), 30, 100, 40, 0,
         e -> controller.setStart()
     );
-    ActionButton ffbtn = new ActionButton("Step", 30, 100, 40, 0,
+    ActionButton ffbtn = new ActionButton(
+        labelResource.getString("StepButton"), 30, 100, 40, 0,
         e -> {
           controller.setPause();
           controller.stepIsPressed();
@@ -154,22 +124,41 @@ public class MainView {
     root.getChildren().addAll(allbtn);
   }
 
+  private HBox buildStatusItem(String label, String value) {
+    HBox ret = new HBox(15);
+
+    Text display_text = new Text();
+    display_text.setText(value);
+    display_text.setFont(Font.font(20));
+
+    Label text_label = new Label(label);
+
+    ret.getChildren().addAll(text_label, display_text);
+    return ret;
+  }
+
   public void displayStatus(Map<String, Object> statesMap) {
-    statesMap.put(configFile + " time elapsed: ", sec);
-    //statesMap.put("Authors: Andre Wang, Jiyang Tang, Tinglong Zhu", null);
+    // time elapsed
+    statusbox.getChildren().add(
+        buildStatusItem(
+            configFile + " " + labelResource.getString("TimeElapsed") + " ",
+            Integer.toString(sec)
+        ));
+
+    // other status
     statusbox.getChildren().clear();
     for (String s : statesMap.keySet()) {
-      HBox temp = new HBox(15);
-      Text display_text = new Text();
-      Label text_lable = new Label(s);
-      if (statesMap.get(s) != null) {
-        display_text.setText(statesMap.get(s).toString());
-      } else {
-        display_text.setText("");
+      /// NOTE: make sure keys of statesMap have values set in .properties file
+
+      String label = labelResource.getString(s);
+      Object v = statesMap.get(s);
+      String value = "";
+
+      if (v != null) {
+        value = v.toString();
       }
-      display_text.setFont(display_text.getFont().font(20));
-      temp.getChildren().addAll(text_lable, display_text);
-      statusbox.getChildren().add(temp);
+
+      statusbox.getChildren().add(buildStatusItem(label, value));
     }
   }
 
@@ -229,7 +218,7 @@ public class MainView {
         );
     ComboBox configlist = new ComboBox(options);
     HBox hbox4 = new HBox(10);
-    Label configlabel = new Label("config files: ");
+    Label configlabel = new Label(labelResource.getString("ConfigFiles"));
     hbox4.getChildren().addAll(configlabel, configlist);
     hbox4.setTranslateX(100 + gridWidth);
     hbox4.setTranslateY(200);
@@ -240,10 +229,9 @@ public class MainView {
         controller.setConfig(configFile);
         Alert alert = new Alert(AlertType.INFORMATION);
         if (oldValue != null) {
-          alert.setContentText("You have selected a different config file, press RESET to run it\n "
-              + "but current progress will be cleared");
+          alert.setContentText(labelResource.getString("PromptNewConfig"));
         } else {
-          alert.setContentText("press START to begin simulation");
+          alert.setContentText(labelResource.getString("PromptStartSim"));
         }
         alert.show();
       }
@@ -269,7 +257,6 @@ public class MainView {
 
     Scene scene = new Scene(root);
     return scene;
-
   }
 
 }
