@@ -3,14 +3,10 @@ package view;
 import controller.Controller;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -52,10 +48,9 @@ public class MainView {
   }
 
   /**
-   *
-   * @param grid is a double array of integers, representing the states of each cell
-   * @param statesMap, is a map of statistics, such as number of tree, etc.
-   *                   this step function is called by the step function in controller.
+   * @param grid       is a double array of integers, representing the states of each cell
+   * @param statesMap, is a map of statistics, such as number of tree, etc. this step function is
+   *                   called by the step function in controller.
    */
   public void step(List<List<Integer>> grid, Map<String, Object> statesMap) {
     sec++;
@@ -64,10 +59,9 @@ public class MainView {
   }
 
   /**
-   *
-   * @param states is a double array of integers, representing the states of each cell
-   * @param statesMap  is a map of statistics, such as number of tree, etc.
-   *                   called by the setStart in controller.
+   * @param states    is a double array of integers, representing the states of each cell
+   * @param statesMap is a map of statistics, such as number of tree, etc. called by the setStart in
+   *                  controller.
    */
 
   public void startSimulation(List<List<Integer>> states, Map<String, Object> statesMap) {
@@ -77,15 +71,14 @@ public class MainView {
       alert.show();
     } else if (!animationIsStopped) {
       return;
-    }
-    else {
+    } else {
       setGridPane(states);
       displayStatus(statesMap);
       animationIsStopped = false;
     }
   }
 
-  public String getConfig(){
+  public String getConfig() {
     return configFile;
   }
 
@@ -108,10 +101,8 @@ public class MainView {
   }
 
   /**
-   *
-   * @param states, double array of integers
-   * @param statesMap, statistics
-   * called by reset in controller
+   * @param states,    double array of integers
+   * @param statesMap, statistics called by reset in controller
    */
 
   public void resetSimulation(List<List<Integer>> states, Map<String, Object> statesMap) {
@@ -123,27 +114,26 @@ public class MainView {
   }
 
 
-
   private void makeAllButtons() {
-    makeButton pausebtn = new makeButton("Pause", 30, 100, 40, 0,
+    ActionButton pausebtn = new ActionButton("Pause", 30, 100, 40, 0,
         e -> controller.setPause()
     );
-    makeButton resumebtn = new makeButton("Resume", 30, 100, 40, 0,
+    ActionButton resumebtn = new ActionButton("Resume", 30, 100, 40, 0,
         e -> controller.setResume()
     );
-    makeButton exitbtn = new makeButton("Exit", 30, 100, 40, 0,
+    ActionButton exitbtn = new ActionButton("Exit", 30, 100, 40, 0,
         e -> System.exit(0)
     );
     HBox hbox1 = new HBox(15);
     hbox1.getChildren().addAll(pausebtn, resumebtn, exitbtn);
 
-    makeButton resetbtn = new makeButton("Reset", 30, 100, 40, 0,
+    ActionButton resetbtn = new ActionButton("Reset", 30, 100, 40, 0,
         e -> controller.reset()
     );
-    makeButton startbtn = new makeButton("Start", 30, 100, 40, 0,
+    ActionButton startbtn = new ActionButton("Start", 30, 100, 40, 0,
         e -> controller.setStart()
     );
-    makeButton ffbtn = new makeButton("Step", 30, 100, 40, 0,
+    ActionButton ffbtn = new ActionButton("Step", 30, 100, 40, 0,
         e -> {
           controller.setPause();
           controller.stepIsPressed();
@@ -165,16 +155,16 @@ public class MainView {
   }
 
   public void displayStatus(Map<String, Object> statesMap) {
-    statesMap.put(configFile+" time elapsed: ", sec);
+    statesMap.put(configFile + " time elapsed: ", sec);
     //statesMap.put("Authors: Andre Wang, Jiyang Tang, Tinglong Zhu", null);
     statusbox.getChildren().clear();
     for (String s : statesMap.keySet()) {
       HBox temp = new HBox(15);
       Text display_text = new Text();
       Label text_lable = new Label(s);
-      if (statesMap.get(s) != null){
-      display_text.setText(statesMap.get(s).toString());}
-      else {
+      if (statesMap.get(s) != null) {
+        display_text.setText(statesMap.get(s).toString());
+      } else {
         display_text.setText("");
       }
       display_text.setFont(display_text.getFont().font(20));
@@ -216,7 +206,7 @@ public class MainView {
       gridelements.add(temp);
     }
     statusbox.setTranslateX(15);
-    statusbox.setTranslateY(30+gridHeight);
+    statusbox.setTranslateY(30 + gridHeight);
     //root.getChildren().addAll(grid);
   }
 
@@ -241,7 +231,7 @@ public class MainView {
     HBox hbox4 = new HBox(10);
     Label configlabel = new Label("config files: ");
     hbox4.getChildren().addAll(configlabel, configlist);
-    hbox4.setTranslateX(100+gridWidth);
+    hbox4.setTranslateX(100 + gridWidth);
     hbox4.setTranslateY(200);
     configlist.valueProperty().addListener((observable, oldValue, newValue) -> {
       configFile = newValue.toString();
@@ -249,9 +239,9 @@ public class MainView {
         controller.setPause();
         controller.setConfig(configFile);
         Alert alert = new Alert(AlertType.INFORMATION);
-        if (oldValue !=null){
+        if (oldValue != null) {
           alert.setContentText("You have selected a different config file, press RESET to run it\n "
-            + "but current progress will be cleared");
+              + "but current progress will be cleared");
         } else {
           alert.setContentText("press START to begin simulation");
         }
