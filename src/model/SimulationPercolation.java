@@ -22,10 +22,6 @@ public class SimulationPercolation extends Simulation {
   }
 
   @Override
-  public <T> void setConfig(String name, T value) {
-  }
-
-  @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
     ret.put("nPercolated", nPercolated);

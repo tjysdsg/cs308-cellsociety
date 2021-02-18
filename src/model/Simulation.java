@@ -37,7 +37,8 @@ public abstract class Simulation {
    *              set.
    * @param <T>   Type of the value.
    */
-  public abstract <T> void setConfig(String name, T value);
+  public <T> void setConfig(String name, T value) {
+  }
 
   public abstract Map<String, Object> getStatsMap();
 
