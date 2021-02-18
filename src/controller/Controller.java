@@ -3,6 +3,7 @@ package controller;
 import controller.xml.SegregationXMLParser;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -142,7 +143,7 @@ public class Controller {
     simulation.setConfig(name, value);
   }
 
-  public ArrayList<String> getGameConfigFileNameList(){
+  public List<String> getGameConfigFileNameList(){
     File tmp= new File(DATA_GAMECONFIG);
     File[] gameXMLS= tmp.listFiles();
     ArrayList<String> configList=new ArrayList<>();
