@@ -97,9 +97,4 @@ public class SimulationSegregation extends Simulation {
       isOver = true;
     }
   }
-
-  @Override
-  protected void updateStats() {
-  }
-
 }

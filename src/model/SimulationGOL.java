@@ -22,10 +22,6 @@ public class SimulationGOL extends Simulation {
   }
 
   @Override
-  public <T> void setConfig(String name, T value) {
-  }
-
-  @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
     ret.put("nAlive", nAlive);
@@ -51,16 +47,12 @@ public class SimulationGOL extends Simulation {
             ++nAliveNeighbors;
           }
         }
-        if (StateGOL.DEAD == s) {
-          if (nAliveNeighbors == 3) {
-            grid.setState(r, c, StateGOL.ALIVE);
-            updated = true;
-          }
-        } else if (StateGOL.ALIVE == s) {
-          if (nAliveNeighbors < 2 || nAliveNeighbors > 3) {
-            grid.setState(r, c, StateGOL.DEAD);
-            updated = true;
-          }
+        if (StateGOL.DEAD == s && nAliveNeighbors == 3) {
+          grid.setState(r, c, StateGOL.ALIVE);
+          updated = true;
+        } else if (StateGOL.ALIVE == s && (nAliveNeighbors < 2 || nAliveNeighbors > 3)) {
+          grid.setState(r, c, StateGOL.DEAD);
+          updated = true;
         }
       }
     }

@@ -38,7 +38,6 @@ public class MainView {
   private Label speedLabel;
   private Pane root;
   private GridPane grid;
-  private Boolean animationIsStopped = true;
   private VBox statusbox;
   private ArrayList<ArrayList<Rectangle>> gridelements = new ArrayList<>();
   private int sec = 0;
@@ -79,47 +78,22 @@ public class MainView {
   }
 
   private void makeAllButtons() {
-    ActionButton pausebtn = new ActionButton(
-        labelResource.getString("PauseButton"), 30, 100, 40, 0,
-        e -> controller.setPause()
-    );
-    ActionButton resumebtn = new ActionButton(
-        labelResource.getString("ResumeButton"), 30, 100, 40, 0,
-        e -> controller.setResume()
-    );
-    ActionButton exitbtn = new ActionButton(
-        labelResource.getString("ExitButton"), 30, 100, 40, 0,
-        e -> System.exit(0)
-    );
+    ActionButton pausebtn = new ActionButton(labelResource.getString("PauseButton"), 30, 100, 40, 0, e -> controller.setPause());
+    ActionButton resumebtn = new ActionButton(labelResource.getString("ResumeButton"), 30, 100, 40, 0, e -> controller.setResume());
+    ActionButton exitbtn = new ActionButton(labelResource.getString("ExitButton"), 30, 100, 40, 0, e -> System.exit(0));
     HBox hbox1 = new HBox(15);
     hbox1.getChildren().addAll(pausebtn, resumebtn, exitbtn);
 
-    ActionButton resetbtn = new ActionButton(
-        labelResource.getString("ResetButton"), 30, 100, 40, 0,
-        e -> controller.reset()
-    );
-    ActionButton startbtn = new ActionButton(
-        labelResource.getString("StartButton"), 30, 100, 40, 0,
-        e -> controller.setStart()
-    );
-    ActionButton ffbtn = new ActionButton(
-        labelResource.getString("StepButton"), 30, 100, 40, 0,
-        e -> {
-          controller.setPause();
-          controller.stepIsPressed();
-          controller.step();
-        }
-    );
+    ActionButton resetbtn = new ActionButton(labelResource.getString("ResetButton"), 30, 100, 40, 0, e -> controller.reset());
+    ActionButton startbtn = new ActionButton(labelResource.getString("StartButton"), 30, 100, 40, 0, e -> controller.setStart());
+    ActionButton ffbtn = new ActionButton(labelResource.getString("StepButton"), 30, 100, 40, 0, e -> { controller.setPause();controller.stepIsPressed();controller.step(); });
     HBox hbox2 = new HBox(15);
     hbox2.getChildren().addAll(resetbtn, startbtn, ffbtn);
 
     VBox allbtn = new VBox(15);
     allbtn.setTranslateX(400);
     allbtn.setTranslateY(500);
-    allbtn.setBorder(new Border(new BorderStroke(Color.BLACK,
-        BorderStrokeStyle.SOLID,
-        CornerRadii.EMPTY,
-        BorderWidths.DEFAULT)));
+    allbtn.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     allbtn.getChildren().addAll(hbox1, hbox2);
     root.getChildren().addAll(allbtn);
   }
@@ -147,17 +121,15 @@ public class MainView {
 
     // other status
     statusbox.getChildren().clear();
-    for (String s : statesMap.keySet()) {
+    for (Map.Entry<String,Object> entry : statesMap.entrySet()) {
       /// NOTE: make sure keys of statesMap have values set in .properties file
 
-      String label = labelResource.getString(s);
-      Object v = statesMap.get(s);
+      String label = labelResource.getString(entry.getKey());
+      Object v = entry.getValue();
       String value = "";
-
       if (v != null) {
         value = v.toString();
       }
-
       statusbox.getChildren().add(buildStatusItem(label, value));
     }
   }

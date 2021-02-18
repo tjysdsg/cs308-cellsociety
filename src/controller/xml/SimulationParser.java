@@ -14,9 +14,12 @@ public class SimulationParser extends XMLParser {
     return null;
   }
 
+  /**
+   * No needed for this parser
+   */
   @Override
   public void initStateArray() {
-
+    return;
   }
 
   public String getSimulationType() {
