@@ -6,7 +6,6 @@ import static model.StateSegregation.X;
 
 import model.Simulation;
 import model.SimulationSegregation;
-import model.SimulationWaTor;
 import model.State;
 
 public class SegregationXMLParser extends XMLParser{

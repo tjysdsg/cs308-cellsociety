@@ -1,7 +1,6 @@
 package controller.xml;
 
 import java.util.Map;
-import javafx.beans.binding.ObjectExpression;
 import model.Simulation;
 import model.State;
 import java.io.File;
@@ -63,7 +62,7 @@ public abstract class XMLParser {
   public XMLParser(String fileName) throws XMLException {
     DOCUMENT_BUILDER = getDocumentBuilder();
     FILENAME = fileName;
-    xmlFile = new File(DATA_GAMECONFIG + fileName);
+    xmlFile = new File(DATA_GAMECONFIG + FILENAME);
   }
 
 
