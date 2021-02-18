@@ -61,7 +61,8 @@ public abstract class Simulation {
 
   protected abstract void updateNextStates();
 
-  protected abstract void updateStats();
+  protected void updateStats() {
+  }
 
   /**
    * Update simulation to the next generation
