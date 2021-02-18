@@ -1,7 +1,6 @@
 package controller;
 
 import controller.xml.SegregationXMLParser;
-import java.awt.dnd.DropTargetAdapter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
