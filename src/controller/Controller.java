@@ -1,5 +1,6 @@
 package controller;
 
+import controller.xml.xmlparser.RPSXMLParser;
 import controller.xml.xmlparser.SegregationXMLParser;
 import java.util.Map;
 import javafx.animation.KeyFrame;
@@ -164,6 +165,8 @@ public class Controller {
       case "Segregation":
         xmlParser = new SegregationXMLParser(configName);
 
+      case "RPS":
+        xmlParser= new RPSXMLParser(configName);
       default:
         break;
     }
