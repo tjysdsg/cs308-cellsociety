@@ -68,9 +68,9 @@ public abstract class XMLParser {
 
 
   /**
-   * get simulation model
+   * get simulation model based on the XML file
    *
-   * @return
+   * @return Simulation class corresponding to the certain configuration file.
    * @throws XMLException
    */
   public abstract Simulation getSimulation() throws XMLException;
@@ -78,6 +78,9 @@ public abstract class XMLParser {
   public abstract void initStateArray();
 
 
+  /**
+   * Initialize the simulation based on the certain Config file.
+   */
   public void initSimulation() {
     initCell();
 //    initSpeed();
@@ -87,6 +90,10 @@ public abstract class XMLParser {
   }
 
 
+  /**
+   * Initialize the Cell of the simulation based on the
+   * @throws XMLException
+   */
   public void initCell() throws XMLException {
     NodeList stateList = root.getElementsByTagName(CELL_TAG);
     for (int i = 0; i < stateList.getLength(); i++) {
@@ -101,31 +108,56 @@ public abstract class XMLParser {
     }
   }
 
-  public  void addXMLDescription(Map<String, Object> map){
+  /**
+   * Put XML Description into map. Used for View's info display
+   * @param map
+   */
+  public void addXMLDescription(Map<String, Object> map){
     map.put(AUTHOR_TAG,author );
     map.put(TTILE_TAG, title);
     map.put(DESCRIPTION_TAG, description);
     return;
   }
 
+  /**
+   * Check whether the coordinate of the cell and the column is out of boundary
+   * @param row row coordinate of the cell
+   * @param col col coordinate of the cell
+   * @throws XMLException
+   */
   public void checkCoordinate(int row, int col) throws XMLException {
     if (row < 0 || row >= sizeX || col<0 || col >=sizeY) {
       throw new XMLException(ERROR_COORDINATE, row, col);
     }
   }
 
+  /**
+   * Check whether the state is valid
+   * @param n number representing the state
+   * @throws XMLException
+   */
   public void checkStates(int n) throws XMLException {
     if (n < 0 || n >= stateRange) {
       throw new XMLException(ERROR_STATE, n);
     }
   }
 
+  /**
+   * Get int from certain tags.
+   * @param e
+   * @param tagName
+   * @return
+   */
   public int getIntTextValue(Element e, String tagName) {
     return Integer.parseInt(getTextValue(e, tagName));
   }
 
 
-  // get root element of an XML file
+  /**
+   * Get the root element of the XML file
+   * @return
+   * @throws XMLException
+   */
   public Element getRootElement() throws XMLException {
     try {
       DOCUMENT_BUILDER.reset();
@@ -137,12 +169,19 @@ public abstract class XMLParser {
   }
 
 
-  // get value of Element's attribute
+  /**
+   * get value of Element's attribute
+   */
   public String getAttribute(Element e, String attributeName) {
     return e.getAttribute(attributeName);
   }
 
-  // get value of Element's text
+  /**
+   * Get string value of the certain tag
+   * @param e element
+   * @param tagName the name of the tag
+   * @return String version of the tag value
+   */
   public String getTextValue(Element e, String tagName) {
     NodeList nodeList = e.getElementsByTagName(tagName);
     if (nodeList != null && nodeList.getLength() > 0) {
@@ -153,46 +192,60 @@ public abstract class XMLParser {
     }
   }
 
+  /**
+   * Get the author of the XML file
+   */
   public void getAuthor(){
     author = getTextValue(root, AUTHOR_TAG);
   }
 
+  /**
+   * Get the title of the XML file
+   */
   public void getTitle(){
     title = getTextValue(root, TTILE_TAG);
   }
 
+  /**
+   * Get the Description of the XML file
+   */
   public void getDescription(){
     description = getTextValue(root, DESCRIPTION_TAG);
   }
 
 
 
+  /**
+   * Get the row number of the certain configuration
+   */
   public int getGridSizeX() {
     Element gridSize = ((Element) root.getElementsByTagName(GRID_TAG).item(0));
     return getIntTextValue(gridSize, SIZEX_TAG);
   }
 
+  /**
+   * Get the column number of the certain configuration
+   */
   public int getGridSizeY() {
     Element gridSize = ((Element) root.getElementsByTagName(GRID_TAG).item(0));
     return getIntTextValue(gridSize, SIZEY_TAG);
   }
-  public void initSpeed() {
-    double sp = getDoubleTextValue(root, SPEED_TAG);
-    checkSpeed(sp);
-    simulation.setConfig("gameSpeed", sp);
-  }
 
-  public void checkSpeed(double a) throws XMLException {
-    if (a <= 0) {
-      throw new XMLException(ERROR_SPEED, a);
-    }
-  }
-
+  /**
+   * Get the double value of the certain tag in the XML file
+   * @param e Current element
+   * @param tagName the name of the tag
+   * @return double value of the certain tag in the XML file
+   */
   public double getDoubleTextValue(Element e, String tagName) {
     return Double.parseDouble(getTextValue(e, tagName));
   }
 
-  // boilerplate code needed to make a documentBuilder
+  /**
+   * boilerplate code needed to make a documentBuilder
+   * @return
+   * @throws XMLException
+   */
   private DocumentBuilder getDocumentBuilder() throws XMLException {
     try {
       return DocumentBuilderFactory.newInstance().newDocumentBuilder();
