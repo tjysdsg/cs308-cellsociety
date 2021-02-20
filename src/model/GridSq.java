@@ -1,6 +1,5 @@
 package model;
 
-import model.Neighborhood.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,35 +26,13 @@ public class GridSq extends Grid {
 
   public List<Cell> getNeighborsOf(int r, int c) {
     ArrayList<Cell> ret = new ArrayList<>();
-    boolean n = r > 0;
-    boolean s = r < getNumRows() - 1;
-    boolean e = c < getNumCols() - 1;
-    boolean w = c > 0;
+    Vec2D coord = new Vec2D(r, c);
 
-    if (neighborhood.isValidNeighbor(Direction.NORTH) && n) {
-      ret.add(getCell(r - 1, c));
-    }
-    if (neighborhood.isValidNeighbor(Direction.SOUTH) && s) {
-      ret.add(getCell(r + 1, c));
-    }
-    if (neighborhood.isValidNeighbor(Direction.EAST) && e) {
-      ret.add(getCell(r, c + 1));
-    }
-    if (neighborhood.isValidNeighbor(Direction.WEST) && w) {
-      ret.add(getCell(r, c - 1));
-    }
-
-    if (neighborhood.isValidNeighbor(Direction.NORTH_EAST) && n && e) {
-      ret.add(getCell(r - 1, c + 1));
-    }
-    if (neighborhood.isValidNeighbor(Direction.NORTH_WEST) && n && w) {
-      ret.add(getCell(r - 1, c - 1));
-    }
-    if (neighborhood.isValidNeighbor(Direction.SOUTH_EAST) && s && e) {
-      ret.add(getCell(r + 1, c + 1));
-    }
-    if (neighborhood.isValidNeighbor(Direction.SOUTH_WEST) && s && w) {
-      ret.add(getCell(r + 1, c - 1));
+    for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
+      Vec2D newCoord = coord.add(delta);
+      if (isInside(newCoord.getX(), newCoord.getY()) && neighborhood.isValidNeighbor(delta)) {
+        ret.add(getCell(newCoord.getX(), newCoord.getY()));
+      }
     }
     return ret;
   }

@@ -87,4 +87,14 @@ public abstract class Grid {
   public void setNumCols(int nCols) {
     this.nCols = nCols;
   }
+
+  /**
+   * Check if (r, c) is inside the grid
+   */
+  public boolean isInside(int r, int c) {
+    return r >= 0
+        && r < nRows
+        && c < nCols
+        && c >= 0;
+  }
 }
