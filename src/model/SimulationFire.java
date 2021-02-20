@@ -8,6 +8,8 @@ import java.util.Random;
 /**
  * Simulation model of Fire.
  * <p>
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
+ * <p>
  * Configurable options:
  * <ul>
  *   <li>
@@ -26,11 +28,12 @@ public class SimulationFire extends Simulation {
   private int nBurning = 0;
 
   public SimulationFire(int nRows, int nCols) {
-    grid = new Grid(nRows, nCols, StateFire.EMPTY, Neighborhood.Preset4());
+    grid = new GridSq(nRows, nCols, StateFire.EMPTY, Neighborhood.Square4());
   }
 
   @Override
   public <T> void setConfig(String name, T value) {
+    super.setConfig(name, value);
     if (name.equals("probCatch")) {
       assert value instanceof Double;
       probCatch = (double) value;

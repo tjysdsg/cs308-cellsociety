@@ -3,15 +3,17 @@ package model;
 import java.util.Map;
 
 /**
- *
+ * EMPTY = 0, SHARK = 1, FISH = 2
+ * <p>
+ * Please ignore MOVED_SHARK and MOVED_FISH as they are only used internally by Simulation.
  */
 public class StateWaTor extends State {
 
   public static final int EMPTY_VAL = 0;
   public static final int SHARK_VAL = 1;
   public static final int FISH_VAL = 2;
-  public static final int MOVED_SHARK_VAL = 3;
-  public static final int MOVED_FISH_VAL = 4;
+  private static final int MOVED_SHARK_VAL = 3;
+  private static final int MOVED_FISH_VAL = 4;
 
   public static StateWaTor EMPTY() {
     return new StateWaTor(EMPTY_VAL);

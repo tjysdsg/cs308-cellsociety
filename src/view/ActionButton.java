@@ -11,30 +11,31 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-public class makeButton extends StackPane {
+public class ActionButton extends StackPane {
+
   private Text text;
 
-  public makeButton(String name, int font , int w, int h, double angle,
-      EventHandler<MouseEvent> handler){
+  public ActionButton(String name, int font, int w, int h, double angle,
+      EventHandler<MouseEvent> handler) {
     text = new Text(name);
     text.setFont(text.getFont().font(font));
     text.setFill(Color.WHITE);
-    Rectangle bg = new Rectangle(w,h);
+    Rectangle bg = new Rectangle(w, h);
     bg.setOpacity(0.6);
     bg.setFill(Color.BLACK);
-    GaussianBlur blur= new GaussianBlur(3.5);
+    GaussianBlur blur = new GaussianBlur(3.5);
     bg.setEffect(blur);
     setAlignment(Pos.CENTER);
-    setRotate(-1*angle);
-    getChildren().addAll(bg,text);
-    setOnMouseEntered(e ->{
+    setRotate(-1 * angle);
+    getChildren().addAll(bg, text);
+    setOnMouseEntered(e -> {
       bg.setTranslateX(10);
       text.setTranslateX(10);
       bg.setFill(Color.GREY);
       text.setFill(Color.BLACK);
     });
 
-    setOnMouseExited(e ->{
+    setOnMouseExited(e -> {
       bg.setTranslateX(0);
       text.setTranslateX(0);
       bg.setFill(Color.BLACK);

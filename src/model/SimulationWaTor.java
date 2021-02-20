@@ -8,6 +8,8 @@ import java.util.Map;
 /**
  * Simulation model of Wa-Tor.
  * <p>
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
+ * <p>
  * Configurable options:
  * <ul>
  *   <li>
@@ -35,7 +37,7 @@ public class SimulationWaTor extends Simulation {
   private int nShark = 0;
 
   public SimulationWaTor(int nRows, int nCols) {
-    grid = new Grid(nRows, nCols, StateWaTor.EMPTY(), Neighborhood.Preset4());
+    grid = new GridSq(nRows, nCols, StateWaTor.EMPTY(), Neighborhood.Square4());
   }
 
   private List<Cell> sublistWithStateEquals(List<Cell> list, StateWaTor s) {
@@ -50,6 +52,7 @@ public class SimulationWaTor extends Simulation {
 
   @Override
   public <T> void setConfig(String name, T value) {
+    super.setConfig(name, value);
     switch (name) {
       case "fishBreedDuration" -> fishBreedDuration = (int) value;
       case "sharkBreedDuration" -> sharkBreedDuration = (int) value;

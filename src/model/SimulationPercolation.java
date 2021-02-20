@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Simulation model of Percolation.
  * <p>
- * No configurable option.
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
  * <p>
  * See also https://www2.cs.duke.edu/courses/compsci308/spring21/assign/02_simulation/PercolationCA.pdf
  *
@@ -18,11 +18,7 @@ public class SimulationPercolation extends Simulation {
   private int nPercolated = 0;
 
   public SimulationPercolation(int nRows, int nCols) {
-    grid = new Grid(nRows, nCols, StatePercolation.OPEN, Neighborhood.Preset8());
-  }
-
-  @Override
-  public <T> void setConfig(String name, T value) {
+    grid = new GridSq(nRows, nCols, StatePercolation.OPEN, Neighborhood.Square8());
   }
 
   @Override

@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Simulation model of Game of Life.
  * <p>
- * No configurable option.
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
  * <p>
  * See also en.wikipedia.org/wiki/Conway's_Game_of_Life
  *
@@ -18,11 +18,7 @@ public class SimulationGOL extends Simulation {
   private int nAlive = 0;
 
   public SimulationGOL(int nRows, int nCols) {
-    grid = new Grid(nRows, nCols, StateGOL.DEAD, Neighborhood.Preset8());
-  }
-
-  @Override
-  public <T> void setConfig(String name, T value) {
+    grid = new GridSq(nRows, nCols, StateGOL.DEAD, Neighborhood.Square8());
   }
 
   @Override
@@ -51,16 +47,12 @@ public class SimulationGOL extends Simulation {
             ++nAliveNeighbors;
           }
         }
-        if (StateGOL.DEAD == s) {
-          if (nAliveNeighbors == 3) {
-            grid.setState(r, c, StateGOL.ALIVE);
-            updated = true;
-          }
-        } else if (StateGOL.ALIVE == s) {
-          if (nAliveNeighbors < 2 || nAliveNeighbors > 3) {
-            grid.setState(r, c, StateGOL.DEAD);
-            updated = true;
-          }
+        if (StateGOL.DEAD == s && nAliveNeighbors == 3) {
+          grid.setState(r, c, StateGOL.ALIVE);
+          updated = true;
+        } else if (StateGOL.ALIVE == s && (nAliveNeighbors < 2 || nAliveNeighbors > 3)) {
+          grid.setState(r, c, StateGOL.DEAD);
+          updated = true;
         }
       }
     }

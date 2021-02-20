@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Simulation model of segregation.
  * <p>
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
+ * <p>
  * Configurable options:
  * <ul>
  *   <li>
@@ -27,11 +29,12 @@ public class SimulationSegregation extends Simulation {
   private int nDissatisfied = 0;
 
   public SimulationSegregation(int nRows, int nCols) {
-    grid = new Grid(nRows, nCols, StateSegregation.EMPTY, Neighborhood.Preset8());
+    grid = new GridSq(nRows, nCols, StateSegregation.EMPTY, Neighborhood.Square8());
   }
 
   @Override
   public <T> void setConfig(String name, T value) {
+    super.setConfig(name, value);
     if (name.equals("threshold")) {
       threshold = (double) value;
     }
@@ -97,9 +100,4 @@ public class SimulationSegregation extends Simulation {
       isOver = true;
     }
   }
-
-  @Override
-  protected void updateStats() {
-  }
-
 }
