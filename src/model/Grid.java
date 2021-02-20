@@ -46,14 +46,23 @@ public abstract class Grid {
     grid.get(r).get(c).setState(state, false);
   }
 
+  /**
+   * Get state of cell located at (r, c)
+   */
   public State getState(int r, int c) {
     return grid.get(r).get(c).getState();
   }
 
+  /**
+   * Get cell at (r, c)
+   */
   public Cell getCell(int r, int c) {
     return grid.get(r).get(c);
   }
 
+  /**
+   * Update all states in the grid to the next generation
+   */
   public void update() {
     for (int r = 0; r < getNumRows(); ++r) {
       for (int c = 0; c < getNumCols(); ++c) {
@@ -62,6 +71,11 @@ public abstract class Grid {
     }
   }
 
+  /**
+   * Set the edge type of the grid.
+   *
+   * @see EdgeType
+   */
   public void setEdgeType(EdgeType edgeType) {
     this.edgeType = edgeType;
   }
@@ -73,6 +87,9 @@ public abstract class Grid {
     );
   }
 
+  /**
+   * Get a list of cells that are neighbors of the cell at (r, c)
+   */
   public List<Cell> getNeighborsOf(int r, int c) {
     ArrayList<Cell> ret = new ArrayList<>();
     Vec2D coord = new Vec2D(r, c);
@@ -95,6 +112,9 @@ public abstract class Grid {
     return ret;
   }
 
+  /**
+   * Get a string representation of the grid
+   */
   @Override
   public String toString() {
     StringBuilder ret = new StringBuilder();
@@ -113,18 +133,30 @@ public abstract class Grid {
     return ret.toString();
   }
 
+  /**
+   * Get the total number of rows
+   */
   public int getNumRows() {
     return nRows;
   }
 
+  /**
+   * Set the total number of rows
+   */
   public void setNumRows(int nRows) {
     this.nRows = nRows;
   }
 
+  /**
+   * Get the total number of columns
+   */
   public int getNumCols() {
     return nCols;
   }
 
+  /**
+   * Set the total number of columns
+   */
   public void setNumCols(int nCols) {
     this.nCols = nCols;
   }

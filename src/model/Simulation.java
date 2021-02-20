@@ -61,6 +61,11 @@ public abstract class Simulation {
     }
   }
 
+  /**
+   * Get statistics of the simulation.
+   *
+   * @return A map, mapping the name of a metric to its value
+   */
   public abstract Map<String, Object> getStatsMap();
 
   /**
@@ -120,9 +125,11 @@ public abstract class Simulation {
     return ret;
   }
 
+  /**
+   * Get a string representation of the grid and statistics of the simulation.
+   */
   @Override
   public String toString() {
-    // TODO: show config values
     StringBuilder ret = new StringBuilder();
     ret.append(grid.toString());
 

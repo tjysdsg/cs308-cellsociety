@@ -2,6 +2,11 @@ package model;
 
 import java.util.Objects;
 
+/**
+ * Base class of states.
+ * <p>
+ * Nothing important here, please see the subclasses of State.
+ */
 public class State {
 
   protected int val;
