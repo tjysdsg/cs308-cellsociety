@@ -16,6 +16,7 @@ public class XMLWriter {
 
   /**
    * output the current simulation states to the XML file
+   *
    * @param states          states of the current grid
    * @param params          all parameters of the simulation including title author etc.
    * @param simulationType  type of the simulation
