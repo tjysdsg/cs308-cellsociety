@@ -8,6 +8,8 @@ import java.util.Map;
 /**
  * Simulation model of Wa-Tor.
  * <p>
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
+ * <p>
  * Configurable options:
  * <ul>
  *   <li>
@@ -18,9 +20,6 @@ import java.util.Map;
  *   </li>
  *   <li>
  *     "sharkStarveDuration" (int): Max number of days of starvation before a shark dies, default 6
- *   </li>
- *   <li>
- *     "wrapAround" (boolean): Whether the grid is toroidal
  *   </li>
  * </ul>
  * <p>

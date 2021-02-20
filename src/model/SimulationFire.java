@@ -8,13 +8,12 @@ import java.util.Random;
 /**
  * Simulation model of Fire.
  * <p>
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
+ * <p>
  * Configurable options:
  * <ul>
  *   <li>
  *     "probCatch" (double): The probability of a tree catching fire, default 0.5
- *   </li>
- *   <li>
- *     "wrapAround" (boolean): Whether the grid is toroidal
  *   </li>
  * </ul>
  * <p>

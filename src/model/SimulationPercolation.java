@@ -7,12 +7,7 @@ import java.util.Map;
 /**
  * Simulation model of Percolation.
  * <p>
- * Configurable options:
- * <ul>
- *   <li>
- *     "wrapAround" (boolean): Whether the grid is toroidal
- *   </li>
- * </ul>
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
  * <p>
  * See also https://www2.cs.duke.edu/courses/compsci308/spring21/assign/02_simulation/PercolationCA.pdf
  *

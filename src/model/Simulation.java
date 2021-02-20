@@ -30,6 +30,22 @@ public abstract class Simulation {
 
   /**
    * Set configuration variables
+   * <p>
+   * General configurable options available in all Simulation subclasses:
+   * <ul>
+   *   <li>
+   *     "finite" (boolean): Whether the grid edge type is finite, NOTE that REGARDLESS of `value`,
+   *     the edge type is set to finite.
+   *   </li>
+   *   <li>
+   *     "infinite" (boolean): Whether the grid edge type is infinite, NOTE that REGARDLESS of `value`,
+   *     the edge type is set to infinite.
+   *   </li>
+   *   <li>
+   *     "wrapAround" (boolean): Whether the grid is toroidal, NOTE that REGARDLESS of `value`,
+   *     the edge type is set to wrappable.
+   *   </li>
+   * </ul>
    *
    * @param name  Name of the configuration, such as "gameSpeed".
    * @param value Value of the configuration, can be integer, double, etc. The specific type of the
@@ -38,8 +54,10 @@ public abstract class Simulation {
    * @param <T>   Type of the value.
    */
   public <T> void setConfig(String name, T value) {
-    if (name.equals("wrapAround")) {
-      grid.setWrapAround(true);
+    switch (name) {
+      case "finite" -> grid.setEdgeType(EdgeType.FINITE);
+      case "wrapAround" -> grid.setEdgeType(EdgeType.WRAP);
+      case "infinite" -> grid.setEdgeType(EdgeType.INFINITE);
     }
   }
 

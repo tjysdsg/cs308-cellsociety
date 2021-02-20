@@ -7,12 +7,7 @@ import java.util.Map;
 /**
  * Simulation model of Game of Life.
  * <p>
- * Configurable options:
- * <ul>
- *   <li>
- *     "wrapAround" (boolean): Whether the grid is toroidal
- *   </li>
- * </ul>
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
  * <p>
  * See also en.wikipedia.org/wiki/Conway's_Game_of_Life
  *

@@ -9,7 +9,7 @@ public abstract class Grid {
   protected int nRows;
   protected int nCols;
   protected Neighborhood neighborhood;
-  protected boolean wrapAround = false;
+  protected EdgeType edgeType = EdgeType.FINITE;
 
   public Grid(
       int nRows, int nCols, State defaultState,
@@ -62,8 +62,8 @@ public abstract class Grid {
     }
   }
 
-  public void setWrapAround(boolean val) {
-    this.wrapAround = val;
+  public void setEdgeType(EdgeType edgeType) {
+    this.edgeType = edgeType;
   }
 
   protected Vec2D wrapAroundCoord(Vec2D coord) {
@@ -77,9 +77,10 @@ public abstract class Grid {
     ArrayList<Cell> ret = new ArrayList<>();
     Vec2D coord = new Vec2D(r, c);
 
+    // TODO: infinite edge type
     for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
       Vec2D newCoord = coord.add(delta);
-      if (wrapAround) { // toroidal
+      if (edgeType == EdgeType.WRAP) { // toroidal
         newCoord = wrapAroundCoord(newCoord);
         if (neighborhood.isValidNeighborDirection(delta)) {
           ret.add(getCell(newCoord.getX(), newCoord.getY()));

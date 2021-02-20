@@ -9,13 +9,12 @@ import java.util.Map;
 /**
  * Simulation model of segregation.
  * <p>
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
+ * <p>
  * Configurable options:
  * <ul>
  *   <li>
  *     "threshold" (double): The threshold of an agent being satisfied, default 0.3
- *   </li>
- *   <li>
- *     "wrapAround" (boolean): Whether the grid is toroidal
  *   </li>
  * </ul>
  * <p>
