@@ -39,13 +39,12 @@ public class Neighborhood {
    * The values are delta(r, c) = neighbor - self
    */
   private static final Vec2D[] HEX_NEIGHBOR_DIRECTIONS = new Vec2D[]{
-      new Vec2D(2, 0),
-      new Vec2D(-2, 0),
+      new Vec2D(1, 0),
+      new Vec2D(-1, 0),
       new Vec2D(0, 1),
       new Vec2D(0, -1),
       new Vec2D(1, 1),
       new Vec2D(1, -1),
-      new Vec2D(2, 0),
   };
 
   /**
