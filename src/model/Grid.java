@@ -9,10 +9,16 @@ public abstract class Grid {
   protected int nRows;
   protected int nCols;
   protected Neighborhood neighborhood;
+  protected boolean wrapAround;
 
-  public Grid(int nRows, int nCols, State defaultState, Neighborhood neighborhood) {
-    this.setNumRows(nRows);
-    this.setNumCols(nCols);
+  public Grid(
+      int nRows, int nCols, State defaultState,
+      Neighborhood neighborhood, boolean wrapAround
+  ) {
+    this.nRows = nRows;
+    this.nCols = nCols;
+    this.wrapAround = wrapAround;
+
     grid = new ArrayList<>(nRows);
     for (int i = 0; i < nRows; ++i) {
       ArrayList<Cell> row = new ArrayList<>(nCols);
@@ -57,14 +63,33 @@ public abstract class Grid {
     }
   }
 
+  public void setWrapAround(boolean val) {
+    this.wrapAround = val;
+  }
+
+  protected Vec2D wrapAroundCoord(Vec2D coord) {
+    return new Vec2D(
+        Utils.wrapInt(coord.getX(), 0, nRows - 1),
+        Utils.wrapInt(coord.getY(), 0, nCols - 1)
+    );
+  }
+
   public List<Cell> getNeighborsOf(int r, int c) {
     ArrayList<Cell> ret = new ArrayList<>();
     Vec2D coord = new Vec2D(r, c);
 
     for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
       Vec2D newCoord = coord.add(delta);
-      if (isInside(newCoord.getX(), newCoord.getY()) && neighborhood.isValidNeighbor(delta)) {
-        ret.add(getCell(newCoord.getX(), newCoord.getY()));
+      if (wrapAround) { // toroidal
+        newCoord = wrapAroundCoord(newCoord);
+        if (neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(getCell(newCoord.getX(), newCoord.getY()));
+        }
+      } else { // finite
+        if (isInside(newCoord.getX(), newCoord.getY())
+            && neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(getCell(newCoord.getX(), newCoord.getY()));
+        }
       }
     }
     return ret;

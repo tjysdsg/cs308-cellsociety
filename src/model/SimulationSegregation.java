@@ -14,6 +14,9 @@ import java.util.Map;
  *   <li>
  *     "threshold" (double): The threshold of an agent being satisfied, default 0.3
  *   </li>
+ *   <li>
+ *     "wrapAround" (boolean): Whether the grid is toroidal
+ *   </li>
  * </ul>
  * <p>
  * See also https://www2.cs.duke.edu/courses/compsci308/spring21/assign/02_simulation/nifty/mccown-schelling-model-segregation/
@@ -27,11 +30,12 @@ public class SimulationSegregation extends Simulation {
   private int nDissatisfied = 0;
 
   public SimulationSegregation(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, StateSegregation.EMPTY, Neighborhood.Square8());
+    grid = new GridSq(nRows, nCols, StateSegregation.EMPTY, Neighborhood.Square8(), wrapAround);
   }
 
   @Override
   public <T> void setConfig(String name, T value) {
+    super.setConfig(name, value);
     if (name.equals("threshold")) {
       threshold = (double) value;
     }

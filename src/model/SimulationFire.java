@@ -13,6 +13,9 @@ import java.util.Random;
  *   <li>
  *     "probCatch" (double): The probability of a tree catching fire, default 0.5
  *   </li>
+ *   <li>
+ *     "wrapAround" (boolean): Whether the grid is toroidal
+ *   </li>
  * </ul>
  * <p>
  * See also https://www2.cs.duke.edu/courses/compsci308/spring21/assign/02_simulation/nifty/shiflet-fire/
@@ -26,11 +29,12 @@ public class SimulationFire extends Simulation {
   private int nBurning = 0;
 
   public SimulationFire(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, StateFire.EMPTY, Neighborhood.Square4());
+    grid = new GridSq(nRows, nCols, StateFire.EMPTY, Neighborhood.Square4(), wrapAround);
   }
 
   @Override
   public <T> void setConfig(String name, T value) {
+    super.setConfig(name, value);
     if (name.equals("probCatch")) {
       assert value instanceof Double;
       probCatch = (double) value;

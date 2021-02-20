@@ -27,6 +27,7 @@ public abstract class Simulation {
 
   protected GridSq grid;
   protected boolean isOver = false;
+  protected boolean wrapAround = false;
 
   /**
    * Set configuration variables
@@ -38,6 +39,10 @@ public abstract class Simulation {
    * @param <T>   Type of the value.
    */
   public <T> void setConfig(String name, T value) {
+    if (name.equals("wrapAround")) {
+      wrapAround = (boolean) value;
+      grid.setWrapAround(true);
+    }
   }
 
   public abstract Map<String, Object> getStatsMap();

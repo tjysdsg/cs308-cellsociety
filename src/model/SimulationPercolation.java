@@ -7,7 +7,12 @@ import java.util.Map;
 /**
  * Simulation model of Percolation.
  * <p>
- * No configurable option.
+ * Configurable options:
+ * <ul>
+ *   <li>
+ *     "wrapAround" (boolean): Whether the grid is toroidal
+ *   </li>
+ * </ul>
  * <p>
  * See also https://www2.cs.duke.edu/courses/compsci308/spring21/assign/02_simulation/PercolationCA.pdf
  *
@@ -18,7 +23,7 @@ public class SimulationPercolation extends Simulation {
   private int nPercolated = 0;
 
   public SimulationPercolation(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, StatePercolation.OPEN, Neighborhood.Square8());
+    grid = new GridSq(nRows, nCols, StatePercolation.OPEN, Neighborhood.Square8(), wrapAround);
   }
 
   @Override

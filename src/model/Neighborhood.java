@@ -116,7 +116,7 @@ public class Neighborhood {
     return new Neighborhood(SQUARE_8_NEIGHBOR_DIRECTIONS);
   }
 
-  public boolean isValidNeighbor(Vec2D direction) {
+  public boolean isValidNeighborDirection(Vec2D direction) {
     return validDirections.contains(direction);
   }
 }

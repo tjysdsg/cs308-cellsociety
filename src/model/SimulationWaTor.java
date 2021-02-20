@@ -19,6 +19,9 @@ import java.util.Map;
  *   <li>
  *     "sharkStarveDuration" (int): Max number of days of starvation before a shark dies, default 6
  *   </li>
+ *   <li>
+ *     "wrapAround" (boolean): Whether the grid is toroidal
+ *   </li>
  * </ul>
  * <p>
  * See also https://www2.cs.duke.edu/courses/compsci308/spring21/assign/02_simulation/nifty/scott-wator-world/WatorWorld.htm
@@ -35,7 +38,7 @@ public class SimulationWaTor extends Simulation {
   private int nShark = 0;
 
   public SimulationWaTor(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, StateWaTor.EMPTY(), Neighborhood.Square4());
+    grid = new GridSq(nRows, nCols, StateWaTor.EMPTY(), Neighborhood.Square4(), wrapAround);
   }
 
   private List<Cell> sublistWithStateEquals(List<Cell> list, StateWaTor s) {
@@ -50,6 +53,7 @@ public class SimulationWaTor extends Simulation {
 
   @Override
   public <T> void setConfig(String name, T value) {
+    super.setConfig(name, value);
     switch (name) {
       case "fishBreedDuration" -> fishBreedDuration = (int) value;
       case "sharkBreedDuration" -> sharkBreedDuration = (int) value;

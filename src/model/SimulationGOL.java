@@ -7,7 +7,12 @@ import java.util.Map;
 /**
  * Simulation model of Game of Life.
  * <p>
- * No configurable option.
+ * Configurable options:
+ * <ul>
+ *   <li>
+ *     "wrapAround" (boolean): Whether the grid is toroidal
+ *   </li>
+ * </ul>
  * <p>
  * See also en.wikipedia.org/wiki/Conway's_Game_of_Life
  *
@@ -18,7 +23,7 @@ public class SimulationGOL extends Simulation {
   private int nAlive = 0;
 
   public SimulationGOL(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, StateGOL.DEAD, Neighborhood.Square8());
+    grid = new GridSq(nRows, nCols, StateGOL.DEAD, Neighborhood.Square8(), wrapAround);
   }
 
   @Override
