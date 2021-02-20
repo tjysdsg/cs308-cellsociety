@@ -11,7 +11,7 @@ import model.Simulation;
 import controller.xml.xmlparser.FireXMLParser;
 import controller.xml.xmlparser.GOLXMLParser;
 import controller.xml.xmlparser.PercolationXMLParser;
-import controller.xml.xmlparser.SimulationParser;
+import controller.xml.xmlparser.SimulationTypeParser;
 import controller.xml.xmlparser.WaTorXMLParser;
 import controller.xml.xmlparser.XMLParser;
 import view.MainView;
@@ -23,7 +23,7 @@ public class Controller {
 
   private XMLParser xmlParser;
   private boolean stepIsPressedFlag = false;
-  private SimulationParser xmlReader;
+  private SimulationTypeParser xmlReader;
   private String configName;
   private boolean pause;
   private Simulation simulation;
@@ -135,7 +135,7 @@ public class Controller {
    */
   public void setConfig(String filename) {
     configName = filename;
-    xmlReader = new SimulationParser(filename);
+    xmlReader = new SimulationTypeParser(filename);
     String simulationType = xmlReader.getSimulationType();
     setXMLParser(simulationType);
     simulation = xmlParser.getSimulation();

@@ -3,9 +3,9 @@ package controller.xml.xmlparser;
 import controller.xml.XMLException;
 import model.Simulation;
 
-public class SimulationParser extends XMLParser {
+public class SimulationTypeParser extends XMLParser {
 
-  public SimulationParser(String fileName) {
+  public SimulationTypeParser(String fileName) {
     super(fileName);
     root = getRootElement();
   }
