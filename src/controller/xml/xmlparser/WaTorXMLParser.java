@@ -1,4 +1,4 @@
-package controller.xml;
+package controller.xml.xmlparser;
 
 import static model.StateWaTor.EMPTY;
 import static model.StateWaTor.FISH;
@@ -6,6 +6,7 @@ import static model.StateWaTor.MOVED_FISH;
 import static model.StateWaTor.MOVED_SHARK;
 import static model.StateWaTor.SHARK;
 
+import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationWaTor;
 import model.State;
