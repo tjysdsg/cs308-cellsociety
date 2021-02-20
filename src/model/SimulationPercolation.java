@@ -18,7 +18,7 @@ public class SimulationPercolation extends Simulation {
   private int nPercolated = 0;
 
   public SimulationPercolation(int nRows, int nCols) {
-    grid = new Grid(nRows, nCols, StatePercolation.OPEN, Neighborhood.Preset8());
+    grid = new GridSq(nRows, nCols, StatePercolation.OPEN, Neighborhood.Preset8());
   }
 
   @Override

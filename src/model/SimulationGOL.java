@@ -18,7 +18,7 @@ public class SimulationGOL extends Simulation {
   private int nAlive = 0;
 
   public SimulationGOL(int nRows, int nCols) {
-    grid = new Grid(nRows, nCols, StateGOL.DEAD, Neighborhood.Preset8());
+    grid = new GridSq(nRows, nCols, StateGOL.DEAD, Neighborhood.Preset8());
   }
 
   @Override
