@@ -1,9 +1,10 @@
-package controller.xml;
+package controller.xml.xmlparser;
 
 import static model.StatePercolation.BLOCKED;
 import static model.StatePercolation.OPEN;
 import static model.StatePercolation.PERCOLATED;
 
+import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationPercolation;
 import model.State;

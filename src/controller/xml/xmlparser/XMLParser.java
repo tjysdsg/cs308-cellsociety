@@ -1,5 +1,6 @@
-package controller.xml;
+package controller.xml.xmlparser;
 
+import controller.xml.XMLException;
 import java.util.Map;
 import javafx.beans.binding.ObjectExpression;
 import model.Simulation;

@@ -1,9 +1,6 @@
 package controller;
 
-import controller.xml.SegregationXMLParser;
-import java.awt.dnd.DropTargetAdapter;
-import java.io.File;
-import java.util.ArrayList;
+import controller.xml.xmlparser.SegregationXMLParser;
 import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,12 +8,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.Duration;
 import model.Simulation;
-import controller.xml.FireXMLParser;
-import controller.xml.GOLXMLParser;
-import controller.xml.PercolationXMLParser;
-import controller.xml.SimulationParser;
-import controller.xml.WaTorXMLParser;
-import controller.xml.XMLParser;
+import controller.xml.xmlparser.FireXMLParser;
+import controller.xml.xmlparser.GOLXMLParser;
+import controller.xml.xmlparser.PercolationXMLParser;
+import controller.xml.xmlparser.SimulationParser;
+import controller.xml.xmlparser.WaTorXMLParser;
+import controller.xml.xmlparser.XMLParser;
 import view.MainView;
 
 /**

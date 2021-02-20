@@ -1,5 +1,6 @@
-package controller.xml;
+package controller.xml.xmlparser;
 
+import controller.xml.XMLException;
 import model.Simulation;
 
 public class SimulationParser extends XMLParser {
