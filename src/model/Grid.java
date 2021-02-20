@@ -9,15 +9,14 @@ public abstract class Grid {
   protected int nRows;
   protected int nCols;
   protected Neighborhood neighborhood;
-  protected boolean wrapAround;
+  protected boolean wrapAround = false;
 
   public Grid(
       int nRows, int nCols, State defaultState,
-      Neighborhood neighborhood, boolean wrapAround
+      Neighborhood neighborhood
   ) {
     this.nRows = nRows;
     this.nCols = nCols;
-    this.wrapAround = wrapAround;
 
     grid = new ArrayList<>(nRows);
     for (int i = 0; i < nRows; ++i) {

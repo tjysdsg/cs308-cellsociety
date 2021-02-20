@@ -30,7 +30,7 @@ public class SimulationSegregation extends Simulation {
   private int nDissatisfied = 0;
 
   public SimulationSegregation(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, StateSegregation.EMPTY, Neighborhood.Square8(), wrapAround);
+    grid = new GridSq(nRows, nCols, StateSegregation.EMPTY, Neighborhood.Square8());
   }
 
   @Override

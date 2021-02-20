@@ -8,10 +8,7 @@ package model;
  */
 public class GridSq extends Grid {
 
-  public GridSq(
-      int nRows, int nCols, State defaultState,
-      Neighborhood neighborhood, boolean wrapAround
-  ) {
-    super(nRows, nCols, defaultState, neighborhood, wrapAround);
+  public GridSq(int nRows, int nCols, State defaultState, Neighborhood neighborhood) {
+    super(nRows, nCols, defaultState, neighborhood);
   }
 }
