@@ -1,8 +1,9 @@
 package controller;
 
-import controller.xml.xmlparser.RPSXMLParser;
-import controller.xml.xmlparser.SegregationXMLParser;
-import controller.xml.xmlwriter.XMLWriter;
+import controller.xml.SegregationXMLParser;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -10,22 +11,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.Duration;
 import model.Simulation;
-import controller.xml.xmlparser.FireXMLParser;
-import controller.xml.xmlparser.GOLXMLParser;
-import controller.xml.xmlparser.PercolationXMLParser;
-import controller.xml.xmlparser.SimulationTypeParser;
-import controller.xml.xmlparser.WaTorXMLParser;
-import controller.xml.xmlparser.XMLParser;
+import controller.xml.FireXMLParser;
+import controller.xml.GOLXMLParser;
+import controller.xml.PercolationXMLParser;
+import controller.xml.SimulationParser;
+import controller.xml.WaTorXMLParser;
+import controller.xml.XMLParser;
 import view.MainView;
 
-/**
- *
- */
 public class Controller {
 
   private XMLParser xmlParser;
   private boolean stepIsPressedFlag = false;
-  private SimulationTypeParser xmlReader;
+  private SimulationParser xmlReader;
   private String configName;
   private boolean pause;
   private Simulation simulation;
@@ -35,9 +33,6 @@ public class Controller {
   public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
   public static final String DATA_GAMECONFIG="data/gameconfig/";
 
-  /**
-   *
-   */
   public Controller() {
     KeyFrame frame = new KeyFrame(Duration.seconds(SECOND_DELAY), e -> this.step());
     animation = new Timeline();
@@ -49,26 +44,15 @@ public class Controller {
     this.view = view;
   }
 
-  /**
-   * Set the speed of the simulation
-   *
-   * @param speed The speed of the simulation
-   */
   public void setSpeed(double speed) {
     animation.setRate(speed);
   }
 
-  /**
-   * Pause the simulation
-   */
   public void setPause() {
     pause = true;
     animation.stop();
   }
 
-  /**
-   * Resume the simulation
-   */
   public void setResume() {
     if (view.getConfig()!= null && pause){
     pause = false;
@@ -78,16 +62,10 @@ public class Controller {
     }}
   }
 
-  /**
-   * Step over 1 step of the simulation
-   */
   public void stepIsPressed(){
     stepIsPressedFlag = true;
   }
 
-  /**
-   * Start the simulation
-   */
   public void setStart() {
     if(view.getConfig()==null){
       Alert alert = new Alert(AlertType.WARNING);
@@ -103,9 +81,6 @@ public class Controller {
     }
   }
 
-  /**
-   * Reset the simulation
-   */
   public void reset() {
     if (stepIsPressedFlag){
       return;
@@ -116,9 +91,6 @@ public class Controller {
     view.resetSimulation(simulation.getGrid(), simulation.getStatsMap());
   }
 
-  /**
-   * Single step(frame) of the simulation. The View will call it every single frame.
-   */
   public void step() {
 
     // sim update
@@ -131,13 +103,9 @@ public class Controller {
 
   }
 
-  /**
-   * Set up the configuration based on the certain XML file.
-   * @param filename XML file name
-   */
   public void setConfig(String filename) {
     configName = filename;
-    xmlReader = new SimulationTypeParser(filename);
+    xmlReader = new SimulationParser(filename);
     String simulationType = xmlReader.getSimulationType();
     setXMLParser(simulationType);
     simulation = xmlParser.getSimulation();
@@ -166,16 +134,23 @@ public class Controller {
       case "Segregation":
         xmlParser = new SegregationXMLParser(configName);
 
-      case "RPS":
-        xmlParser= new RPSXMLParser(configName);
       default:
         break;
     }
   }
 
-  public void XMLToFile(){
-    XMLWriter writer= new XMLWriter();
-    writer.XML2File(simulation.getGrid(),xmlParser.params,configName);
+  public <T> void changeConfig(String name, T value) {
+    simulation.setConfig(name, value);
+  }
+
+  public List<String> getGameConfigFileNameList(){
+    File tmp= new File(DATA_GAMECONFIG);
+    File[] gameXMLS= tmp.listFiles();
+    ArrayList<String> configList=new ArrayList<>();
+    for(int i=0;i<gameXMLS.length;i++){
+      configList.add(gameXMLS[i].toString().split(DATA_GAMECONFIG)[1]);
+    }
+    return configList;
   }
 
   public static void main(String[] args) {

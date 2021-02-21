@@ -1,11 +1,6 @@
-package controller.xml.xmlparser;
+package controller.xml;
 
-import controller.xml.XMLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import model.Simulation;
 import model.State;
 import java.io.File;
@@ -33,10 +28,6 @@ public abstract class XMLParser {
   public static final String ERROR_COORDINATE = "Coordinate is not valid row: %d col: %d";
   public static final String ERROR_STATE = "State is not valid %d";
   public static final String GRID_TAG = "grid";
-  public static final String CELL_INIT_TYPE_TAG = "cellinit";
-  public static final String CELL_INIT_LOC_TAG = "locationnum";
-  public static final String CELL_INIT_LOC_SPECIFIC_TAG = "locationonly";
-  public static final String CELL_INIT_DIST_TAG = "distribution";
   public static final String SIZEX_TAG = "sizex";
   public static final String AUTHOR_TAG = "author";
   public static final String SIZEY_TAG = "sizey";
@@ -58,15 +49,11 @@ public abstract class XMLParser {
   public int sizeX;
   public int sizeY;
   public int stateRange;
-  public Map<String,Object> params;
   public String author;
   public String description;
   public String title;
   public Simulation simulation;
   public Element root;
-  private String cellInitType;
-  private int locationNum;
-  private String distribution;
 
 
   /**
@@ -80,9 +67,9 @@ public abstract class XMLParser {
 
 
   /**
-   * get simulation model based on the XML file
+   * get simulation model
    *
-   * @return Simulation class corresponding to the certain configuration file.
+   * @return
    * @throws XMLException
    */
   public abstract Simulation getSimulation() throws XMLException;
@@ -90,23 +77,8 @@ public abstract class XMLParser {
   public abstract void initStateArray();
 
 
-  /**
-   * Initialize the simulation based on the certain Config file.
-   */
   public void initSimulation() {
-    switch (cellInitType){
-      case CELL_INIT_LOC_SPECIFIC_TAG:
-        initCellByLocation();
-        break;
-      case CELL_INIT_DIST_TAG:
-        initCellByDist();
-        break;
-      case CELL_INIT_LOC_TAG:
-        initCellByRatio();
-        break;
-      default:
-        break;
-    }
+    initCell();
 //    initSpeed();
     getAuthor();
     getDescription();
@@ -114,11 +86,7 @@ public abstract class XMLParser {
   }
 
 
-  /**
-   * Initialize the Cell of the simulation based on the
-   * @throws XMLException
-   */
-  public void initCellByLocation() throws XMLException {
+  public void initCell() throws XMLException {
     NodeList stateList = root.getElementsByTagName(CELL_TAG);
     for (int i = 0; i < stateList.getLength(); i++) {
       Element cell = (Element) stateList.item(i);
@@ -132,56 +100,31 @@ public abstract class XMLParser {
     }
   }
 
-  /**
-   * Put XML Description into map. Used for View's info display
-   * @param map
-   */
-  public void addXMLDescription(Map<String, Object> map){
+  public  void addXMLDescription(Map<String, Object> map){
     map.put(AUTHOR_TAG,author );
     map.put(TTILE_TAG, title);
     map.put(DESCRIPTION_TAG, description);
     return;
   }
 
-  /**
-   * Check whether the coordinate of the cell and the column is out of boundary
-   * @param row row coordinate of the cell
-   * @param col col coordinate of the cell
-   * @throws XMLException
-   */
   public void checkCoordinate(int row, int col) throws XMLException {
     if (row < 0 || row >= sizeX || col<0 || col >=sizeY) {
       throw new XMLException(ERROR_COORDINATE, row, col);
     }
   }
 
-  /**
-   * Check whether the state is valid
-   * @param n number representing the state
-   * @throws XMLException
-   */
   public void checkStates(int n) throws XMLException {
     if (n < 0 || n >= stateRange) {
       throw new XMLException(ERROR_STATE, n);
     }
   }
 
-  /**
-   * Get int from certain tags.
-   * @param e
-   * @param tagName
-   * @return
-   */
-  public int getIntTextValue(Element e, String tagName) throws XMLException{
+  public int getIntTextValue(Element e, String tagName) {
     return Integer.parseInt(getTextValue(e, tagName));
   }
 
 
-  /**
-   * Get the root element of the XML file
-   * @return
-   * @throws XMLException
-   */
+  // get root element of an XML file
   public Element getRootElement() throws XMLException {
     try {
       DOCUMENT_BUILDER.reset();
@@ -193,119 +136,62 @@ public abstract class XMLParser {
   }
 
 
-  /**
-   * get value of Element's attribute
-   */
+  // get value of Element's attribute
   public String getAttribute(Element e, String attributeName) {
     return e.getAttribute(attributeName);
   }
 
-  /**
-   * Get string value of the certain tag
-   * @param e element
-   * @param tagName the name of the tag
-   * @return String version of the tag value
-   */
-  public String getTextValue(Element e, String tagName) throws XMLException{
+  // get value of Element's text
+  public String getTextValue(Element e, String tagName) {
     NodeList nodeList = e.getElementsByTagName(tagName);
     if (nodeList != null && nodeList.getLength() > 0) {
       return nodeList.item(0).getTextContent().trim();
     } else {
-      throw new XMLException("Invalid value");
+      // FIXME: empty string or exception? In some cases it may be an error to not find any text
+      return "";
     }
   }
 
-  /**
-   * Get the author of the XML file
-   */
   public void getAuthor(){
     author = getTextValue(root, AUTHOR_TAG);
-    params.put(AUTHOR_TAG,author);
   }
 
-  /**
-   * Get the title of the XML file
-   */
   public void getTitle(){
     title = getTextValue(root, TTILE_TAG);
-    params.put(TTILE_TAG,title);
   }
 
-  /**
-   * Get the Description of the XML file
-   */
   public void getDescription(){
     description = getTextValue(root, DESCRIPTION_TAG);
-    params.put(DESCRIPTION_TAG,description);
   }
 
 
 
-  /**
-   * Get the row number of the certain configuration
-   */
   public int getGridSizeX() {
     Element gridSize = ((Element) root.getElementsByTagName(GRID_TAG).item(0));
     return getIntTextValue(gridSize, SIZEX_TAG);
   }
 
-  /**
-   * Get the column number of the certain configuration
-   */
   public int getGridSizeY() {
     Element gridSize = ((Element) root.getElementsByTagName(GRID_TAG).item(0));
     return getIntTextValue(gridSize, SIZEY_TAG);
   }
+  public void initSpeed() {
+    double sp = getDoubleTextValue(root, SPEED_TAG);
+    checkSpeed(sp);
+    simulation.setConfig("gameSpeed", sp);
+  }
 
-  private void initCellByDist(){
-    Random r =new Random();
-    distribution=getTextValue(root,CELL_INIT_DIST_TAG);
-    switch (distribution){
-      case "Gaussian":
-        int state=(int) ((r.nextGaussian()+1.0)/2.0*stateRange);
-        for(int i=0;i<sizeX;i++){
-          for(int j=0;j<sizeY;j++){
-            simulation.setState(i,j,states[state],true);
-          }
-        }
-        break;
-      default:
-        break;
+  public void checkSpeed(double a) throws XMLException {
+    if (a <= 0) {
+      throw new XMLException(ERROR_SPEED, a);
     }
   }
 
-  private void initCellByRatio(){
-    locationNum=getIntTextValue(root,CELL_INIT_LOC_TAG);
-    List<Integer> arrayShuffle = new ArrayList<>(sizeX*sizeY);
-    for(int i=0;i<sizeX*sizeY;i++){
-      arrayShuffle.set(i,i);
-    }
-    Collections.shuffle(arrayShuffle);
-    for(int i=0;i<locationNum;i++){
-      int randomState= (int)(Math.random()*stateRange);
-      simulation.setState(arrayShuffle.get(i)/sizeY,arrayShuffle.get(i)%sizeY,states[randomState],true);
-    }
-  }
-
-  private void getCellInitType(Element root){
-    cellInitType=getTextValue(root,CELL_INIT_TYPE_TAG);
-  }
-
-  /**
-   * Get the double value of the certain tag in the XML file
-   * @param e Current element
-   * @param tagName the name of the tag
-   * @return double value of the certain tag in the XML file
-   */
-  public double getDoubleTextValue(Element e, String tagName) throws XMLException{
+  public double getDoubleTextValue(Element e, String tagName) {
     return Double.parseDouble(getTextValue(e, tagName));
   }
 
-  /**
-   * boilerplate code needed to make a documentBuilder
-   * @return
-   * @throws XMLException
-   */
+  // boilerplate code needed to make a documentBuilder
   private DocumentBuilder getDocumentBuilder() throws XMLException {
     try {
       return DocumentBuilderFactory.newInstance().newDocumentBuilder();
