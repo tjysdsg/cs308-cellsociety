@@ -142,6 +142,25 @@ public class SimulationAnt extends Simulation {
   }
 
   private void findFood(int r, int c, int antIdx) {
+    StateAnt s = (StateAnt) grid.getState(r, c);
+    Vec2D maxPheromoneNeighborCoord = findMaxPheromoneNeighbor(r, c, PheromoneType.FOOD);
+    Ant ant = s.getAnt(antIdx);
+
+    if (!maxPheromoneNeighborCoord.equals(new Vec2D(0, 0))) {
+      if (s.isNest()) {
+        ant.setOrientation(maxPheromoneNeighborCoord.minus(new Vec2D(r, c)));
+      }
+
+      Vec2D dest = findMaxPheromoneForwardNeighbor(
+          r, c,
+          PheromoneType.FOOD, s.getAnt(antIdx).getOrientation()
+      );
+      if (dest.equals(new Vec2D(0, 0))) {
+        dest = maxPheromoneNeighborCoord;
+      }
+      dropPheromone(r, c, PheromoneType.HOME);
+      moveAntTo(new Vec2D(r, c), dest, antIdx);
+    }
   }
 
   private void forage(int r, int c) {
@@ -154,15 +173,19 @@ public class SimulationAnt extends Simulation {
         }
         ant.setHasFood(false);
       }
+    } else if (s.isFoodSource()) { // pick up food at food source
+      for (int i = s.getNAnts() - 1; i >= 0; --i) {
+        s.getAnt(i).setHasFood(true);
+      }
     } else { // loop every ant and let them forage
       for (int i = s.getNAnts() - 1; i >= 0; --i) {
         // iterate in reverse order because ants might get deleted
         Ant ant = s.getAnt(i);
-//        if (ant.hasFood()) {
-        returnNest(r, c, i);
-//        } else {
-//          findFood(r, c, i);
-//        }
+        if (ant.hasFood()) {
+          returnNest(r, c, i);
+        } else {
+          findFood(r, c, i);
+        }
       }
     }
   }
