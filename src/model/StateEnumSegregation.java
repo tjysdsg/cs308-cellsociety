@@ -1,11 +1,9 @@
 package model;
 
-import java.util.Map;
-
 /**
  * EMPTY = 0, O = 1, X = 2
  */
-public enum StateSegregation implements StateEnum {
+public enum StateEnumSegregation implements StateEnum {
 
   EMPTY, O, X;
 
@@ -14,7 +12,7 @@ public enum StateSegregation implements StateEnum {
   public static final int X_VAL = 2;
   public static final int[] ALL_VALS = new int[]{0, 1, 2};
 
-  public static StateSegregation fromInt(int val) {
+  public static StateEnumSegregation fromInt(int val) {
     return switch (val) {
       case O_VAL -> O;
       case X_VAL -> X;

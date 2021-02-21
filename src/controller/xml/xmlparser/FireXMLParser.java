@@ -4,7 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationFire;
 import model.State;
-import model.StateFire;
+import model.StateEnumFire;
 
 public class FireXMLParser extends XMLParser {
 
@@ -25,9 +25,9 @@ public class FireXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = StateFire.ALL_VALS.length;
-    for (int val : StateFire.ALL_VALS) {
-      states[val] = new State(StateFire.fromInt(val));
+    stateRange = StateEnumFire.ALL_VALS.length;
+    for (int val : StateEnumFire.ALL_VALS) {
+      states[val] = new State(StateEnumFire.fromInt(val));
     }
   }
 

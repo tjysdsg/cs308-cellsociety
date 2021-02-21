@@ -3,7 +3,7 @@ package model;
 /**
  * BLOCKED = 0, OPEN = 1, PERCOLATED = 2
  */
-public enum StatePercolation implements StateEnum {
+public enum StateEnumPercolation implements StateEnum {
 
   BLOCKED, OPEN, PERCOLATED;
 
@@ -12,7 +12,7 @@ public enum StatePercolation implements StateEnum {
   public static final int PERCOLATED_VAL = 2;
   public static final int[] ALL_VALS = new int[]{0, 1, 2};
 
-  public static StatePercolation fromInt(int val) {
+  public static StateEnumPercolation fromInt(int val) {
     return switch (val) {
       case OPEN_VAL -> OPEN;
       case PERCOLATED_VAL -> PERCOLATED;

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 
 /**
  * Simulation model of Rock, Paper, Scissors.
@@ -34,14 +33,14 @@ public class SimulationRPS extends Simulation {
   /**
    * .get(s) returns a list of states that can beat s
    */
-  private static final Map<StateRPS, StateRPS[]> WINNERS = Map.of(
-      StateRPS.SCISSORS, new StateRPS[]{StateRPS.ROCK},
-      StateRPS.PAPER, new StateRPS[]{StateRPS.SCISSORS},
-      StateRPS.ROCK, new StateRPS[]{StateRPS.PAPER}
+  private static final Map<StateEnumRPS, StateEnumRPS[]> WINNERS = Map.of(
+      StateEnumRPS.SCISSORS, new StateEnumRPS[]{StateEnumRPS.ROCK},
+      StateEnumRPS.PAPER, new StateEnumRPS[]{StateEnumRPS.SCISSORS},
+      StateEnumRPS.ROCK, new StateEnumRPS[]{StateEnumRPS.PAPER}
   );
 
   public SimulationRPS(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, new State(StateRPS.ROCK), Neighborhood.Square8());
+    grid = new GridSq(nRows, nCols, new State(StateEnumRPS.ROCK), Neighborhood.Square8());
   }
 
   @Override
@@ -73,20 +72,20 @@ public class SimulationRPS extends Simulation {
 
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        StateRPS s = (StateRPS) grid.getState(r, c).getStateType();
+        StateEnumRPS s = (StateEnumRPS) grid.getState(r, c).getStateType();
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
 
         // find who can win me
-        StateRPS[] winners = WINNERS.get(s);
+        StateEnumRPS[] winners = WINNERS.get(s);
         // init win counts of every winner
-        Map<StateRPS, Integer> nWins = new HashMap<>();
+        Map<StateEnumRPS, Integer> nWins = new HashMap<>();
         for (var w : winners) {
           nWins.put(w, 0);
         }
 
         // count the wins
         for (Cell neighbor : neighbors) {
-          StateRPS neighborState = (StateRPS) neighbor.getState().getStateType();
+          StateEnumRPS neighborState = (StateEnumRPS) neighbor.getState().getStateType();
           int prevCount = nWins.getOrDefault(neighborState, -1);
           if (prevCount != -1) {
             nWins.put(neighborState, prevCount + 1);
@@ -116,11 +115,11 @@ public class SimulationRPS extends Simulation {
     nRocks = nPapers = nScissors = 0;
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        if (grid.getState(r, c).equals(StateRPS.ROCK)) {
+        if (grid.getState(r, c).getStateType() == StateEnumRPS.ROCK) {
           ++nRocks;
-        } else if (grid.getState(r, c).equals(StateRPS.PAPER)) {
+        } else if (grid.getState(r, c).getStateType() == StateEnumRPS.PAPER) {
           ++nPapers;
-        } else if (grid.getState(r, c).equals(StateRPS.SCISSORS)) {
+        } else if (grid.getState(r, c).getStateType() == StateEnumRPS.SCISSORS) {
           ++nScissors;
         }
       }

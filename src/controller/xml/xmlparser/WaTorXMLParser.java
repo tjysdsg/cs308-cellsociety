@@ -4,7 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationWaTor;
 import model.State;
-import model.StateWaTor;
+import model.StateEnumWaTor;
 
 public class WaTorXMLParser extends XMLParser {
 
@@ -33,9 +33,9 @@ public class WaTorXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = StateWaTor.ALL_VALS.length;
-    for (int val : StateWaTor.ALL_VALS) {
-      states[val] = new State(StateWaTor.fromInt(val));
+    stateRange = StateEnumWaTor.ALL_VALS.length;
+    for (int val : StateEnumWaTor.ALL_VALS) {
+      states[val] = new State(StateEnumWaTor.fromInt(val));
     }
   }
 

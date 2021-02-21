@@ -3,7 +3,7 @@ package model;
 /**
  * EMPTY = 0, TREE = 1, BURNING = 2
  */
-public enum StateFire implements StateEnum {
+public enum StateEnumFire implements StateEnum {
 
   EMPTY, TREE, BURNING;
 
@@ -12,7 +12,7 @@ public enum StateFire implements StateEnum {
   public static final int BURNING_VAL = 2;
   public static final int[] ALL_VALS = new int[]{0, 1, 2};
 
-  public static StateFire fromInt(int val) {
+  public static StateEnumFire fromInt(int val) {
     return switch (val) {
       case TREE_VAL -> TREE;
       case BURNING_VAL -> BURNING;

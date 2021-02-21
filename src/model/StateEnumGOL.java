@@ -3,7 +3,7 @@ package model;
 /**
  * DEAD = 0, ALIVE = 1
  */
-public enum StateGOL implements StateEnum {
+public enum StateEnumGOL implements StateEnum {
 
   DEAD, ALIVE;
 
@@ -11,7 +11,7 @@ public enum StateGOL implements StateEnum {
   public static final int ALIVE_VAL = 1;
   public static final int[] ALL_VALS = new int[]{0, 1};
 
-  public static StateGOL fromInt(int val) {
+  public static StateEnumGOL fromInt(int val) {
     return switch (val) {
       case ALIVE_VAL -> ALIVE;
       default -> DEAD;

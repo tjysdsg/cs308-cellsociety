@@ -4,7 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationPercolation;
 import model.State;
-import model.StatePercolation;
+import model.StateEnumPercolation;
 
 public class PercolationXMLParser extends XMLParser {
 
@@ -31,9 +31,9 @@ public class PercolationXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = StatePercolation.ALL_VALS.length;
-    for (int val : StatePercolation.ALL_VALS) {
-      states[val] = new State(StatePercolation.fromInt(val));
+    stateRange = StateEnumPercolation.ALL_VALS.length;
+    for (int val : StateEnumPercolation.ALL_VALS) {
+      states[val] = new State(StateEnumPercolation.fromInt(val));
     }
   }
 }

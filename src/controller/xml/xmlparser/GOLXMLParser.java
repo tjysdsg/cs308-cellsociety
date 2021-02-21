@@ -4,7 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationGOL;
 import model.State;
-import model.StateGOL;
+import model.StateEnumGOL;
 
 public class GOLXMLParser extends XMLParser {
 
@@ -32,9 +32,9 @@ public class GOLXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = StateGOL.ALL_VALS.length;
-    for (int val : StateGOL.ALL_VALS) {
-      states[val] = new State(StateGOL.fromInt(val));
+    stateRange = StateEnumGOL.ALL_VALS.length;
+    for (int val : StateEnumGOL.ALL_VALS) {
+      states[val] = new State(StateEnumGOL.fromInt(val));
     }
   }
 

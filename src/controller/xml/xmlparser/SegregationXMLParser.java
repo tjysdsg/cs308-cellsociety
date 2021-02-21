@@ -4,7 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationSegregation;
 import model.State;
-import model.StateSegregation;
+import model.StateEnumSegregation;
 
 public class SegregationXMLParser extends XMLParser {
 
@@ -28,9 +28,9 @@ public class SegregationXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = StateSegregation.ALL_VALS.length;
-    for (int val : StateSegregation.ALL_VALS) {
-      states[val] = new State(StateSegregation.fromInt(val));
+    stateRange = StateEnumSegregation.ALL_VALS.length;
+    for (int val : StateEnumSegregation.ALL_VALS) {
+      states[val] = new State(StateEnumSegregation.fromInt(val));
     }
   }
 

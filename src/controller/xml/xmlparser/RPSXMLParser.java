@@ -1,15 +1,10 @@
 package controller.xml.xmlparser;
 
-import static model.StateRPS.PAPER;
-import static model.StateRPS.ROCK;
-import static model.StateRPS.SCISSORS;
-
 import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationRPS;
 import model.State;
-import model.StateFire;
-import model.StateRPS;
+import model.StateEnumRPS;
 
 public class RPSXMLParser extends XMLParser{
   public static final String THRESHOLD_TAG="threshold";
@@ -38,9 +33,9 @@ public class RPSXMLParser extends XMLParser{
 
   @Override
   public void initStateArray() {
-    stateRange = StateRPS.ALL_VALS.length;
-    for (int val : StateRPS.ALL_VALS) {
-      states[val] = new State(StateRPS.fromInt(val));
+    stateRange = StateEnumRPS.ALL_VALS.length;
+    for (int val : StateEnumRPS.ALL_VALS) {
+      states[val] = new State(StateEnumRPS.fromInt(val));
     }
   }
 

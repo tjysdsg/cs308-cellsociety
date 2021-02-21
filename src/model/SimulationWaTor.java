@@ -37,13 +37,13 @@ public class SimulationWaTor extends Simulation {
   private int nShark = 0;
 
   public SimulationWaTor(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, StateWaTor.EMPTY(), Neighborhood.Square4());
+    grid = new GridSq(nRows, nCols, new StateWator(StateEnumWaTor.EMPTY), Neighborhood.Square4());
   }
 
-  private List<Cell> sublistWithStateEquals(List<Cell> list, StateWaTor s) {
+  private List<Cell> sublistWithStateEquals(List<Cell> list, StateEnumWaTor s) {
     ArrayList<Cell> ret = new ArrayList<>();
     for (var neighbor : list) {
-      if (neighbor.getState().equals(s)) {
+      if (neighbor.getState().getStateType() == s) {
         ret.add(neighbor);
       }
     }
@@ -74,37 +74,37 @@ public class SimulationWaTor extends Simulation {
   }
 
   private boolean starve(int r, int c) {
-    StateWaTor s = (StateWaTor) grid.getState(r, c);
+    StateEnumWaTor s = (StateEnumWaTor) grid.getState(r, c).getStateType();
     if (++s.nDaysStarve > sharkStarveDuration) {
-      grid.setState(r, c, StateWaTor.EMPTY());
+      grid.setState(r, c, new StateWator(StateEnumWaTor.EMPTY));
       return true;
     }
     return false;
   }
 
   private boolean move(int r, int c) {
-    StateWaTor s = (StateWaTor) grid.getState(r, c);
+    StateEnumWaTor s = (StateEnumWaTor) grid.getState(r, c).getStateType();
 
     List<Cell> neighbors = grid.getNeighborsOf(r, c);
-    List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateWaTor.EMPTY());
+    List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateEnumWaTor.EMPTY);
     if (emptyNeighbors.size() > 0) {
       int idx = Utils.randomChoose(emptyNeighbors);
       s.setMoved(true);
       emptyNeighbors.get(idx).setState(s, true);
-      grid.setState(r, c, StateWaTor.EMPTY(), true);
+      grid.setState(r, c, StateEnumWaTor.EMPTY(), true);
       return true;
     }
     return false;
   }
 
   private boolean eat(int r, int c) {
-    StateWaTor s = (StateWaTor) grid.getState(r, c);
+    StateEnumWaTor s = (StateEnumWaTor) grid.getState(r, c).getStateType();
     List<Cell> neighbors = grid.getNeighborsOf(r, c);
-    List<Cell> fishNeighbors = sublistWithStateEquals(neighbors, StateWaTor.FISH());
+    List<Cell> fishNeighbors = sublistWithStateEquals(neighbors, StateEnumWaTor.FISH());
 
     if (fishNeighbors.size() > 0) {
       Cell cell = fishNeighbors.get(Utils.randomChoose(fishNeighbors));
-      cell.setState(StateWaTor.EMPTY(), true);
+      cell.setState(StateEnumWaTor.EMPTY(), true);
       s.nDaysStarve = 0;
       return true;
     }
@@ -112,16 +112,17 @@ public class SimulationWaTor extends Simulation {
   }
 
   private boolean breed(int r, int c) {
-    StateWaTor s = (StateWaTor) grid.getState(r, c);
+    StateEnumWaTor s = (StateEnumWaTor) grid.getState(r, c);
     // assuming s == MOVED_FISH or MOVED_SHARK
     ++s.nDaysBreed;
-    int breedDuration = s.equals(StateWaTor.MOVED_FISH()) ? fishBreedDuration : sharkBreedDuration;
+    int breedDuration =
+        s.equals(StateEnumWaTor.MOVED_FISH()) ? fishBreedDuration : sharkBreedDuration;
 
-    StateWaTor childState =
-        s.equals(StateWaTor.MOVED_FISH()) ? StateWaTor.FISH() : StateWaTor.SHARK();
+    StateEnumWaTor childState =
+        s.equals(StateEnumWaTor.MOVED_FISH()) ? StateEnumWaTor.FISH() : StateEnumWaTor.SHARK();
 
     List<Cell> neighbors = grid.getNeighborsOf(r, c);
-    List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateWaTor.EMPTY());
+    List<Cell> emptyNeighbors = sublistWithStateEquals(neighbors, StateEnumWaTor.EMPTY());
     if (s.nDaysBreed > breedDuration && emptyNeighbors.size() > 0) {
       Cell cell = emptyNeighbors.get(Utils.randomChoose(emptyNeighbors));
       cell.setState(childState, true);
@@ -147,7 +148,7 @@ public class SimulationWaTor extends Simulation {
     // 1. SHARK movement and eating
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        if (grid.getState(r, c).equals(StateWaTor.SHARK())) {
+        if (grid.getState(r, c).equals(StateEnumWaTor.SHARK())) {
           updated |= starve(r, c);
           updated |= move(r, c);
           updated |= eat(r, c);
@@ -158,7 +159,7 @@ public class SimulationWaTor extends Simulation {
     // 2. FISH movement
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        if (grid.getState(r, c).equals(StateWaTor.FISH())) {
+        if (grid.getState(r, c).equals(StateEnumWaTor.FISH())) {
           updated |= move(r, c);
         }
       }
@@ -167,8 +168,8 @@ public class SimulationWaTor extends Simulation {
     // 3. FISH and SHARK breeding
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        if (grid.getState(r, c).equals(StateWaTor.MOVED_FISH())
-            || grid.getState(r, c).equals(StateWaTor.MOVED_SHARK())) {
+        if (grid.getState(r, c).equals(StateEnumWaTor.MOVED_FISH())
+            || grid.getState(r, c).equals(StateEnumWaTor.MOVED_SHARK())) {
           updated |= breed(r, c);
         }
       }
@@ -184,9 +185,9 @@ public class SimulationWaTor extends Simulation {
     nFish = nShark = 0;
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        if (grid.getState(r, c).equals(StateWaTor.FISH())) {
+        if (grid.getState(r, c).equals(StateEnumWaTor.FISH())) {
           ++nFish;
-        } else if (grid.getState(r, c).equals(StateWaTor.SHARK())) {
+        } else if (grid.getState(r, c).equals(StateEnumWaTor.SHARK())) {
           ++nShark;
         }
       }

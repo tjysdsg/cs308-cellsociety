@@ -5,7 +5,7 @@ package model;
  * <p>
  * Please ignore MOVED_SHARK and MOVED_FISH as they are only used internally by Simulation.
  */
-public enum StateWaTor implements StateEnum {
+public enum StateEnumWaTor implements StateEnum {
 
   EMPTY, SHARK, FISH,
   MOVED_SHARK, MOVED_FISH;
@@ -20,7 +20,7 @@ public enum StateWaTor implements StateEnum {
   public int nDaysBreed = 0;
   public int nDaysStarve = 0;
 
-  public static StateWaTor fromInt(int val) {
+  public static StateEnumWaTor fromInt(int val) {
     return switch (val) {
       case SHARK_VAL -> SHARK;
       case FISH_VAL -> FISH;
