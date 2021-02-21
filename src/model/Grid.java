@@ -1,23 +1,23 @@
 package model;
 
-import model.Neighborhood.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Cells are accessed by (r, c) coordinate, where r is the row index and c is the column index
- * axis.
+ * Base class of grid.
  */
-public class Grid {
+public abstract class Grid {
 
-  private int nRows;
-  private int nCols;
-  private List<List<Cell>> grid;
-  private Neighborhood neighborhood;
+  protected List<List<Cell>> grid;
+  protected int nRows;
+  protected int nCols;
+  protected Neighborhood neighborhood;
+  protected EdgeType edgeType = EdgeType.FINITE;
 
-  public Grid(int nRows, int nCols, State defaultState, Neighborhood neighborhood) {
-    this.setNumRows(nRows);
-    this.setNumCols(nCols);
+  public Grid(int nRows, int nCols, State defaultState) {
+    this.nRows = nRows;
+    this.nCols = nCols;
+
     grid = new ArrayList<>(nRows);
     for (int i = 0; i < nRows; ++i) {
       ArrayList<Cell> row = new ArrayList<>(nCols);
@@ -26,7 +26,6 @@ public class Grid {
       }
       grid.add(row);
     }
-    this.neighborhood = neighborhood;
   }
 
   /**
@@ -40,20 +39,29 @@ public class Grid {
   /**
    * Lazy write to a cell state
    *
-   * @see Grid#setState(int, int, State, boolean)
+   * @see GridSq4#setState(int, int, State, boolean)
    */
   public void setState(int r, int c, State state) {
     grid.get(r).get(c).setState(state, false);
   }
 
+  /**
+   * Get state of cell located at (r, c)
+   */
   public State getState(int r, int c) {
     return grid.get(r).get(c).getState();
   }
 
+  /**
+   * Get cell at (r, c)
+   */
   public Cell getCell(int r, int c) {
     return grid.get(r).get(c);
   }
 
+  /**
+   * Update all states in the grid to the next generation
+   */
   public void update() {
     for (int r = 0; r < getNumRows(); ++r) {
       for (int c = 0; c < getNumCols(); ++c) {
@@ -62,41 +70,114 @@ public class Grid {
     }
   }
 
-  public List<Cell> getNeighborsOf(int r, int c) {
-    ArrayList<Cell> ret = new ArrayList<>();
-    boolean n = r > 0;
-    boolean s = r < getNumRows() - 1;
-    boolean e = c < getNumCols() - 1;
-    boolean w = c > 0;
+  /**
+   * Set the edge type of the grid.
+   *
+   * @see EdgeType
+   */
+  public void setEdgeType(EdgeType edgeType) {
+    this.edgeType = edgeType;
+  }
 
-    if (neighborhood.isValidNeighbor(Direction.NORTH) && n) {
-      ret.add(getCell(r - 1, c));
-    }
-    if (neighborhood.isValidNeighbor(Direction.SOUTH) && s) {
-      ret.add(getCell(r + 1, c));
-    }
-    if (neighborhood.isValidNeighbor(Direction.EAST) && e) {
-      ret.add(getCell(r, c + 1));
-    }
-    if (neighborhood.isValidNeighbor(Direction.WEST) && w) {
-      ret.add(getCell(r, c - 1));
-    }
+  protected Vec2D wrapAroundCoord(Vec2D coord) {
+    return new Vec2D(
+        Utils.wrapInt(coord.getX(), 0, nRows - 1),
+        Utils.wrapInt(coord.getY(), 0, nCols - 1)
+    );
+  }
 
-    if (neighborhood.isValidNeighbor(Direction.NORTH_EAST) && n && e) {
-      ret.add(getCell(r - 1, c + 1));
-    }
-    if (neighborhood.isValidNeighbor(Direction.NORTH_WEST) && n && w) {
-      ret.add(getCell(r - 1, c - 1));
-    }
-    if (neighborhood.isValidNeighbor(Direction.SOUTH_EAST) && s && e) {
-      ret.add(getCell(r + 1, c + 1));
-    }
-    if (neighborhood.isValidNeighbor(Direction.SOUTH_WEST) && s && w) {
-      ret.add(getCell(r + 1, c - 1));
+  /**
+   * Get a list of coordinates that contains forward neighbors of the cell at (r, c)
+   */
+  public List<Vec2D> getForwardNeighborsCoord(int r, int c, Vec2D forwardDirection) {
+    ArrayList<Vec2D> ret = new ArrayList<>();
+    Vec2D coord = new Vec2D(r, c);
+
+    // TODO: infinite edge type
+    for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
+
+      if (delta.cosAngle(forwardDirection) < 0) { // check if forward using cosine
+        continue;
+      }
+
+      Vec2D newCoord = coord.add(delta);
+      if (edgeType == EdgeType.WRAP) { // toroidal
+        newCoord = wrapAroundCoord(newCoord);
+        if (neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      } else { // finite
+        if (isInside(newCoord.getX(), newCoord.getY())
+            && neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      }
     }
     return ret;
   }
 
+  /**
+   * Get a list of coordinates that contains neighbors of the cell at (r, c)
+   */
+  public List<Vec2D> getNeighborsCoord(int r, int c) {
+    ArrayList<Vec2D> ret = new ArrayList<>();
+    Vec2D coord = new Vec2D(r, c);
+
+    // TODO: infinite edge type
+    for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
+      Vec2D newCoord = coord.add(delta);
+      if (edgeType == EdgeType.WRAP) { // toroidal
+        newCoord = wrapAroundCoord(newCoord);
+        if (neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      } else { // finite
+        if (isInside(newCoord.getX(), newCoord.getY())
+            && neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * Get a list of cells that are neighbors of the cell at (r, c)
+   */
+  public List<Cell> getNeighborsOf(int r, int c) {
+    ArrayList<Cell> ret = new ArrayList<>();
+    Vec2D coord = new Vec2D(r, c);
+
+    // TODO: infinite edge type
+    for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
+      Vec2D newCoord = coord.add(delta);
+      if (edgeType == EdgeType.WRAP) { // toroidal
+        newCoord = wrapAroundCoord(newCoord);
+        if (neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(getCell(newCoord.getX(), newCoord.getY()));
+        }
+      } else { // finite
+        if (isInside(newCoord.getX(), newCoord.getY())
+            && neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(getCell(newCoord.getX(), newCoord.getY()));
+        }
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * Set which neighborhood ruleset to use
+   *
+   * @see Neighborhood
+   */
+  public void setNeighborhood(Neighborhood neighborhood) {
+    this.neighborhood = neighborhood;
+  }
+
+  /**
+   * Get a string representation of the grid
+   */
   @Override
   public String toString() {
     StringBuilder ret = new StringBuilder();
@@ -115,19 +196,41 @@ public class Grid {
     return ret.toString();
   }
 
+  /**
+   * Get the total number of rows
+   */
   public int getNumRows() {
     return nRows;
   }
 
+  /**
+   * Set the total number of rows
+   */
   public void setNumRows(int nRows) {
     this.nRows = nRows;
   }
 
+  /**
+   * Get the total number of columns
+   */
   public int getNumCols() {
     return nCols;
   }
 
+  /**
+   * Set the total number of columns
+   */
   public void setNumCols(int nCols) {
     this.nCols = nCols;
+  }
+
+  /**
+   * Check if (r, c) is inside the grid
+   */
+  public boolean isInside(int r, int c) {
+    return r >= 0
+        && r < nRows
+        && c < nCols
+        && c >= 0;
   }
 }

@@ -8,6 +8,8 @@ import java.util.Random;
 /**
  * Simulation model of Fire.
  * <p>
+ * See {@link Simulation#setConfig(String, Object)} for general simulation options
+ * <p>
  * Configurable options:
  * <ul>
  *   <li>
@@ -26,11 +28,12 @@ public class SimulationFire extends Simulation {
   private int nBurning = 0;
 
   public SimulationFire(int nRows, int nCols) {
-    grid = new Grid(nRows, nCols, StateFire.EMPTY, Neighborhood.Preset4());
+    grid = new GridSq4(nRows, nCols, new State(StateEnumFire.EMPTY));
   }
 
   @Override
   public <T> void setConfig(String name, T value) {
+    super.setConfig(name, value);
     if (name.equals("probCatch")) {
       assert value instanceof Double;
       probCatch = (double) value;
@@ -56,21 +59,21 @@ public class SimulationFire extends Simulation {
     // calculate next state
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        StateFire s = (StateFire) grid.getState(r, c);
+        StateEnumFire s = (StateEnumFire) grid.getState(r, c).getStateType();
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
-        if (StateFire.TREE == s) {
+        if (StateEnumFire.TREE == s) {
           for (Cell neighbor : neighbors) {
-            if ((neighbor.getState()) == StateFire.BURNING) {
+            if (neighbor.getState().getStateType() == StateEnumFire.BURNING) {
               Random rand = new Random();
               if (rand.nextDouble() <= probCatch) {
-                grid.setState(r, c, StateFire.BURNING);
+                grid.setState(r, c, new State(StateEnumFire.BURNING));
                 break;
               }
             }
           }
-        } else if (StateFire.BURNING == s) {
+        } else if (StateEnumFire.BURNING == s) {
           ++nBurning;
-          grid.setState(r, c, StateFire.EMPTY);
+          grid.setState(r, c, new State(StateEnumFire.EMPTY));
         }
       }
     }
@@ -84,9 +87,9 @@ public class SimulationFire extends Simulation {
     nTrees = nBurning = 0;
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        if (grid.getState(r, c).equals(StateFire.TREE)) {
+        if (grid.getState(r, c).getStateType() == StateEnumFire.TREE) {
           ++nTrees;
-        } else if (grid.getState(r, c).equals(StateFire.BURNING)) {
+        } else if (grid.getState(r, c).getStateType() == StateEnumFire.BURNING) {
           ++nBurning;
         }
       }

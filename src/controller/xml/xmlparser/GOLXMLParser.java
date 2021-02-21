@@ -1,11 +1,10 @@
-package controller.xml;
+package controller.xml.xmlparser;
 
-import static model.StateGOL.ALIVE;
-import static model.StateGOL.DEAD;
-
+import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationGOL;
 import model.State;
+import model.StateEnumGOL;
 
 public class GOLXMLParser extends XMLParser {
 
@@ -33,9 +32,10 @@ public class GOLXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = 2;
+    stateRange = StateEnumGOL.ALL_VALS.length;
     states = new State[stateRange];
-    states[0] = DEAD;
-    states[1] = ALIVE;
+    for (int val : StateEnumGOL.ALL_VALS) {
+      states[val] = new State(StateEnumGOL.fromInt(val));
+    }
   }
 }
