@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import view.MainView;
 
 public class Main extends Application {
-  private String STYLESHEET = "test.css";
 
   public static void main(String[] args) {
     launch(args);
@@ -18,7 +17,6 @@ public class Main extends Application {
     Controller controller = new Controller();
     MainView view = new MainView(controller);
     Scene scene = view.createScene();
-    scene.getStylesheets().add(getClass().getResource(STYLESHEET).toExternalForm());
     stage.setScene(scene);
     stage.setTitle("Cell Society");
     stage.show();

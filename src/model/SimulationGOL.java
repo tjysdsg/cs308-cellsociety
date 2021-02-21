@@ -18,7 +18,7 @@ public class SimulationGOL extends Simulation {
   private int nAlive = 0;
 
   public SimulationGOL(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, StateGOL.DEAD, Neighborhood.Square8());
+    grid = new GridSq8(nRows, nCols, new State(StateEnumGOL.DEAD));
   }
 
   @Override
@@ -39,19 +39,19 @@ public class SimulationGOL extends Simulation {
     // calculate next state
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        StateGOL s = (StateGOL) grid.getState(r, c);
+        StateEnumGOL s = (StateEnumGOL) grid.getState(r, c).getStateType();
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
         int nAliveNeighbors = 0;
         for (var neighbor : neighbors) {
-          if (neighbor.getState() == StateGOL.ALIVE) {
+          if (neighbor.getState().getStateType() == StateEnumGOL.ALIVE) {
             ++nAliveNeighbors;
           }
         }
-        if (StateGOL.DEAD == s && nAliveNeighbors == 3) {
-          grid.setState(r, c, StateGOL.ALIVE);
+        if (StateEnumGOL.DEAD == s && nAliveNeighbors == 3) {
+          grid.setState(r, c, new State(StateEnumGOL.ALIVE));
           updated = true;
-        } else if (StateGOL.ALIVE == s && (nAliveNeighbors < 2 || nAliveNeighbors > 3)) {
-          grid.setState(r, c, StateGOL.DEAD);
+        } else if (StateEnumGOL.ALIVE == s && (nAliveNeighbors < 2 || nAliveNeighbors > 3)) {
+          grid.setState(r, c, new State(StateEnumGOL.DEAD));
           updated = true;
         }
       }
@@ -66,7 +66,7 @@ public class SimulationGOL extends Simulation {
     nAlive = 0;
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        if (grid.getState(r, c).equals(StateGOL.ALIVE)) {
+        if (grid.getState(r, c).getStateType() == StateEnumGOL.ALIVE) {
           ++nAlive;
         }
       }

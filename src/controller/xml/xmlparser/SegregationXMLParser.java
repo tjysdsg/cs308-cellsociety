@@ -1,13 +1,10 @@
 package controller.xml.xmlparser;
 
-import static model.StateSegregation.EMPTY;
-import static model.StateSegregation.O;
-import static model.StateSegregation.X;
-
 import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationSegregation;
 import model.State;
+import model.StateEnumSegregation;
 
 public class SegregationXMLParser extends XMLParser{
 
@@ -30,11 +27,11 @@ public class SegregationXMLParser extends XMLParser{
 
   @Override
   public void initStateArray() {
-    stateRange=3;
-    states= new State[stateRange];
-    states[0]=EMPTY;
-    states[1]=O;
-    states[2]=X;
+    stateRange = StateEnumSegregation.ALL_VALS.length;
+    states = new State[stateRange];
+    for (int val : StateEnumSegregation.ALL_VALS) {
+      states[val] = new State(StateEnumSegregation.fromInt(val));
+    }
   }
 
   @Override

@@ -29,7 +29,7 @@ public class SimulationSegregation extends Simulation {
   private int nDissatisfied = 0;
 
   public SimulationSegregation(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, StateSegregation.EMPTY, Neighborhood.Square8());
+    grid = new GridSq8(nRows, nCols, new State(StateEnumSegregation.EMPTY));
   }
 
   @Override
@@ -62,15 +62,15 @@ public class SimulationSegregation extends Simulation {
     LinkedList<int[]> emptySpots = new LinkedList<>();
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        StateSegregation s = (StateSegregation) grid.getState(r, c);
+        StateEnumSegregation s = (StateEnumSegregation) grid.getState(r, c).getStateType();
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
 
-        if (s.equals(StateSegregation.EMPTY)) {
+        if (s == StateEnumSegregation.EMPTY) {
           emptySpots.add(new int[]{r, c});
         } else { // agents
           int nSimilarNeighbors = 0;
           for (var neighbor : neighbors) {
-            if (neighbor.getState().equals(s)) {
+            if (neighbor.getState().getStateType() == s) {
               ++nSimilarNeighbors;
             }
           }
@@ -91,7 +91,7 @@ public class SimulationSegregation extends Simulation {
       if (emptyIdx != -1) {
         int[] dest = emptySpots.get(emptyIdx);
         grid.setState(dest[0], dest[1], da.getState());
-        da.setState(StateSegregation.EMPTY, false);
+        da.setState(new State(StateEnumSegregation.EMPTY), false);
         emptySpots.remove(emptyIdx);
         updated = true;
       }

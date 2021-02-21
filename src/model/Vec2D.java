@@ -81,6 +81,18 @@ public class Vec2D {
     return ret;
   }
 
+  public double dot(Vec2D other) {
+    return (double) x * other.x + (double) y * other.y;
+  }
+
+  public double magnitude() {
+    return Math.sqrt(dot(this));
+  }
+
+  public double cosAngle(Vec2D other) {
+    return dot(other) / (magnitude() * other.magnitude());
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

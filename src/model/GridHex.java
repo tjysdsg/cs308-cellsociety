@@ -9,6 +9,7 @@ package model;
 public class GridHex extends Grid {
 
   public GridHex(int nRows, int nCols, State defaultState) {
-    super(nRows, nCols, defaultState, Neighborhood.Hex());
+    super(nRows, nCols, defaultState);
+    setNeighborhood(Neighborhood.Hex());
   }
 }

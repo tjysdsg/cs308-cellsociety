@@ -1,73 +1,44 @@
 package model;
 
-import java.util.Map;
-
-/**
- * EMPTY = 0, SHARK = 1, FISH = 2
- * <p>
- * Please ignore MOVED_SHARK and MOVED_FISH as they are only used internally by Simulation.
- */
 public class StateWaTor extends State {
 
-  public static final int EMPTY_VAL = 0;
-  public static final int SHARK_VAL = 1;
-  public static final int FISH_VAL = 2;
-  private static final int MOVED_SHARK_VAL = 3;
-  private static final int MOVED_FISH_VAL = 4;
+  private boolean moved = false;
+  private int nDaysBreed = 0;
+  private int nDaysStarve = 0;
 
-  public static StateWaTor EMPTY() {
-    return new StateWaTor(EMPTY_VAL);
-  }
-
-  public static StateWaTor SHARK() {
-    return new StateWaTor(SHARK_VAL);
-  }
-
-  public static StateWaTor FISH() {
-    return new StateWaTor(FISH_VAL);
-  }
-
-  public static StateWaTor MOVED_SHARK() {
-    return new StateWaTor(MOVED_SHARK_VAL);
-  }
-
-  public static StateWaTor MOVED_FISH() {
-    return new StateWaTor(MOVED_FISH_VAL);
-  }
-
-  public static final Map<Integer, StateWaTor> INT_TO_STATES = Map.of(
-      EMPTY_VAL, EMPTY(),
-      FISH_VAL, FISH(),
-      SHARK_VAL, SHARK()
-  );
-
-  public int nDaysBreed = 0;
-  public int nDaysStarve = 0;
-
-  StateWaTor(int val) {
-    super(val);
+  public StateWaTor(StateEnumWaTor stateType) {
+    super(stateType);
   }
 
   public void setMoved(boolean moved) {
-    if (val == FISH_VAL && moved) {
-      val = MOVED_FISH_VAL;
-    } else if (val == SHARK_VAL && moved) {
-      val = MOVED_SHARK_VAL;
-    } else if (val == MOVED_FISH_VAL && !moved) {
-      val = FISH_VAL;
-    } else if (val == MOVED_SHARK_VAL && !moved) {
-      val = SHARK_VAL;
-    }
+    this.moved = moved;
   }
 
-  @Override
-  public String toString() {
-    if (this.val == SHARK_VAL || this.val == MOVED_SHARK_VAL) {
-      return "\uD83E\uDD88";
-    } else if (this.val == FISH_VAL || this.val == MOVED_FISH_VAL) {
-      return "\uD83D\uDC1F";
-    } else {
-      return "\u3000";
-    }
+  public int getNDaysBreed() {
+    return nDaysBreed;
+  }
+
+  public void incrementNDaysBreed() {
+    ++this.nDaysBreed;
+  }
+
+  public void resetNDaysBreed() {
+    this.nDaysBreed = 0;
+  }
+
+  public int getNDaysStarve() {
+    return nDaysStarve;
+  }
+
+  public void incrementNDaysStarve() {
+    ++this.nDaysStarve;
+  }
+
+  public void resetNDaysStarve() {
+    this.nDaysStarve = 0;
+  }
+
+  public boolean isMoved() {
+    return moved;
   }
 }

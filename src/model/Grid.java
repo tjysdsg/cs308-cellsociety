@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Base class of grid.
+ */
 public abstract class Grid {
 
   protected List<List<Cell>> grid;
@@ -11,10 +14,7 @@ public abstract class Grid {
   protected Neighborhood neighborhood;
   protected EdgeType edgeType = EdgeType.FINITE;
 
-  public Grid(
-      int nRows, int nCols, State defaultState,
-      Neighborhood neighborhood
-  ) {
+  public Grid(int nRows, int nCols, State defaultState) {
     this.nRows = nRows;
     this.nCols = nCols;
 
@@ -26,7 +26,6 @@ public abstract class Grid {
       }
       grid.add(row);
     }
-    this.neighborhood = neighborhood;
   }
 
   /**
@@ -40,7 +39,7 @@ public abstract class Grid {
   /**
    * Lazy write to a cell state
    *
-   * @see GridSq#setState(int, int, State, boolean)
+   * @see GridSq4#setState(int, int, State, boolean)
    */
   public void setState(int r, int c, State state) {
     grid.get(r).get(c).setState(state, false);
@@ -88,6 +87,61 @@ public abstract class Grid {
   }
 
   /**
+   * Get a list of coordinates that contains forward neighbors of the cell at (r, c)
+   */
+  public List<Vec2D> getForwardNeighborsCoord(int r, int c, Vec2D forwardDirection) {
+    ArrayList<Vec2D> ret = new ArrayList<>();
+    Vec2D coord = new Vec2D(r, c);
+
+    // TODO: infinite edge type
+    for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
+
+      if (delta.cosAngle(forwardDirection) < 0) { // check if forward using cosine
+        continue;
+      }
+
+      Vec2D newCoord = coord.add(delta);
+      if (edgeType == EdgeType.WRAP) { // toroidal
+        newCoord = wrapAroundCoord(newCoord);
+        if (neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      } else { // finite
+        if (isInside(newCoord.getX(), newCoord.getY())
+            && neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * Get a list of coordinates that contains neighbors of the cell at (r, c)
+   */
+  public List<Vec2D> getNeighborsCoord(int r, int c) {
+    ArrayList<Vec2D> ret = new ArrayList<>();
+    Vec2D coord = new Vec2D(r, c);
+
+    // TODO: infinite edge type
+    for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
+      Vec2D newCoord = coord.add(delta);
+      if (edgeType == EdgeType.WRAP) { // toroidal
+        newCoord = wrapAroundCoord(newCoord);
+        if (neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      } else { // finite
+        if (isInside(newCoord.getX(), newCoord.getY())
+            && neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      }
+    }
+    return ret;
+  }
+
+  /**
    * Get a list of cells that are neighbors of the cell at (r, c)
    */
   public List<Cell> getNeighborsOf(int r, int c) {
@@ -110,6 +164,15 @@ public abstract class Grid {
       }
     }
     return ret;
+  }
+
+  /**
+   * Set which neighborhood ruleset to use
+   *
+   * @see Neighborhood
+   */
+  public void setNeighborhood(Neighborhood neighborhood) {
+    this.neighborhood = neighborhood;
   }
 
   /**

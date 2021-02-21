@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public abstract class Simulation {
 
-  protected GridSq grid;
+  protected Grid grid;
   protected boolean isOver = false;
 
   /**
@@ -59,6 +59,13 @@ public abstract class Simulation {
       case "wrapAround" -> grid.setEdgeType(EdgeType.WRAP);
       case "infinite" -> grid.setEdgeType(EdgeType.INFINITE);
     }
+  }
+
+  /**
+   * @see Grid#setNeighborhood(Neighborhood)
+   */
+  public void setNeighborhood(Neighborhood neighborhood) {
+    grid.setNeighborhood(neighborhood);
   }
 
   /**
