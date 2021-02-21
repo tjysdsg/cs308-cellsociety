@@ -163,6 +163,7 @@ public class MainView {
 
   public void displayStatus(Map<String, Object> statesMap) {
     // time elapsed
+    statusbox.getChildren().clear();
     statusbox.getChildren().add(
         buildStatusItem(
             configFile + " " + labelResource.getString("TimeElapsed") + " ",
@@ -170,7 +171,6 @@ public class MainView {
         ));
 
     // other status
-    statusbox.getChildren().clear();
     for (Map.Entry<String,Object> entry : statesMap.entrySet()) {
       /// NOTE: make sure keys of statesMap have values set in .properties file
 
@@ -309,7 +309,6 @@ public class MainView {
     setSpeed();
 
     scene = new Scene(root);
-    //scene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());
     return scene;
   }
 
