@@ -33,6 +33,7 @@ public class GOLXMLParser extends XMLParser {
   @Override
   public void initStateArray() {
     stateRange = StateEnumGOL.ALL_VALS.length;
+    states = new State[stateRange];
     for (int val : StateEnumGOL.ALL_VALS) {
       states[val] = new State(StateEnumGOL.fromInt(val));
     }

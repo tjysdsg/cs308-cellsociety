@@ -43,4 +43,9 @@ public class State {
   public int toInteger() {
     return stateType.toInteger();
   }
+
+  @Override
+  public String toString() {
+    return stateType.toString();
+  }
 }

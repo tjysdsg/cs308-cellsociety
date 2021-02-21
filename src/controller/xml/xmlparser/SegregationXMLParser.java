@@ -29,6 +29,7 @@ public class SegregationXMLParser extends XMLParser {
   @Override
   public void initStateArray() {
     stateRange = StateEnumSegregation.ALL_VALS.length;
+    states = new State[stateRange];
     for (int val : StateEnumSegregation.ALL_VALS) {
       states[val] = new State(StateEnumSegregation.fromInt(val));
     }

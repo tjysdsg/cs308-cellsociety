@@ -34,6 +34,7 @@ public class RPSXMLParser extends XMLParser{
   @Override
   public void initStateArray() {
     stateRange = StateEnumRPS.ALL_VALS.length;
+    states = new State[stateRange];
     for (int val : StateEnumRPS.ALL_VALS) {
       states[val] = new State(StateEnumRPS.fromInt(val));
     }

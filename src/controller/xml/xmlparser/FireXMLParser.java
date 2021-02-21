@@ -9,7 +9,7 @@ import model.StateEnumFire;
 public class FireXMLParser extends XMLParser {
 
 
-  public static final String PROB_CATCH_TAG ="probCatch";
+  public static final String PROB_CATCH_TAG = "probCatch";
   /**
    * Create parser for XML files of given fileName.
    *
@@ -26,6 +26,7 @@ public class FireXMLParser extends XMLParser {
   @Override
   public void initStateArray() {
     stateRange = StateEnumFire.ALL_VALS.length;
+    states = new State[stateRange];
     for (int val : StateEnumFire.ALL_VALS) {
       states[val] = new State(StateEnumFire.fromInt(val));
     }
@@ -36,21 +37,21 @@ public class FireXMLParser extends XMLParser {
     root = getRootElement();
     sizeX = getGridSizeX();
     sizeY = getGridSizeY();
-    simulation = new SimulationFire(sizeX,sizeY);
+    simulation = new SimulationFire(sizeX, sizeY);
     initSimulation();
     return simulation;
   }
 
   @Override
   public void initSimulation() {
-    simulation = new SimulationFire(sizeX,sizeY);
+    simulation = new SimulationFire(sizeX, sizeY);
     super.initSimulation();
     initProbCatch();
   }
 
-  private void initProbCatch(){
-    probCatch=getDoubleTextValue(root, PROB_CATCH_TAG);
-    simulation.setConfig(PROB_CATCH_TAG,probCatch);
-    params.put(PROB_CATCH_TAG,probCatch);
+  private void initProbCatch() {
+    probCatch = getDoubleTextValue(root, PROB_CATCH_TAG);
+    simulation.setConfig(PROB_CATCH_TAG, probCatch);
+    params.put(PROB_CATCH_TAG, probCatch);
   }
 }

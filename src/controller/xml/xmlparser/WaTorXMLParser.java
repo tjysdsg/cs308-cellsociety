@@ -34,6 +34,7 @@ public class WaTorXMLParser extends XMLParser {
   @Override
   public void initStateArray() {
     stateRange = StateEnumWaTor.ALL_VALS.length;
+    states = new State[stateRange];
     for (int val : StateEnumWaTor.ALL_VALS) {
       states[val] = new State(StateEnumWaTor.fromInt(val));
     }

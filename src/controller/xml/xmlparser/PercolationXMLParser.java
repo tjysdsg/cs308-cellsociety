@@ -32,6 +32,7 @@ public class PercolationXMLParser extends XMLParser {
   @Override
   public void initStateArray() {
     stateRange = StateEnumPercolation.ALL_VALS.length;
+    states = new State[stateRange];
     for (int val : StateEnumPercolation.ALL_VALS) {
       states[val] = new State(StateEnumPercolation.fromInt(val));
     }
