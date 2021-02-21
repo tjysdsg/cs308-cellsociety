@@ -35,15 +35,19 @@ public class SegregationXMLParser extends XMLParser{
   }
 
   @Override
-  public void initSimulation() {
+  public void initSimulation() throws XMLException{
     simulation = new SimulationSegregation(sizeX,sizeY);
     super.initSimulation();
     initThreshold();
   }
 
-  private void initThreshold(){
-    threshold = getDoubleTextValue(root, THRESHOLD_TAG);
-    simulation.setConfig("threshold",threshold);
-    params.put(THRESHOLD_TAG,threshold);
+  private void initThreshold() throws  XMLException{
+    try {
+      threshold = getDoubleTextValue(root, THRESHOLD_TAG);
+      simulation.setConfig("threshold",threshold);
+      params.put(THRESHOLD_TAG,threshold);
+    }catch (Exception e){
+      throw new XMLException("Invalid threshold");
+    }
   }
 }

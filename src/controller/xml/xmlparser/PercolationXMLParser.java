@@ -24,7 +24,7 @@ public class PercolationXMLParser extends XMLParser {
   }
 
   @Override
-  public void initSimulation() {
+  public void initSimulation() throws XMLException{
     simulation = new SimulationPercolation(sizeX,sizeY);
     super.initSimulation();
   }

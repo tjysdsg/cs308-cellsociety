@@ -41,7 +41,7 @@ public class WaTorXMLParser extends XMLParser {
   }
 
   @Override
-  public void initSimulation() {
+  public void initSimulation() throws XMLException{
     simulation = new SimulationWaTor(sizeX,sizeY);
     super.initSimulation();
     initFishBreedDuration();
@@ -49,19 +49,31 @@ public class WaTorXMLParser extends XMLParser {
     initSharkStarveDuration();
   }
 
-  private void initFishBreedDuration(){
-    fishBreedDuration= getIntTextValue(root, FISH_BREED_DURATION_TAG);
-    simulation.setConfig(FISH_BREED_DURATION_TAG, fishBreedDuration);
-    params.put(FISH_BREED_DURATION_TAG,fishBreedDuration);
+  private void initFishBreedDuration() throws XMLException{
+    try{
+      fishBreedDuration= getIntTextValue(root, FISH_BREED_DURATION_TAG);
+      simulation.setConfig(FISH_BREED_DURATION_TAG, fishBreedDuration);
+      params.put(FISH_BREED_DURATION_TAG,fishBreedDuration);
+    }catch (Exception e){
+      throw new XMLException("Invalid fish breed duration");
+    }
   }
-  private void initSharkBreedDuration(){
+  private void initSharkBreedDuration() throws XMLException{
+    try{
     sharkBreedDuration=getIntTextValue(root, SHARK_BREED_DURATION_TAG);
     simulation.setConfig(SHARK_BREED_DURATION_TAG,sharkBreedDuration);
     params.put(SHARK_BREED_DURATION_TAG,sharkBreedDuration);
+    }catch (Exception e){
+      throw new XMLException("Invalid shark breed duration");
+    }
   }
-  private void initSharkStarveDuration(){
+  private void initSharkStarveDuration() throws XMLException{
+    try{
     sharkStarveDuration=getIntTextValue(root, SHARK_STARVE_DURATION_TAG);
     simulation.setConfig(SHARK_STARVE_DURATION_TAG,sharkStarveDuration);
     params.put(SHARK_STARVE_DURATION_TAG,sharkStarveDuration);
+    }catch (Exception e){
+      throw new XMLException("Invalid shark starve duration");
+    }
   }
 }

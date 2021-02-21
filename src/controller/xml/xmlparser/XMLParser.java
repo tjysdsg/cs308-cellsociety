@@ -1,6 +1,7 @@
 package controller.xml.xmlparser;
 
 import controller.xml.XMLException;
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +34,7 @@ public abstract class XMLParser {
   public static final String ERROR_COORDINATE = "Coordinate is not valid row: %d col: %d";
   public static final String ERROR_STATE = "State is not valid %d";
   public static final String GRID_TAG = "grid";
-  public static final String CELL_INIT_TYPE_TAG = "cellinit";
+  public static final String CELL_INIT_METHODS_TAG = "cellinit";
   public static final String CELL_INIT_LOC_TAG = "locationnum";
   public static final String CELL_INIT_LOC_SPECIFIC_TAG = "locationonly";
   public static final String CELL_INIT_DIST_TAG = "distribution";
@@ -93,7 +94,8 @@ public abstract class XMLParser {
   /**
    * Initialize the simulation based on the certain Config file.
    */
-  public void initSimulation() {
+  public void initSimulation() throws  XMLException{
+    getCellInitMethodType(root);
     switch (cellInitType){
       case CELL_INIT_LOC_SPECIFIC_TAG:
         initCellByLocation();
@@ -121,14 +123,18 @@ public abstract class XMLParser {
   public void initCellByLocation() throws XMLException {
     NodeList stateList = root.getElementsByTagName(CELL_TAG);
     for (int i = 0; i < stateList.getLength(); i++) {
-      Element cell = (Element) stateList.item(i);
-      int row = getIntTextValue(cell, ROW_TAG);
-      int col = getIntTextValue(cell, COL_TAG);
-      checkCoordinate(row,col);
-      int stateNum = getIntTextValue(cell, STATE_TAG);
-      checkStates(stateNum);
-      State cellState = states[stateNum];
-      simulation.setState(row, col, cellState, true);
+      try{
+        Element cell = (Element) stateList.item(i);
+        int row = getIntTextValue(cell, ROW_TAG);
+        int col = getIntTextValue(cell, COL_TAG);
+        checkCoordinate(row,col);
+        int stateNum = getIntTextValue(cell, STATE_TAG);
+        checkStates(stateNum);
+        State cellState = states[stateNum];
+        simulation.setState(row, col, cellState, true);
+      }catch (Exception e){
+        throw  new XMLException("Invalid Cell");
+      }
     }
   }
 
@@ -173,7 +179,11 @@ public abstract class XMLParser {
    * @return
    */
   public int getIntTextValue(Element e, String tagName) throws XMLException{
-    return Integer.parseInt(getTextValue(e, tagName));
+    try {
+      return Integer.parseInt(getTextValue(e, tagName));
+    }catch (Exception a){
+      throw new XMLException("Invalid int"+tagName);
+    }
   }
 
 
@@ -196,8 +206,12 @@ public abstract class XMLParser {
   /**
    * get value of Element's attribute
    */
-  public String getAttribute(Element e, String attributeName) {
-    return e.getAttribute(attributeName);
+  public String getAttribute(Element e, String attributeName) throws XMLException{
+    try{
+      return e.getAttribute(attributeName);
+    }catch (Exception a){
+      throw new XMLException("Invalid attribute"+ attributeName);
+    }
   }
 
   /**
@@ -211,32 +225,44 @@ public abstract class XMLParser {
     if (nodeList != null && nodeList.getLength() > 0) {
       return nodeList.item(0).getTextContent().trim();
     } else {
-      throw new XMLException("Invalid value");
+      throw new XMLException("Invalid value for"+tagName);
     }
   }
 
   /**
    * Get the author of the XML file
    */
-  public void getAuthor(){
-    author = getTextValue(root, AUTHOR_TAG);
-    params.put(AUTHOR_TAG,author);
+  public void getAuthor() throws  XMLException{
+    try {
+      author = getTextValue(root, AUTHOR_TAG);
+      params.put(AUTHOR_TAG, author);
+    }catch (XMLException e){
+      throw new XMLException("Invalid author");
+    }
   }
 
   /**
    * Get the title of the XML file
    */
-  public void getTitle(){
-    title = getTextValue(root, TTILE_TAG);
-    params.put(TTILE_TAG,title);
+  public void getTitle()throws  XMLException{
+    try {
+      title = getTextValue(root, TTILE_TAG);
+      params.put(TTILE_TAG, title);
+    }catch (Exception e){
+      throw new XMLException("Invalid title");
+    }
   }
 
   /**
    * Get the Description of the XML file
    */
-  public void getDescription(){
-    description = getTextValue(root, DESCRIPTION_TAG);
-    params.put(DESCRIPTION_TAG,description);
+  public void getDescription() throws  XMLException{
+    try{
+      description = getTextValue(root, DESCRIPTION_TAG);
+      params.put(DESCRIPTION_TAG,description);
+    }catch (Exception e){
+      throw new XMLException("Invalid Description");
+    }
   }
 
 
@@ -244,20 +270,28 @@ public abstract class XMLParser {
   /**
    * Get the row number of the certain configuration
    */
-  public int getGridSizeX() {
-    Element gridSize = ((Element) root.getElementsByTagName(GRID_TAG).item(0));
-    return getIntTextValue(gridSize, SIZEX_TAG);
+  public int getGridSizeX() throws XMLException{
+    try{
+      Element gridSize = ((Element) root.getElementsByTagName(GRID_TAG).item(0));
+      return getIntTextValue(gridSize, SIZEX_TAG);
+    }catch (Exception e){
+      throw new XMLException("Invalid Grid rows");
+    }
   }
 
   /**
    * Get the column number of the certain configuration
    */
   public int getGridSizeY() {
-    Element gridSize = ((Element) root.getElementsByTagName(GRID_TAG).item(0));
-    return getIntTextValue(gridSize, SIZEY_TAG);
+    try{
+      Element gridSize = ((Element) root.getElementsByTagName(GRID_TAG).item(0));
+      return getIntTextValue(gridSize, SIZEY_TAG);
+    }catch (Exception e){
+      throw new XMLException("Invalid Grid cols");
   }
+}
 
-  private void initCellByDist(){
+  private void initCellByDist() throws XMLException{
     Random r =new Random();
     distribution=getTextValue(root,CELL_INIT_DIST_TAG);
     switch (distribution){
@@ -270,25 +304,35 @@ public abstract class XMLParser {
         }
         break;
       default:
-        break;
+        throw new XMLException("Invalid distribution");
     }
   }
 
-  private void initCellByRatio(){
-    locationNum=getIntTextValue(root,CELL_INIT_LOC_TAG);
-    List<Integer> arrayShuffle = new ArrayList<>(sizeX*sizeY);
-    for(int i=0;i<sizeX*sizeY;i++){
-      arrayShuffle.set(i,i);
-    }
-    Collections.shuffle(arrayShuffle);
-    for(int i=0;i<locationNum;i++){
-      int randomState= (int)(Math.random()*stateRange);
-      simulation.setState(arrayShuffle.get(i)/sizeY,arrayShuffle.get(i)%sizeY,states[randomState],true);
+  private void initCellByRatio() throws XMLException {
+    try {
+      locationNum = getIntTextValue(root, CELL_INIT_LOC_TAG);
+      List<Integer> arrayShuffle = new ArrayList<>(sizeX * sizeY);
+      for (int i = 0; i < sizeX * sizeY; i++) {
+        arrayShuffle.set(i, i);
+      }
+      Collections.shuffle(arrayShuffle);
+      for (int i = 0; i < locationNum; i++) {
+        int randomState = (int) (Math.random() * stateRange);
+        simulation
+            .setState(arrayShuffle.get(i) / sizeY, arrayShuffle.get(i) % sizeY, states[randomState],
+                true);
+      }
+    } catch (Exception e) {
+      throw new XMLException("Invalid number of cells");
     }
   }
 
-  private void getCellInitType(Element root){
-    cellInitType=getTextValue(root,CELL_INIT_TYPE_TAG);
+  private void getCellInitMethodType(Element root)throws XMLException{
+    try{
+      cellInitType=getTextValue(root, CELL_INIT_METHODS_TAG);
+    }catch (Exception e){
+      throw new XMLException("Invalid init method");
+    }
   }
 
   /**
@@ -312,5 +356,10 @@ public abstract class XMLParser {
     } catch (ParserConfigurationException e) {
       throw new XMLException(e);
     }
+  }
+
+  public static void main(String[] args){
+    XMLParser a = new RPSXMLParser("Minecraft.xml");
+    a.initSimulation();
   }
 }

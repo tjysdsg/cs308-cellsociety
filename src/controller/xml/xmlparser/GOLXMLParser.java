@@ -25,7 +25,7 @@ public class GOLXMLParser extends XMLParser {
   }
 
   @Override
-  public void initSimulation() {
+  public void initSimulation() throws XMLException{
     simulation = new SimulationGOL(sizeX,sizeY);
     super.initSimulation();
   }

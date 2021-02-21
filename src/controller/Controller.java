@@ -1,5 +1,6 @@
 package controller;
 
+import controller.xml.XMLException;
 import controller.xml.xmlparser.RPSXMLParser;
 import controller.xml.xmlparser.SegregationXMLParser;
 import controller.xml.xmlwriter.XMLWriter;
@@ -38,7 +39,7 @@ public class Controller {
   private LabelResource labelResource;
 
   /**
-   *
+   * Constructor of the controller. Initialization.
    */
   public Controller() {
     labelResource = new LabelResource("English"); // TODO: allow selection of language
@@ -98,7 +99,7 @@ public class Controller {
     if(view.getConfig()==null){
       alert.setContentText(labelResource.getString("NoConfigWarning"));
       alert.show();
-    } else if (view.getLanguage()==null){
+    } else if (/*view.getLanguage()==null*/true){
       alert.setContentText(labelResource.getString("NoLanguageWarning"));
       alert.show();
     }
@@ -145,16 +146,20 @@ public class Controller {
    * @param filename XML file name
    */
   public void setConfig(String filename) {
-    configName = filename;
-    xmlReader = new SimulationTypeParser(filename);
-    String simulationType = xmlReader.getSimulationType();
-    setXMLParser(simulationType);
-    simulation = xmlParser.getSimulation();
+    try{
+      configName = filename;
+      xmlReader = new SimulationTypeParser(filename);
+      String simulationType = xmlReader.getSimulationType();
+      setXMLParser(simulationType);
+      simulation = xmlParser.getSimulation();
+    }catch (Exception e){
+
+    }
     return;
   }
 
 
-  private void setXMLParser(String type) {
+  private void setXMLParser(String type) throws XMLException {
     switch (type) {
       case "Fire":
         xmlParser = new FireXMLParser(configName);
@@ -185,6 +190,10 @@ public class Controller {
   public void XMLToFile(){
     XMLWriter writer= new XMLWriter();
     writer.XML2File(simulation.getGrid(),xmlParser.params,configName);
+  }
+
+  public Map<String, Object> ConfigSettings(){
+    return xmlParser.params;
   }
 
   public static void main(String[] args) {
