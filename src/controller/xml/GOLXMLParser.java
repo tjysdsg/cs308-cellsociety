@@ -1,6 +1,5 @@
-package controller.xml.xmlparser;
+package controller.xml;
 
-import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationGOL;
 import model.State;

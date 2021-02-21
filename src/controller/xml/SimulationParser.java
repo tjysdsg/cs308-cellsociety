@@ -1,11 +1,10 @@
-package controller.xml.xmlparser;
+package controller.xml;
 
-import controller.xml.XMLException;
 import model.Simulation;
 
-public class SimulationTypeParser extends XMLParser {
+public class SimulationParser extends XMLParser {
 
-  public SimulationTypeParser(String fileName) {
+  public SimulationParser(String fileName) {
     super(fileName);
     root = getRootElement();
   }

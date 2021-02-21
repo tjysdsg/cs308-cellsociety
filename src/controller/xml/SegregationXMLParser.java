@@ -1,6 +1,5 @@
-package controller.xml.xmlparser;
+package controller.xml;
 
-import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationSegregation;
 import model.State;
@@ -44,7 +43,6 @@ public class SegregationXMLParser extends XMLParser {
 
   private void initThreshold() {
     threshold = getDoubleTextValue(root, THRESHOLD_TAG);
-    simulation.setConfig("threshold", threshold);
-    params.put(THRESHOLD_TAG, threshold);
+    simulation.setConfig("threshold",threshold);
   }
 }
