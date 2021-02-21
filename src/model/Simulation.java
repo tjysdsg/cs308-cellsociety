@@ -62,6 +62,13 @@ public abstract class Simulation {
   }
 
   /**
+   * @see Grid#setNeighborhood(Neighborhood)
+   */
+  public void setNeighborhood(Neighborhood neighborhood) {
+    grid.setNeighborhood(neighborhood);
+  }
+
+  /**
    * Get statistics of the simulation.
    *
    * @return A map, mapping the name of a metric to its value

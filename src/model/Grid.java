@@ -113,6 +113,15 @@ public abstract class Grid {
   }
 
   /**
+   * Set which neighborhood ruleset to use
+   *
+   * @see Neighborhood
+   */
+  public void setNeighborhood(Neighborhood neighborhood) {
+    this.neighborhood = neighborhood;
+  }
+
+  /**
    * Get a string representation of the grid
    */
   @Override
