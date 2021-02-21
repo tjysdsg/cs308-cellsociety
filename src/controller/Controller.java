@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Simulation;
 import controller.xml.FireXMLParser;
@@ -21,6 +23,7 @@ import view.MainView;
 
 public class Controller {
 
+  private String language;
   private XMLParser xmlParser;
   private boolean stepIsPressedFlag = false;
   private SimulationParser xmlReader;
@@ -40,9 +43,22 @@ public class Controller {
     animation.getKeyFrames().add(frame);
   }
 
+  public void intializeView(Stage stage){
+    MainView view = new MainView(this);
+    view.setLanguage(language);
+    Scene scene = view.createScene();
+    stage.setScene(scene);
+    this.setView(view);
+  }
+
   public void setView(MainView view) {
     this.view = view;
   }
+
+  public void setLanguage(String lan){
+    this.language = lan;
+  }
+
 
   public void setSpeed(double speed) {
     animation.setRate(speed);
@@ -69,9 +85,10 @@ public class Controller {
   public void setStart() {
     if(view.getConfig()==null){
       Alert alert = new Alert(AlertType.WARNING);
-      alert.setContentText("Please select a config file to start");
+      alert.setContentText(view.getLabelResource().getString("NoConfigFileWarning"));
       alert.show();
-    } else if (!pause || stepIsPressedFlag){
+    }
+     else if (!pause || stepIsPressedFlag){
       return;
     } else {
       view.setGridPane(simulation.getGrid());

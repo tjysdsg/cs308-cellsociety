@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -46,12 +47,12 @@ public class MainView {
   private int sec = 0;
   private Controller controller;
   private LabelResource labelResource;
+  private String language;
 
   public MainView(Controller controller) {
+    root = new Pane();
+    root.setPrefSize(1000, 600);
     this.controller = controller;
-    labelResource = new LabelResource("English"); // TODO: allow selection of language
-    speedValue = new Label(Double.toString(speed.getValue()));
-    speedLabel = new Label(labelResource.getString("SpeedLabel"));
   }
 
   /**
@@ -68,6 +69,12 @@ public class MainView {
   public String getConfig() {
     return configFile;
   }
+
+  public void setLanguage(String lan){this.language = lan;}
+
+  public LabelResource getLabelResource(){return labelResource;}
+
+
 
   /**
    * @param states,    double array of integers
@@ -161,8 +168,10 @@ public class MainView {
 
     }*/
 
+
   public void displayStatus(Map<String, Object> statesMap) {
     // time elapsed
+    statusbox.getChildren().clear();
     statusbox.getChildren().add(
         buildStatusItem(
             configFile + " " + labelResource.getString("TimeElapsed") + " ",
@@ -170,7 +179,6 @@ public class MainView {
         ));
 
     // other status
-    statusbox.getChildren().clear();
     for (Map.Entry<String,Object> entry : statesMap.entrySet()) {
       /// NOTE: make sure keys of statesMap have values set in .properties file
 
@@ -186,6 +194,8 @@ public class MainView {
   }
 
   private void setSpeed() {
+    speedValue = new Label(Double.toString(speed.getValue()));
+    speedLabel = new Label(labelResource.getString("SpeedLabel"));
     speed.valueProperty().addListener((observable, oldValue, newValue) -> {
       speedValue.setText(Double.toString(newValue.doubleValue()));
       controller.setSpeed(newValue.doubleValue());
@@ -288,8 +298,8 @@ public class MainView {
   }
 
   public Scene createScene() {
-    root = new Pane();
-    root.setPrefSize(1000, 600);
+    // get proper language
+    labelResource = new LabelResource(this.language); // TODO: allow selection of language
 
     // init grid
     grid = new GridPane();
@@ -309,7 +319,6 @@ public class MainView {
     setSpeed();
 
     scene = new Scene(root);
-    //scene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());
     return scene;
   }
 
