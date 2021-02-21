@@ -26,10 +26,10 @@ public class SimulationAnt extends Simulation {
   private int nestFood = 0;
 
   public SimulationAnt(int nRows, int nCols) {
-    grid = new GridSq8(nRows, nCols, new StateWaTor(StateEnumWaTor.EMPTY));
+    grid = new GridSq8(nRows, nCols, new StateAnt(StateEnumAnt.EMPTY, 0, false, false));
   }
 
-  private List<Cell> sublistWithStateEquals(List<Cell> list, StateEnumWaTor s) {
+  private List<Cell> sublistWithStateEquals(List<Cell> list, StateEnumAnt s) {
     ArrayList<Cell> ret = new ArrayList<>();
     for (var neighbor : list) {
       if (neighbor.getState().getStateType() == s) {
@@ -72,6 +72,9 @@ public class SimulationAnt extends Simulation {
         maxIdx = i;
       }
     }
+    if (maxPheromone == 0) {
+      return new Vec2D(0, 0);
+    }
     return neighbors.get(maxIdx);
   }
 
@@ -113,6 +116,11 @@ public class SimulationAnt extends Simulation {
 
   private void returnNest(int r, int c, int antIdx) {
     StateAnt s = (StateAnt) grid.getState(r, c);
+    // do nothing if already at nest
+    if (s.isNest()) {
+      return;
+    }
+
     Vec2D maxPheromoneNeighborCoord = findMaxPheromoneNeighbor(r, c, PheromoneType.HOME);
     Ant ant = s.getAnt(antIdx);
 
@@ -127,9 +135,9 @@ public class SimulationAnt extends Simulation {
       );
       if (dest.equals(new Vec2D(0, 0))) {
         dest = maxPheromoneNeighborCoord;
-        dropPheromone(r, c, PheromoneType.FOOD);
-        moveAntTo(new Vec2D(r, c), dest, antIdx);
       }
+      dropPheromone(r, c, PheromoneType.FOOD);
+      moveAntTo(new Vec2D(r, c), dest, antIdx);
     }
   }
 
@@ -150,11 +158,11 @@ public class SimulationAnt extends Simulation {
       for (int i = s.getNAnts() - 1; i >= 0; --i) {
         // iterate in reverse order because ants might get deleted
         Ant ant = s.getAnt(i);
-        if (ant.hasFood()) {
-          returnNest(r, c, i);
-        } else {
-          findFood(r, c, i);
-        }
+//        if (ant.hasFood()) {
+        returnNest(r, c, i);
+//        } else {
+//          findFood(r, c, i);
+//        }
       }
     }
   }

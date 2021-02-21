@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +12,19 @@ public class StateAnt extends State {
   private boolean isFoodSource;
   private boolean isNest;
 
-  public StateAnt(StateEnumAnt stateType, boolean isFoodSource, boolean isNest) {
+  public StateAnt(StateEnumAnt stateType, int nAnts, boolean isFoodSource, boolean isNest) {
     super(stateType);
     pheromones = new HashMap<>();
     pheromones.put(PheromoneType.FOOD, 0);
     pheromones.put(PheromoneType.HOME, 0);
     this.isFoodSource = isFoodSource;
     this.isNest = isNest;
+    ants = new ArrayList<>();
+    if (nAnts > 0 && stateType == StateEnumAnt.ANTS) {
+      for (int i = 0; i < nAnts; ++i) {
+        ants.add(new Ant());
+      }
+    }
   }
 
   public int getPheromone(PheromoneType type) {
@@ -34,11 +41,16 @@ public class StateAnt extends State {
 
   public int addAnt(Ant ant) {
     ants.add(ant);
+    stateType = StateEnumAnt.ANTS;
     return ants.size() - 1;
   }
 
   public Ant removeAntAt(int idx) {
-    return ants.remove(idx);
+    Ant ret = ants.remove(idx);
+    if (ants.isEmpty()) {
+      stateType = StateEnumAnt.EMPTY;
+    }
+    return ret;
   }
 
   public Ant getAnt(int idx) {
