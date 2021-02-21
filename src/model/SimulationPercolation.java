@@ -18,7 +18,7 @@ public class SimulationPercolation extends Simulation {
   private int nPercolated = 0;
 
   public SimulationPercolation(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, new State(StateEnumPercolation.OPEN), Neighborhood.Square8());
+    grid = new GridSq(nRows, nCols, StatePercolation.OPEN, Neighborhood.Square8());
   }
 
   @Override
@@ -39,17 +39,17 @@ public class SimulationPercolation extends Simulation {
     // calculate next state
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        StateEnumPercolation s = (StateEnumPercolation) grid.getState(r, c).getStateType();
+        StatePercolation s = (StatePercolation) grid.getState(r, c);
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
         int nPercolatedNeighbors = 0;
         for (var neighbor : neighbors) {
-          if (neighbor.getState().getStateType() == StateEnumPercolation.PERCOLATED) {
+          if (neighbor.getState() == StatePercolation.PERCOLATED) {
             ++nPercolatedNeighbors;
           }
         }
-        if (StateEnumPercolation.OPEN == s) {
+        if (StatePercolation.OPEN.equals(s)) {
           if (nPercolatedNeighbors >= 1) {
-            grid.setState(r, c, new State(StateEnumPercolation.PERCOLATED));
+            grid.setState(r, c, StatePercolation.PERCOLATED);
             updated = true;
           }
         }
@@ -65,7 +65,7 @@ public class SimulationPercolation extends Simulation {
     nPercolated = 0;
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        if (grid.getState(r, c).getStateType() == StateEnumPercolation.PERCOLATED) {
+        if (grid.getState(r, c).equals(StatePercolation.PERCOLATED)) {
           ++nPercolated;
         }
       }

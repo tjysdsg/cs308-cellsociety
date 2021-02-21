@@ -9,14 +9,10 @@ import java.util.Objects;
  */
 public class State {
 
-  protected StateEnum stateType;
+  protected int val;
 
-  public State(StateEnum stateType) {
-    this.stateType = stateType;
-  }
-
-  StateEnum getStateType() {
-    return stateType;
+  State(int val) {
+    this.val = val;
   }
 
   @Override
@@ -28,12 +24,12 @@ public class State {
       return false;
     }
     State state = (State) o;
-    return stateType == state.stateType;
+    return val == state.val;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(stateType);
+    return Objects.hash(val);
   }
 
   /**
@@ -41,11 +37,6 @@ public class State {
    * See docs of individual State subclasses to find out the specific int value.
    */
   public int toInteger() {
-    return stateType.toInteger();
-  }
-
-  @Override
-  public String toString() {
-    return stateType.toString();
+    return this.val;
   }
 }

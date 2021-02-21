@@ -1,14 +1,18 @@
-package controller.xml;
+package controller.xml.xmlparser;
 
+import static model.StateFire.BURNING;
+import static model.StateFire.EMPTY;
+import static model.StateFire.TREE;
+
+import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationFire;
 import model.State;
-import model.StateEnumFire;
 
 public class FireXMLParser extends XMLParser {
 
 
-  public static final String PROB_CATCH_TAG = "probCatch";
+  public static final String PROB_CATCH_TAG ="probCatch";
   /**
    * Create parser for XML files of given fileName.
    *
@@ -24,11 +28,11 @@ public class FireXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = StateEnumFire.ALL_VALS.length;
+    stateRange = 3;
     states = new State[stateRange];
-    for (int val : StateEnumFire.ALL_VALS) {
-      states[val] = new State(StateEnumFire.fromInt(val));
-    }
+    states[0] = EMPTY;
+    states[1] = TREE;
+    states[2] = BURNING;
   }
 
   @Override
@@ -36,14 +40,14 @@ public class FireXMLParser extends XMLParser {
     root = getRootElement();
     sizeX = getGridSizeX();
     sizeY = getGridSizeY();
-    simulation = new SimulationFire(sizeX, sizeY);
+    simulation = new SimulationFire(sizeX,sizeY);
     initSimulation();
     return simulation;
   }
 
   @Override
   public void initSimulation() {
-    simulation = new SimulationFire(sizeX, sizeY);
+    simulation = new SimulationFire(sizeX,sizeY);
     super.initSimulation();
     initProbCatch();
   }
@@ -51,5 +55,6 @@ public class FireXMLParser extends XMLParser {
   private void initProbCatch(){
     probCatch=getDoubleTextValue(root, PROB_CATCH_TAG);
     simulation.setConfig(PROB_CATCH_TAG,probCatch);
+    params.put(PROB_CATCH_TAG,probCatch);
   }
 }
