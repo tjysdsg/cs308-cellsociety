@@ -1,15 +1,10 @@
 package controller.xml.xmlparser;
 
-import static model.StateWaTor.EMPTY;
-import static model.StateWaTor.FISH;
-import static model.StateWaTor.MOVED_FISH;
-import static model.StateWaTor.MOVED_SHARK;
-import static model.StateWaTor.SHARK;
-
 import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationWaTor;
 import model.State;
+import model.StateEnumWaTor;
 
 public class WaTorXMLParser extends XMLParser {
 
@@ -38,13 +33,11 @@ public class WaTorXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = 5;
+    stateRange = StateEnumWaTor.ALL_VALS.length;
     states = new State[stateRange];
-    states[0] = EMPTY();
-    states[1] = SHARK();
-    states[2] = FISH();
-    states[3] = MOVED_SHARK();
-    states[4] = MOVED_FISH();
+    for (int val : StateEnumWaTor.ALL_VALS) {
+      states[val] = new State(StateEnumWaTor.fromInt(val));
+    }
   }
 
   @Override
