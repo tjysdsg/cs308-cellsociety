@@ -87,6 +87,61 @@ public abstract class Grid {
   }
 
   /**
+   * Get a list of coordinates that contains forward neighbors of the cell at (r, c)
+   */
+  public List<Vec2D> getForwardNeighborsCoord(int r, int c, Vec2D forwardDirection) {
+    ArrayList<Vec2D> ret = new ArrayList<>();
+    Vec2D coord = new Vec2D(r, c);
+
+    // TODO: infinite edge type
+    for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
+
+      if (delta.cosAngle(forwardDirection) < 0) { // check if forward using cosine
+        continue;
+      }
+
+      Vec2D newCoord = coord.add(delta);
+      if (edgeType == EdgeType.WRAP) { // toroidal
+        newCoord = wrapAroundCoord(newCoord);
+        if (neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      } else { // finite
+        if (isInside(newCoord.getX(), newCoord.getY())
+            && neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * Get a list of coordinates that contains neighbors of the cell at (r, c)
+   */
+  public List<Vec2D> getNeighborsCoord(int r, int c) {
+    ArrayList<Vec2D> ret = new ArrayList<>();
+    Vec2D coord = new Vec2D(r, c);
+
+    // TODO: infinite edge type
+    for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
+      Vec2D newCoord = coord.add(delta);
+      if (edgeType == EdgeType.WRAP) { // toroidal
+        newCoord = wrapAroundCoord(newCoord);
+        if (neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      } else { // finite
+        if (isInside(newCoord.getX(), newCoord.getY())
+            && neighborhood.isValidNeighborDirection(delta)) {
+          ret.add(newCoord);
+        }
+      }
+    }
+    return ret;
+  }
+
+  /**
    * Get a list of cells that are neighbors of the cell at (r, c)
    */
   public List<Cell> getNeighborsOf(int r, int c) {
