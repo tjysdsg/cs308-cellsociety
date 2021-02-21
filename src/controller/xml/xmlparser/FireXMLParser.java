@@ -1,13 +1,10 @@
 package controller.xml.xmlparser;
 
-import static model.StateFire.BURNING;
-import static model.StateFire.EMPTY;
-import static model.StateFire.TREE;
-
 import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationFire;
 import model.State;
+import model.StateFire;
 
 public class FireXMLParser extends XMLParser {
 
@@ -28,11 +25,10 @@ public class FireXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = 3;
-    states = new State[stateRange];
-    states[0] = EMPTY;
-    states[1] = TREE;
-    states[2] = BURNING;
+    stateRange = StateFire.ALL_VALS.length;
+    for (int val : StateFire.ALL_VALS) {
+      states[val] = new State(StateFire.fromInt(val));
+    }
   }
 
   @Override

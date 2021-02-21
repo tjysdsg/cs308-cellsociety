@@ -11,7 +11,7 @@ public class State {
 
   private StateEnum stateType;
 
-  State(StateEnum stateType) {
+  public State(StateEnum stateType) {
     this.stateType = stateType;
   }
 
