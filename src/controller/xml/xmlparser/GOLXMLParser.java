@@ -1,8 +1,9 @@
-package controller.xml;
+package controller.xml.xmlparser;
 
 import static model.StateGOL.ALIVE;
 import static model.StateGOL.DEAD;
 
+import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationGOL;
 import model.State;

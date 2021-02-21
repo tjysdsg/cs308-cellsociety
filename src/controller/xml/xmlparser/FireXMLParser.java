@@ -1,9 +1,10 @@
-package controller.xml;
+package controller.xml.xmlparser;
 
 import static model.StateFire.BURNING;
 import static model.StateFire.EMPTY;
 import static model.StateFire.TREE;
 
+import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationFire;
 import model.State;
@@ -54,5 +55,6 @@ public class FireXMLParser extends XMLParser {
   private void initProbCatch(){
     probCatch=getDoubleTextValue(root, PROB_CATCH_TAG);
     simulation.setConfig(PROB_CATCH_TAG,probCatch);
+    params.put(PROB_CATCH_TAG,probCatch);
   }
 }
