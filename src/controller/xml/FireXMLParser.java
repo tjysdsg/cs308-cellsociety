@@ -1,17 +1,14 @@
 package controller.xml;
 
-import static model.StateFire.BURNING;
-import static model.StateFire.EMPTY;
-import static model.StateFire.TREE;
-
 import model.Simulation;
 import model.SimulationFire;
 import model.State;
+import model.StateEnumFire;
 
 public class FireXMLParser extends XMLParser {
 
 
-  public static final String PROB_CATCH_TAG ="probCatch";
+  public static final String PROB_CATCH_TAG = "probCatch";
   /**
    * Create parser for XML files of given fileName.
    *
@@ -27,11 +24,11 @@ public class FireXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = 3;
+    stateRange = StateEnumFire.ALL_VALS.length;
     states = new State[stateRange];
-    states[0] = EMPTY;
-    states[1] = TREE;
-    states[2] = BURNING;
+    for (int val : StateEnumFire.ALL_VALS) {
+      states[val] = new State(StateEnumFire.fromInt(val));
+    }
   }
 
   @Override
@@ -39,14 +36,14 @@ public class FireXMLParser extends XMLParser {
     root = getRootElement();
     sizeX = getGridSizeX();
     sizeY = getGridSizeY();
-    simulation = new SimulationFire(sizeX,sizeY);
+    simulation = new SimulationFire(sizeX, sizeY);
     initSimulation();
     return simulation;
   }
 
   @Override
   public void initSimulation() {
-    simulation = new SimulationFire(sizeX,sizeY);
+    simulation = new SimulationFire(sizeX, sizeY);
     super.initSimulation();
     initProbCatch();
   }
