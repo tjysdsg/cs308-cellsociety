@@ -49,7 +49,7 @@ public class MainView {
 
   public MainView(Controller controller) {
     this.controller = controller;
-    labelResource = new LabelResource("English"); // TODO: allow selection of language
+    labelResource = this.controller.getLabelResource();
     speedValue = new Label(Double.toString(speed.getValue()));
     speedLabel = new Label(labelResource.getString("SpeedLabel"));
   }
