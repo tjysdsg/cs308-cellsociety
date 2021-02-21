@@ -6,7 +6,7 @@ public class StateWaTor extends State {
   private int nDaysBreed = 0;
   private int nDaysStarve = 0;
 
-  public StateWaTor(StateEnum stateType) {
+  public StateWaTor(StateEnumWaTor stateType) {
     super(stateType);
   }
 
