@@ -14,7 +14,7 @@ NOTE: this requires listening to events directly occurring on the GUI component 
 
 
 4. Allow users to change the View's appearance while the program is running between at least three different options:
-    * select from different component styles (such as "dark" or "light" colors, Duke or UNC colors, small or larger fonts, etc.)
+    * [Done] select from different component styles (such as "dark" or "light" colors, Duke or UNC colors, small or larger fonts, etc.)
 NOTE: changing the applied stylesheet has an immediate affect on the Scene
     * select from different languages used for the text displayed
 NOTE: this is most easily done before a simulation View is created (say on a "splash" or overview scene) because otherwise it requires actively resetting the text of every appropriate Node already created rather than just changing the values in a ResourceBundle instance variable

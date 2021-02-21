@@ -54,6 +54,8 @@ public class MainView {
     speedLabel = new Label(labelResource.getString("SpeedLabel"));
   }
 
+
+
   /**
    * @param grid       is a double array of integers, representing the states of each cell
    * @param statesMap, is a map of statistics, such as number of tree, etc. this step function is
