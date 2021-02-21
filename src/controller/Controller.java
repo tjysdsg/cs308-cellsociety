@@ -2,6 +2,7 @@ package controller;
 
 import controller.xml.xmlparser.RPSXMLParser;
 import controller.xml.xmlparser.SegregationXMLParser;
+import controller.xml.xmlwriter.XMLWriter;
 import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -170,6 +171,11 @@ public class Controller {
       default:
         break;
     }
+  }
+
+  public void XMLToFile(){
+    XMLWriter writer= new XMLWriter();
+    writer.XML2File(simulation.getGrid(),xmlParser.params,configName);
   }
 
   public static void main(String[] args) {

@@ -21,7 +21,7 @@ public class XMLWriter {
    * @param params          all parameters of the simulation including title author etc.
    * @param simulationType  type of the simulation
    */
-  public void XML2File(List<List<Integer> > states, Map<String, Object> params, String simulationType){
+  public  void XML2File(List<List<Integer> > states, Map<String, Object> params, String simulationType){
     try {
       DocumentBuilderFactory factory =  DocumentBuilderFactory.newInstance();
       DocumentBuilder builder;

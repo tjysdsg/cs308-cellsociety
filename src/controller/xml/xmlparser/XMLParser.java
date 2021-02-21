@@ -1,7 +1,11 @@
 package controller.xml.xmlparser;
 
 import controller.xml.XMLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import model.Simulation;
 import model.State;
 import java.io.File;
@@ -29,6 +33,10 @@ public abstract class XMLParser {
   public static final String ERROR_COORDINATE = "Coordinate is not valid row: %d col: %d";
   public static final String ERROR_STATE = "State is not valid %d";
   public static final String GRID_TAG = "grid";
+  public static final String CELL_INIT_TYPE_TAG = "cellinit";
+  public static final String CELL_INIT_LOC_TAG = "locationnum";
+  public static final String CELL_INIT_LOC_SPECIFIC_TAG = "locationonly";
+  public static final String CELL_INIT_DIST_TAG = "distribution";
   public static final String SIZEX_TAG = "sizex";
   public static final String AUTHOR_TAG = "author";
   public static final String SIZEY_TAG = "sizey";
@@ -50,11 +58,15 @@ public abstract class XMLParser {
   public int sizeX;
   public int sizeY;
   public int stateRange;
+  public Map<String,Object> params;
   public String author;
   public String description;
   public String title;
   public Simulation simulation;
   public Element root;
+  private String cellInitType;
+  private int locationNum;
+  private String distribution;
 
 
   /**
@@ -82,7 +94,19 @@ public abstract class XMLParser {
    * Initialize the simulation based on the certain Config file.
    */
   public void initSimulation() {
-    initCell();
+    switch (cellInitType){
+      case CELL_INIT_LOC_SPECIFIC_TAG:
+        initCellByLocation();
+        break;
+      case CELL_INIT_DIST_TAG:
+        initCellByDist();
+        break;
+      case CELL_INIT_LOC_TAG:
+        initCellByRatio();
+        break;
+      default:
+        break;
+    }
 //    initSpeed();
     getAuthor();
     getDescription();
@@ -94,7 +118,7 @@ public abstract class XMLParser {
    * Initialize the Cell of the simulation based on the
    * @throws XMLException
    */
-  public void initCell() throws XMLException {
+  public void initCellByLocation() throws XMLException {
     NodeList stateList = root.getElementsByTagName(CELL_TAG);
     for (int i = 0; i < stateList.getLength(); i++) {
       Element cell = (Element) stateList.item(i);
@@ -148,7 +172,7 @@ public abstract class XMLParser {
    * @param tagName
    * @return
    */
-  public int getIntTextValue(Element e, String tagName) {
+  public int getIntTextValue(Element e, String tagName) throws XMLException{
     return Integer.parseInt(getTextValue(e, tagName));
   }
 
@@ -182,13 +206,12 @@ public abstract class XMLParser {
    * @param tagName the name of the tag
    * @return String version of the tag value
    */
-  public String getTextValue(Element e, String tagName) {
+  public String getTextValue(Element e, String tagName) throws XMLException{
     NodeList nodeList = e.getElementsByTagName(tagName);
     if (nodeList != null && nodeList.getLength() > 0) {
       return nodeList.item(0).getTextContent().trim();
     } else {
-      // FIXME: empty string or exception? In some cases it may be an error to not find any text
-      return "";
+      throw new XMLException("Invalid value");
     }
   }
 
@@ -197,6 +220,7 @@ public abstract class XMLParser {
    */
   public void getAuthor(){
     author = getTextValue(root, AUTHOR_TAG);
+    params.put(AUTHOR_TAG,author);
   }
 
   /**
@@ -204,6 +228,7 @@ public abstract class XMLParser {
    */
   public void getTitle(){
     title = getTextValue(root, TTILE_TAG);
+    params.put(TTILE_TAG,title);
   }
 
   /**
@@ -211,6 +236,7 @@ public abstract class XMLParser {
    */
   public void getDescription(){
     description = getTextValue(root, DESCRIPTION_TAG);
+    params.put(DESCRIPTION_TAG,description);
   }
 
 
@@ -231,13 +257,47 @@ public abstract class XMLParser {
     return getIntTextValue(gridSize, SIZEY_TAG);
   }
 
+  private void initCellByDist(){
+    Random r =new Random();
+    distribution=getTextValue(root,CELL_INIT_DIST_TAG);
+    switch (distribution){
+      case "Gaussian":
+        int state=(int) ((r.nextGaussian()+1.0)/2.0*stateRange);
+        for(int i=0;i<sizeX;i++){
+          for(int j=0;j<sizeY;j++){
+            simulation.setState(i,j,states[state],true);
+          }
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  private void initCellByRatio(){
+    locationNum=getIntTextValue(root,CELL_INIT_LOC_TAG);
+    List<Integer> arrayShuffle = new ArrayList<>(sizeX*sizeY);
+    for(int i=0;i<sizeX*sizeY;i++){
+      arrayShuffle.set(i,i);
+    }
+    Collections.shuffle(arrayShuffle);
+    for(int i=0;i<locationNum;i++){
+      int randomState= (int)(Math.random()*stateRange);
+      simulation.setState(arrayShuffle.get(i)/sizeY,arrayShuffle.get(i)%sizeY,states[randomState],true);
+    }
+  }
+
+  private void getCellInitType(Element root){
+    cellInitType=getTextValue(root,CELL_INIT_TYPE_TAG);
+  }
+
   /**
    * Get the double value of the certain tag in the XML file
    * @param e Current element
    * @param tagName the name of the tag
    * @return double value of the certain tag in the XML file
    */
-  public double getDoubleTextValue(Element e, String tagName) {
+  public double getDoubleTextValue(Element e, String tagName) throws XMLException{
     return Double.parseDouble(getTextValue(e, tagName));
   }
 

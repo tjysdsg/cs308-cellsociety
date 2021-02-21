@@ -47,5 +47,6 @@ public class SegregationXMLParser extends XMLParser{
   private void initThreshold(){
     threshold = getDoubleTextValue(root, THRESHOLD_TAG);
     simulation.setConfig("threshold",threshold);
+    params.put(THRESHOLD_TAG,threshold);
   }
 }
