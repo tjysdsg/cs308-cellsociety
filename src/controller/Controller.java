@@ -17,6 +17,7 @@ import controller.xml.PercolationXMLParser;
 import controller.xml.SimulationParser;
 import controller.xml.WaTorXMLParser;
 import controller.xml.XMLParser;
+import view.LabelResource;
 import view.MainView;
 
 public class Controller {
@@ -32,13 +33,17 @@ public class Controller {
   public static final int FRAMES_PER_SECOND = 1;
   public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
   public static final String DATA_GAMECONFIG="data/gameconfig/";
+  private LabelResource labelResource;
 
   public Controller() {
+    labelResource = new LabelResource("English"); // TODO: allow selection of language
     KeyFrame frame = new KeyFrame(Duration.seconds(SECOND_DELAY), e -> this.step());
     animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
   }
+
+  public LabelResource getLabelResource(){return labelResource;}
 
   public void setView(MainView view) {
     this.view = view;
@@ -67,11 +72,15 @@ public class Controller {
   }
 
   public void setStart() {
+    Alert alert = new Alert(AlertType.WARNING);
     if(view.getConfig()==null){
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.setContentText("Please select a config file to start");
+      alert.setContentText(labelResource.getString("NoConfigWarning"));
       alert.show();
-    } else if (!pause || stepIsPressedFlag){
+    } else if (view.getLanguage()==null){
+      alert.setContentText(labelResource.getString("NoLanguageWarning"));
+      alert.show();
+    }
+    else if (!pause || stepIsPressedFlag){
       return;
     } else {
       view.setGridPane(simulation.getGrid());
