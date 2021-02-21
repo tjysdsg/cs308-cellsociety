@@ -40,7 +40,7 @@ public class SimulationRPS extends Simulation {
   );
 
   public SimulationRPS(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, new State(StateEnumRPS.ROCK), Neighborhood.Square8());
+    grid = new GridSq8(nRows, nCols, new State(StateEnumRPS.ROCK));
   }
 
   @Override

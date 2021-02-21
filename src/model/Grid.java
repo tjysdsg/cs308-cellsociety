@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Base class of grid.
+ */
 public abstract class Grid {
 
   protected List<List<Cell>> grid;
@@ -11,10 +14,7 @@ public abstract class Grid {
   protected Neighborhood neighborhood;
   protected EdgeType edgeType = EdgeType.FINITE;
 
-  public Grid(
-      int nRows, int nCols, State defaultState,
-      Neighborhood neighborhood
-  ) {
+  public Grid(int nRows, int nCols, State defaultState) {
     this.nRows = nRows;
     this.nCols = nCols;
 
@@ -26,7 +26,6 @@ public abstract class Grid {
       }
       grid.add(row);
     }
-    this.neighborhood = neighborhood;
   }
 
   /**
@@ -40,7 +39,7 @@ public abstract class Grid {
   /**
    * Lazy write to a cell state
    *
-   * @see GridSq#setState(int, int, State, boolean)
+   * @see GridSq4#setState(int, int, State, boolean)
    */
   public void setState(int r, int c, State state) {
     grid.get(r).get(c).setState(state, false);

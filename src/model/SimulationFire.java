@@ -28,7 +28,7 @@ public class SimulationFire extends Simulation {
   private int nBurning = 0;
 
   public SimulationFire(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, new State(StateEnumFire.EMPTY), Neighborhood.Square4());
+    grid = new GridSq4(nRows, nCols, new State(StateEnumFire.EMPTY));
   }
 
   @Override

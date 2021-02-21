@@ -37,7 +37,7 @@ public class SimulationWaTor extends Simulation {
   private int nShark = 0;
 
   public SimulationWaTor(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, new StateWaTor(StateEnumWaTor.EMPTY), Neighborhood.Square4());
+    grid = new GridSq4(nRows, nCols, new StateWaTor(StateEnumWaTor.EMPTY));
   }
 
   private List<Cell> sublistWithStateEquals(List<Cell> list, StateEnumWaTor s) {

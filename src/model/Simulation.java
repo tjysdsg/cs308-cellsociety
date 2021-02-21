@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public abstract class Simulation {
 
-  protected GridSq grid;
+  protected Grid grid;
   protected boolean isOver = false;
 
   /**
