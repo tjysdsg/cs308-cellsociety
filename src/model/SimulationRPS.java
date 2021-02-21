@@ -41,7 +41,7 @@ public class SimulationRPS extends Simulation {
   );
 
   public SimulationRPS(int nRows, int nCols) {
-    grid = new GridSq(nRows, nCols, StateRPS.ROCK, Neighborhood.Square8());
+    grid = new GridSq(nRows, nCols, new State(StateRPS.ROCK), Neighborhood.Square8());
   }
 
   @Override
@@ -73,7 +73,7 @@ public class SimulationRPS extends Simulation {
 
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        StateRPS s = (StateRPS) grid.getState(r, c);
+        StateRPS s = (StateRPS) grid.getState(r, c).getStateType();
         List<Cell> neighbors = grid.getNeighborsOf(r, c);
 
         // find who can win me
@@ -86,7 +86,7 @@ public class SimulationRPS extends Simulation {
 
         // count the wins
         for (Cell neighbor : neighbors) {
-          StateRPS neighborState = (StateRPS) neighbor.getState();
+          StateRPS neighborState = (StateRPS) neighbor.getState().getStateType();
           int prevCount = nWins.getOrDefault(neighborState, -1);
           if (prevCount != -1) {
             nWins.put(neighborState, prevCount + 1);
@@ -100,7 +100,7 @@ public class SimulationRPS extends Simulation {
         // check if larger than threshold, if so, change the current state
         // TODO: add randomness
         if (maxWins.getValue() > threshold) {
-          setState(r, c, maxWins.getKey(), false);
+          setState(r, c, new State(maxWins.getKey()), false);
           updated = true;
         }
 

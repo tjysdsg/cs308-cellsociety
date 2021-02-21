@@ -1,28 +1,34 @@
 package model;
 
-import java.util.Map;
-
 /**
  * BLOCKED = 0, OPEN = 1, PERCOLATED = 2
  */
-public class StatePercolation extends State {
+public enum StatePercolation implements StateEnum {
+
+  BLOCKED, OPEN, PERCOLATED;
 
   public static final int BLOCKED_VAL = 0;
   public static final int OPEN_VAL = 1;
   public static final int PERCOLATED_VAL = 2;
+  public static final int[] ALL_VALS = new int[]{0, 1, 2};
 
-  public static final StatePercolation BLOCKED = new StatePercolation(0);
-  public static final StatePercolation OPEN = new StatePercolation(1);
-  public static final StatePercolation PERCOLATED = new StatePercolation(2);
+  public static StatePercolation fromInt(int val) {
+    return switch (val) {
+      case OPEN_VAL -> OPEN;
+      case PERCOLATED_VAL -> PERCOLATED;
+      default -> BLOCKED;
+    };
+  }
 
-  public static final Map<Integer, StatePercolation> INT_TO_STATES = Map.of(
-      BLOCKED_VAL, BLOCKED,
-      OPEN_VAL, OPEN,
-      PERCOLATED_VAL, PERCOLATED
-  );
-
-  StatePercolation(int val) {
-    super(val);
+  public int toInteger() {
+    if (this == BLOCKED) {
+      return BLOCKED_VAL;
+    }
+    if (this == OPEN) {
+      return OPEN_VAL;
+    } else {
+      return PERCOLATED_VAL;
+    }
   }
 
   @Override
@@ -32,7 +38,7 @@ public class StatePercolation extends State {
     } else if (this == PERCOLATED) {
       return "~";
     } else {
-      return "\u25A0";
+      return "\u25A0"; // black block
     }
   }
 }
