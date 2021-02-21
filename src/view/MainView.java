@@ -13,7 +13,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Spinner;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -29,8 +28,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class MainView {
-  private Scene scene;
-  private String STYLESHEET = "cssfiles/none.css";
+
   private Color[] colors = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,};
   private final double gridHeight = 300.0;
   private final double gridWidth = 500.0;
@@ -41,7 +39,6 @@ public class MainView {
   private Pane root;
   private GridPane grid;
   private VBox statusbox;
-  private VBox paramsbox;
   private ArrayList<ArrayList<Rectangle>> gridelements = new ArrayList<>();
   private int sec = 0;
   private Controller controller;
@@ -114,53 +111,6 @@ public class MainView {
     return ret;
   }
 
-  private HBox buildParamsItem(String label, Spinner spinner){
-    HBox ret = new HBox(5);
-    Label label1 = new Label(label);
-    ret.getChildren().addAll(label1,spinner);
-    return ret;
-  }
-
-
-  /*public void displayControllableParams(List<ControllableParam> params){
-    for (ControllableParam cp : params){
-      // NOTE: make sure keys of paramsMap have values set in .properties file
-      if (cp.getType().equals("Integer")){
-      Spinner<Integer> spinner = new Spinner<>();
-      SpinnerValueFactory<Integer> valueFactory = //
-       new SpinnerValueFactory.IntegerSpinnerValueFactory( (int) cp.getMinVal(), (int) cp.getMaxVal(),
-           (int) cp.getCurrVal());
-      spinner.setValueFactory(valueFactory);
-      spinner.valueProperty().addListener(new ChangeListener<Integer>() {
-        @Override
-        public void changed(ObservableValue<? extends Integer> observable, Integer oldValue,
-            Integer newValue) {
-          cp.setCurrent_val(newValue);
-          controller.setConfig(cp);
-        }
-      });
-      paramsbox.getChildren().addAll(buildParamsItem(labelResource.getString(cp.getName()),spinner));
-      }
-      else {
-        Spinner<Double> spinner = new Spinner<>();
-        SpinnerValueFactory<Double> valueFactory =//
-        new SpinnerValueFactory.DoubleSpinnerValueFactory((double)  cp.getMinVal(), (double) cp.getMaxVal(),
-            (double) cp.getCurrVal(), (double) cp.getAmount_to_step_by());
-        spinner.setValueFactory(valueFactory);
-        spinner.valueProperty().addListener(new ChangeListener<Double>() {
-          @Override
-          public void changed(ObservableValue<? extends Double> observable, Double oldValue,
-              Double newValue) {
-            cp.setCurrent_val(newValue);
-            controller.setConfig(cp);
-          }
-        });
-        paramsbox.getChildren().addAll(buildParamsItem(labelResource.getString(cp.getName()),spinner));
-      }
-      }
-
-    }*/
-
   public void displayStatus(Map<String, Object> statesMap) {
     // time elapsed
     statusbox.getChildren().add(
@@ -182,7 +132,6 @@ public class MainView {
       }
       statusbox.getChildren().add(buildStatusItem(label, value));
     }
-
   }
 
   private void setSpeed() {
@@ -233,8 +182,7 @@ public class MainView {
     }
   }
 
-
-  private void makeConfigDropDownList() {
+  private void makeComboBox() {
     File f = new File("data/gameconfig");
     ObservableList<String> options =
         FXCollections.observableArrayList(
@@ -244,7 +192,7 @@ public class MainView {
     HBox hbox4 = new HBox(10);
     Label configlabel = new Label(labelResource.getString("ConfigFiles"));
     hbox4.getChildren().addAll(configlabel, configlist);
-    hbox4.setTranslateX(20 + gridWidth);
+    hbox4.setTranslateX(100 + gridWidth);
     hbox4.setTranslateY(200);
     configlist.valueProperty().addListener((observable, oldValue, newValue) -> {
       configFile = newValue.toString();
@@ -263,30 +211,6 @@ public class MainView {
     root.getChildren().addAll(hbox4);
   }
 
-  private void makeCSSDropDownList() {
-    File f = new File("data/cssfiles");
-    ObservableList<String> options =
-        FXCollections.observableArrayList(
-            f.list()
-        );
-    ComboBox csslist = new ComboBox(options);
-    HBox hbox5 = new HBox(10);
-    Label csslabel = new Label(labelResource.getString("CSSFiles"));
-    hbox5.getChildren().addAll(csslabel, csslist);
-    hbox5.setTranslateX(20 + gridWidth);
-    hbox5.setTranslateY(300);
-    csslist.valueProperty().addListener((observable, oldValue, newValue) -> {
-
-        STYLESHEET = "cssfiles/"+newValue.toString();
-        if (newValue.toString().equals("none.css")){
-          scene.getStylesheets().clear();
-        } else {
-        scene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());}
-
-    });
-    root.getChildren().addAll(hbox5);
-  }
-
   public Scene createScene() {
     root = new Pane();
     root.setPrefSize(1000, 600);
@@ -299,17 +223,11 @@ public class MainView {
     statusbox = new VBox(5);
     root.getChildren().add(statusbox);
 
-    // init controllable params box
-    paramsbox = new VBox(5);
-    root.getChildren().add(paramsbox);
-
-    makeConfigDropDownList();
-    makeCSSDropDownList();
+    makeComboBox();
     makeAllButtons();
     setSpeed();
 
-    scene = new Scene(root);
-    //scene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());
+    Scene scene = new Scene(root);
     return scene;
   }
 
