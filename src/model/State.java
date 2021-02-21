@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class State {
 
-  private StateEnum stateType;
+  protected StateEnum stateType;
 
   public State(StateEnum stateType) {
     this.stateType = stateType;

@@ -131,9 +131,8 @@ public class SimulationWaTor extends Simulation {
       s.resetNDaysBreed();
       s.setMoved(false);
       return true;
-    } else {
-      s.setMoved(false);
     }
+    s.setMoved(false);
     return false;
   }
 
@@ -149,7 +148,8 @@ public class SimulationWaTor extends Simulation {
     // 1. SHARK movement and eating
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        if (grid.getState(r, c).getStateType() == StateEnumWaTor.SHARK) {
+        StateWaTor s = (StateWaTor) grid.getState(r, c);
+        if (!s.isMoved() && s.getStateType() == StateEnumWaTor.SHARK) {
           updated |= starve(r, c);
           updated |= move(r, c);
           updated |= eat(r, c);
@@ -160,7 +160,8 @@ public class SimulationWaTor extends Simulation {
     // 2. FISH movement
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        if (grid.getState(r, c).getStateType() == StateEnumWaTor.FISH) {
+        StateWaTor s = (StateWaTor) grid.getState(r, c);
+        if (!s.isMoved() && s.getStateType() == StateEnumWaTor.FISH) {
           updated |= move(r, c);
         }
       }
