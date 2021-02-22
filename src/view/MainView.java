@@ -449,7 +449,7 @@ public class MainView {
    */
   public Scene createScene() {
     root = new Pane();
-    root.setPrefSize(1000, 1000);
+    root.setPrefSize(1300, 1000);
 
     // get proper language
     labelResource = new LabelResource(this.language); // TODO: allow selection of language
