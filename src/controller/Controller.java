@@ -68,10 +68,7 @@ public class Controller {
   }
 
   private void makePopulationGraph(){
-    ArrayList<String> temp = new ArrayList<>();
-    temp.add("nTrees");
-    temp.add("nBurning");
-    view.makePopulationGraph(simulation.getStatsMap(), temp);
+    view.makePopulationGraph(simulation.getStatsMap(), simulation.getStatsNames());
   }
 
   public void setView(MainView view) {

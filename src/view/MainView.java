@@ -3,16 +3,9 @@ package view;
 import controller.Controller;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
-import java.util.ResourceBundle;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -197,7 +190,7 @@ public class MainView {
     }
   }
 
-  public void makePopulationGraph(Map<String, Object> statesMap, ArrayList<String> entity_name){
+  public void makePopulationGraph(Map<String, Object> statesMap, List<String> entity_name){
     int i =0;
     VBox pg_labels = new VBox(10);
     for (String et : entity_name){
