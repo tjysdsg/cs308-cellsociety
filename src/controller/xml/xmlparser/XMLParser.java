@@ -4,6 +4,7 @@ import controller.xml.XMLException;
 import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -74,6 +75,7 @@ public abstract class XMLParser {
    * Create parser for XML files of given filename.
    */
   public XMLParser(String fileName) throws XMLException {
+    params=new HashMap<String,Object>();
     DOCUMENT_BUILDER = getDocumentBuilder();
     FILENAME = fileName;
     xmlFile = new File(DATA_GAMECONFIG + FILENAME);

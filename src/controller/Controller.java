@@ -4,11 +4,15 @@ import controller.xml.XMLException;
 import controller.xml.xmlparser.RPSXMLParser;
 import controller.xml.xmlparser.SegregationXMLParser;
 import controller.xml.xmlwriter.XMLWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Simulation;
 import view.LabelResource;
@@ -25,6 +29,7 @@ import view.MainView;
  */
 public class Controller {
 
+  private String language;
   private XMLParser xmlParser;
   private boolean stepIsPressedFlag = false;
   private SimulationTypeParser xmlReader;
@@ -49,17 +54,30 @@ public class Controller {
     animation.getKeyFrames().add(frame);
   }
 
-  public LabelResource getLabelResource(){return labelResource;}
+  public void intializeView(Stage stage){
+    MainView view = new MainView(this);
+    view.setLanguage(language);
+    Scene scene = view.createScene();
+    stage.setScene(scene);
+    this.setView(view);
+  }
+
+  private void makePopulationGraph(){
+    ArrayList<String> temp = new ArrayList<>();
+    temp.add("nTrees");
+    temp.add("nBurning");
+    view.makePopulationGraph(simulation.getStatsMap(), temp);
+  }
 
   public void setView(MainView view) {
     this.view = view;
   }
 
-  /**
-   * Set the speed of the simulation
-   *
-   * @param speed The speed of the simulation
-   */
+  public void setLanguage(String lan){
+    this.language = lan;
+  }
+
+
   public void setSpeed(double speed) {
     animation.setRate(speed);
   }
@@ -95,21 +113,20 @@ public class Controller {
    * Start the simulation
    */
   public void setStart() {
-    Alert alert = new Alert(AlertType.WARNING);
+//    Alert alert = new Alert(AlertType.WARNING);
     if(view.getConfig()==null){
-      alert.setContentText(labelResource.getString("NoConfigWarning"));
-      alert.show();
-    } else if (/*view.getLanguage()==null*/true){
-      alert.setContentText(labelResource.getString("NoLanguageWarning"));
+      Alert alert = new Alert(AlertType.WARNING);
+      alert.setContentText(view.getLabelResource().getString("NoConfigFileWarning"));
       alert.show();
     }
-    else if (!pause || stepIsPressedFlag){
+     else if (!pause || stepIsPressedFlag){
       return;
     } else {
       view.setGridPane(simulation.getGrid());
       view.displayStatus(simulation.getStatsMap());
       pause = false;
       animation.play();
+      makePopulationGraph();
     }
   }
 
@@ -153,7 +170,8 @@ public class Controller {
       setXMLParser(simulationType);
       simulation = xmlParser.getSimulation();
     }catch (Exception e){
-
+      System.out.println(e);
+      view.catchError(labelResource.getString("ConfigFileError"));
     }
     return;
   }
