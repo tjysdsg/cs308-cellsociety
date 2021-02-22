@@ -27,6 +27,8 @@ public class SimulationSugar extends Simulation {
   private int sugarGrowBackInterval = 1;
   private int maxSugarPerPatch = 30;
 
+  private int nAgents = 0;
+
   public SimulationSugar(int nRows, int nCols) {
     grid = new GridSq4(nRows, nCols, new StateSugar(StateEnumSugar.EMPTY, 0, null));
   }
@@ -46,7 +48,7 @@ public class SimulationSugar extends Simulation {
   @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
-    // TODO
+    ret.put("nAgents", nAgents);
     return ret;
   }
 
@@ -142,9 +144,12 @@ public class SimulationSugar extends Simulation {
 
   @Override
   protected void updateStats() {
+    nAgents = 0;
     for (int r = 0; r < grid.getNumRows(); ++r) {
       for (int c = 0; c < grid.getNumCols(); ++c) {
-        // TODO
+        if (grid.getState(r, c).getStateType() == StateEnumSugar.AGENT) {
+          ++nAgents;
+        }
       }
     }
   }
