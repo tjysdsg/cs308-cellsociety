@@ -1,13 +1,18 @@
 package controller;
 
+import controller.xml.XMLException;
 import controller.xml.xmlparser.RPSXMLParser;
 import controller.xml.xmlparser.SegregationXMLParser;
 import controller.xml.xmlwriter.XMLWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Simulation;
 import view.LabelResource;
@@ -24,6 +29,7 @@ import view.MainView;
  */
 public class Controller {
 
+  private String language;
   private XMLParser xmlParser;
   private boolean stepIsPressedFlag = false;
   private SimulationTypeParser xmlReader;
@@ -38,7 +44,7 @@ public class Controller {
   private LabelResource labelResource;
 
   /**
-   *
+   * Constructor of the controller. Initialization.
    */
   public Controller() {
     labelResource = new LabelResource("English"); // TODO: allow selection of language
@@ -48,17 +54,30 @@ public class Controller {
     animation.getKeyFrames().add(frame);
   }
 
-  public LabelResource getLabelResource(){return labelResource;}
+  public void intializeView(Stage stage){
+    MainView view = new MainView(this);
+    view.setLanguage(language);
+    Scene scene = view.createScene();
+    stage.setScene(scene);
+    this.setView(view);
+  }
+
+  private void makePopulationGraph(){
+    ArrayList<String> temp = new ArrayList<>();
+    temp.add("nTrees");
+    temp.add("nBurning");
+    view.makePopulationGraph(simulation.getStatsMap(), temp);
+  }
 
   public void setView(MainView view) {
     this.view = view;
   }
 
-  /**
-   * Set the speed of the simulation
-   *
-   * @param speed The speed of the simulation
-   */
+  public void setLanguage(String lan){
+    this.language = lan;
+  }
+
+
   public void setSpeed(double speed) {
     animation.setRate(speed);
   }
@@ -94,21 +113,20 @@ public class Controller {
    * Start the simulation
    */
   public void setStart() {
-    Alert alert = new Alert(AlertType.WARNING);
+//    Alert alert = new Alert(AlertType.WARNING);
     if(view.getConfig()==null){
-      alert.setContentText(labelResource.getString("NoConfigWarning"));
-      alert.show();
-    } else if (view.getLanguage()==null){
-      alert.setContentText(labelResource.getString("NoLanguageWarning"));
+      Alert alert = new Alert(AlertType.WARNING);
+      alert.setContentText(view.getLabelResource().getString("NoConfigFileWarning"));
       alert.show();
     }
-    else if (!pause || stepIsPressedFlag){
+     else if (!pause || stepIsPressedFlag){
       return;
     } else {
       view.setGridPane(simulation.getGrid());
       view.displayStatus(simulation.getStatsMap());
       pause = false;
       animation.play();
+      makePopulationGraph();
     }
   }
 
@@ -145,16 +163,21 @@ public class Controller {
    * @param filename XML file name
    */
   public void setConfig(String filename) {
-    configName = filename;
-    xmlReader = new SimulationTypeParser(filename);
-    String simulationType = xmlReader.getSimulationType();
-    setXMLParser(simulationType);
-    simulation = xmlParser.getSimulation();
+    try{
+      configName = filename;
+      xmlReader = new SimulationTypeParser(filename);
+      String simulationType = xmlReader.getSimulationType();
+      setXMLParser(simulationType);
+      simulation = xmlParser.getSimulation();
+    }catch (Exception e){
+      System.out.println(e);
+      view.catchError(labelResource.getString("ConfigFileError"));
+    }
     return;
   }
 
 
-  private void setXMLParser(String type) {
+  private void setXMLParser(String type) throws XMLException {
     switch (type) {
       case "Fire":
         xmlParser = new FireXMLParser(configName);
@@ -185,6 +208,10 @@ public class Controller {
   public void XMLToFile(){
     XMLWriter writer= new XMLWriter();
     writer.XML2File(simulation.getGrid(),xmlParser.params,configName);
+  }
+
+  public Map<String, Object> ConfigSettings(){
+    return xmlParser.params;
   }
 
   public static void main(String[] args) {

@@ -42,9 +42,14 @@ public class RPSXMLParser extends XMLParser{
 
   @Override
   public void initSimulation() {
-    super.initSimulation();
-    threshold=getIntTextValue(root, THRESHOLD_TAG);
-    simulation.setConfig(THRESHOLD_TAG,threshold);
-    params.put(THRESHOLD_TAG,threshold);
+    try{
+      super.initSimulation();
+      threshold=getIntTextValue(root, THRESHOLD_TAG);
+      simulation.setConfig(THRESHOLD_TAG,threshold);
+      params.put(THRESHOLD_TAG,threshold);
+    }catch (Exception e){
+      System.out.println(e);
+    }
+
   }
 }

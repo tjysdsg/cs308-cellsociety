@@ -44,15 +44,19 @@ public class FireXMLParser extends XMLParser {
   }
 
   @Override
-  public void initSimulation() {
+  public void initSimulation() throws XMLException{
     simulation = new SimulationFire(sizeX,sizeY);
     super.initSimulation();
     initProbCatch();
   }
 
-  private void initProbCatch(){
-    probCatch=getDoubleTextValue(root, PROB_CATCH_TAG);
-    simulation.setConfig(PROB_CATCH_TAG,probCatch);
-    params.put(PROB_CATCH_TAG,probCatch);
+  private void initProbCatch() throws XMLException{
+    try {
+      probCatch=getDoubleTextValue(root, PROB_CATCH_TAG);
+      simulation.setConfig(PROB_CATCH_TAG,probCatch);
+      params.put(PROB_CATCH_TAG,probCatch);
+    }catch (Exception e){
+      throw new XMLException("Invalid probcatch");
+    }
   }
 }

@@ -23,8 +23,12 @@ public class SimulationTypeParser extends XMLParser {
     return;
   }
 
-  public String getSimulationType() {
-    return getAttribute(root, "simulation");
+  public String getSimulationType() throws  XMLException {
+    try{
+      return getAttribute(root, "simulation");
+    }catch (Exception e){
+      throw new XMLException("Invalid simulation type");
+    }
   }
 
 }
