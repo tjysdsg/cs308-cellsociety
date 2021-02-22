@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -24,11 +25,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class MainView {
+  private ArrayList<PopulationGraph> popu_list = new ArrayList<>();
+  private final int POPU_WDITH= 50;
+  private final int POPU_LENGTH = 300;
   private Scene scene;
   private String STYLESHEET = "cssfiles/none.css";
   private Color[] colors = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,};
@@ -46,12 +53,11 @@ public class MainView {
   private int sec = 0;
   private Controller controller;
   private LabelResource labelResource;
+  private String language;
+  private Path path;
 
   public MainView(Controller controller) {
     this.controller = controller;
-    labelResource = this.controller.getLabelResource();
-    speedValue = new Label(Double.toString(speed.getValue()));
-    speedLabel = new Label(labelResource.getString("SpeedLabel"));
   }
 
   /**
@@ -62,12 +68,19 @@ public class MainView {
   public void step(List<List<Integer>> grid, Map<String, Object> statesMap) {
     sec++;
     displayStatus(statesMap);
+    updatePopulationGraph(statesMap);
     updateGridPane(grid);
   }
 
   public String getConfig() {
     return configFile;
   }
+
+  public void setLanguage(String lan){this.language = lan;}
+
+  public LabelResource getLabelResource(){return labelResource;}
+
+
 
   /**
    * @param states,    double array of integers
@@ -121,6 +134,12 @@ public class MainView {
     return ret;
   }
 
+  public void catchError(String msg){
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setContentText(msg);
+    alert.show();
+  }
+
 
   /*public void displayControllableParams(List<ControllableParam> params){
     for (ControllableParam cp : params){
@@ -161,6 +180,28 @@ public class MainView {
 
     }*/
 
+  private void updatePopulationGraph(Map<String, Object> statesMap){
+    for (PopulationGraph pg : popu_list){
+      double nfish = (double) Integer.parseInt(statesMap.get(pg.getName()).toString());
+      int total = gridelements.size()*gridelements.get(0).size();
+      pg.addNewLine(new LineTo(pg.getX()+10, POPU_WDITH*(1-nfish/total)+10));
+    }
+  }
+
+  public void makePopulationGraph(Map<String, Object> statesMap, ArrayList<String> entity_name){
+    int i =0;
+    VBox pg_labels = new VBox(10);
+    for (String et : entity_name){
+      PopulationGraph pg = new PopulationGraph(new MoveTo(20,POPU_WDITH+10), et, colors[i]);
+      root.getChildren().addAll(pg);
+      popu_list.add(pg);
+      pg_labels.getChildren().add(pg.getLabel());
+      i++;
+    }
+    root.getChildren().add(pg_labels);
+  }
+
+
   public void displayStatus(Map<String, Object> statesMap) {
     // time elapsed
     statusbox.getChildren().clear();
@@ -186,6 +227,8 @@ public class MainView {
   }
 
   private void setSpeed() {
+    speedValue = new Label(Double.toString(speed.getValue()));
+    speedLabel = new Label(labelResource.getString("SpeedLabel"));
     speed.valueProperty().addListener((observable, oldValue, newValue) -> {
       speedValue.setText(Double.toString(newValue.doubleValue()));
       controller.setSpeed(newValue.doubleValue());
@@ -200,12 +243,12 @@ public class MainView {
   public void setGridPane(List<List<Integer>> states) {
     int r = states.size();
     int c = states.get(0).size();
-    grid.setTranslateX(10);
-    grid.setTranslateY(10);
+    grid.setTranslateX(100);
+    grid.setTranslateY(100);
     for (int i = 0; i < r; i++) {
       ArrayList<Rectangle> temp = new ArrayList<>();
       for (int j = 0; j < c; j++) {
-        int n = states.get(i).get(j);
+        int n = states.get(i).get(j);  // Make Sure Entity list has the same order.
         Rectangle rec = new Rectangle();
         rec.setFill(colors[n]);
         rec.setWidth(gridWidth / c);
@@ -290,6 +333,9 @@ public class MainView {
   public Scene createScene() {
     root = new Pane();
     root.setPrefSize(1000, 600);
+
+    // get proper language
+    labelResource = new LabelResource(this.language); // TODO: allow selection of language
 
     // init grid
     grid = new GridPane();
