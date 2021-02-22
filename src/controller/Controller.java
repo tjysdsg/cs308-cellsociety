@@ -4,6 +4,8 @@ import controller.xml.XMLException;
 import controller.xml.xmlparser.RPSXMLParser;
 import controller.xml.xmlparser.SegregationXMLParser;
 import controller.xml.xmlwriter.XMLWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -62,8 +64,8 @@ public class Controller {
 
   private void makePopulationGraph(){
     ArrayList<String> temp = new ArrayList<>();
-    temp.add("nFish");
-    temp.add("nShark");
+    temp.add("nTrees");
+    temp.add("nBurning");
     view.makePopulationGraph(simulation.getStatsMap(), temp);
   }
 
@@ -111,7 +113,7 @@ public class Controller {
    * Start the simulation
    */
   public void setStart() {
-    Alert alert = new Alert(AlertType.WARNING);
+//    Alert alert = new Alert(AlertType.WARNING);
     if(view.getConfig()==null){
       Alert alert = new Alert(AlertType.WARNING);
       alert.setContentText(view.getLabelResource().getString("NoConfigFileWarning"));
@@ -168,7 +170,8 @@ public class Controller {
       setXMLParser(simulationType);
       simulation = xmlParser.getSimulation();
     }catch (Exception e){
-
+      System.out.println(e);
+      view.catchError(labelResource.getString("ConfigFileError"));
     }
     return;
   }

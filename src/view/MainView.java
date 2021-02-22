@@ -38,7 +38,9 @@ public class MainView {
   private final int POPU_LENGTH = 300;
   private Scene scene;
   private String STYLESHEET = "cssfiles/none.css";
-  private Color[] colors = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,};
+  private Color[] colors;
+  private Color[] spaceTheme = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,Color.rgb(255,255,0),Color.rgb(210,105,30),Color.rgb(	47,79,79),Color.rgb(	230,230,250)};
+  private Color[] watorTheme = {Color.rgb(248,248,255),Color.rgb(	0,0,255),Color.rgb(	25,25,112),Color.rgb(	65,105,225),Color.rgb(30,144,255),Color.rgb(	0,191,255),Color.rgb(	95,158,160),Color.rgb(0,255,255)};
   private final double gridHeight = 300.0;
   private final double gridWidth = 500.0;
   private String configFile;
