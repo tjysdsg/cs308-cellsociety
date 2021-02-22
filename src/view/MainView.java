@@ -96,6 +96,7 @@ public class MainView {
     gridelements.clear();
     for (PopulationGraph pg : popu_list){ pg.getElements().clear();}
     popu_list.clear();
+    paramsbox.getChildren().clear();
     controller.setStart();
   }
 
