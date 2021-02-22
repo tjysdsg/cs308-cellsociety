@@ -41,6 +41,7 @@ public class SimulationWaTor extends Simulation {
 
   public SimulationWaTor(int nRows, int nCols) {
     grid = new GridSq4(nRows, nCols, new StateWaTor(StateEnumWaTor.EMPTY));
+    simType = "Wa-Tor";
   }
 
   private List<Cell> sublistWithStateEquals(List<Cell> list, StateEnumWaTor s) {
@@ -77,11 +78,6 @@ public class SimulationWaTor extends Simulation {
     ret.add(N_FISH_KEY);
     ret.add(N_SHARK_KEY);
     return ret;
-  }
-
-  @Override
-  public String getSimType() {
-    return "Wa-Tor";
   }
 
   private boolean starve(int r, int c) {

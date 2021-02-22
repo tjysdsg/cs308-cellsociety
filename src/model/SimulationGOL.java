@@ -21,6 +21,7 @@ public class SimulationGOL extends Simulation {
 
   public SimulationGOL(int nRows, int nCols) {
     grid = new GridSq8(nRows, nCols, new State(StateEnumGOL.DEAD));
+    simType = "Game of Life";
   }
 
   @Override
@@ -35,11 +36,6 @@ public class SimulationGOL extends Simulation {
     ArrayList<String> ret = new ArrayList<>();
     ret.add(N_ALIVE_KEY);
     return ret;
-  }
-
-  @Override
-  public String getSimType() {
-    return "Game of Life";
   }
 
   @Override

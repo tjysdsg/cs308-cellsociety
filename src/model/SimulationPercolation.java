@@ -21,6 +21,7 @@ public class SimulationPercolation extends Simulation {
 
   public SimulationPercolation(int nRows, int nCols) {
     grid = new GridSq4(nRows, nCols, new State(StateEnumPercolation.OPEN));
+    simType = "Percolation";
   }
 
   @Override
@@ -35,11 +36,6 @@ public class SimulationPercolation extends Simulation {
     ArrayList<String> ret = new ArrayList<>();
     ret.add(N_PERCOLATED_KEY);
     return ret;
-  }
-
-  @Override
-  public String getSimType() {
-    return "Percolation";
   }
 
   @Override

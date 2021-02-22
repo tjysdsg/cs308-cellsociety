@@ -46,6 +46,7 @@ public class SimulationRPS extends Simulation {
 
   public SimulationRPS(int nRows, int nCols) {
     grid = new GridSq8(nRows, nCols, new State(StateEnumRPS.ROCK));
+    simType = "Rock, Paper, Scissors";
   }
 
   @Override
@@ -73,11 +74,6 @@ public class SimulationRPS extends Simulation {
     ret.add(N_PAPERS_KEY);
     ret.add(N_SCISSORS_KEY);
     return ret;
-  }
-
-  @Override
-  public String getSimType() {
-    return "Rock, Paper, Scissors";
   }
 
   @Override

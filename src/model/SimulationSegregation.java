@@ -33,6 +33,7 @@ public class SimulationSegregation extends Simulation {
 
   public SimulationSegregation(int nRows, int nCols) {
     grid = new GridSq8(nRows, nCols, new State(StateEnumSegregation.EMPTY));
+    simType = "Segregation";
   }
 
   @Override
@@ -57,11 +58,6 @@ public class SimulationSegregation extends Simulation {
     ret.add(N_SATISFIED_KEY);
     ret.add(N_DISSATISFIED_KEY);
     return ret;
-  }
-
-  @Override
-  public String getSimType() {
-    return "Segregation";
   }
 
   @Override

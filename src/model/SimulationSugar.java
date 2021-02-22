@@ -34,6 +34,7 @@ public class SimulationSugar extends Simulation {
 
   public SimulationSugar(int nRows, int nCols) {
     grid = new GridSq4(nRows, nCols, new StateSugar(StateEnumSugar.EMPTY, 0, null));
+    simType = "SugarScape";
   }
 
   @Override
@@ -60,11 +61,6 @@ public class SimulationSugar extends Simulation {
     ArrayList<String> ret = new ArrayList<>();
     ret.add(N_AGENTS_KEY);
     return ret;
-  }
-
-  @Override
-  public String getSimType() {
-    return "SugarScape";
   }
 
   @Override

@@ -32,6 +32,7 @@ public class SimulationLangton extends Simulation {
   public SimulationLangton(int nRows, int nCols) {
     grid = new GridSq4(nRows, nCols, new State(new StateEnumLangton()));
     grid.setEdgeType(EdgeType.INFINITE);
+    simType = "Langton's Loop";
 
     // init state counts to 0s
     for (int s : StateEnumLangton.ALL_VALS) {
@@ -64,11 +65,6 @@ public class SimulationLangton extends Simulation {
       ret.add("State" + s);
     }
     return ret;
-  }
-
-  @Override
-  public String getSimType() {
-    return "Langton's Loop";
   }
 
   @Override

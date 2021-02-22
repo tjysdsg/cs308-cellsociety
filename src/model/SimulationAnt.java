@@ -29,6 +29,7 @@ public class SimulationAnt extends Simulation {
 
   public SimulationAnt(int nRows, int nCols) {
     grid = new GridSq8(nRows, nCols, new StateAnt(StateEnumAnt.EMPTY, 0, false, false));
+    simType = "Foraging Ants";
   }
 
   private List<Cell> sublistWithStateEquals(List<Cell> list, StateEnumAnt s) {
@@ -61,11 +62,6 @@ public class SimulationAnt extends Simulation {
     ArrayList<String> ret = new ArrayList<>();
     ret.add(NEST_FOOD_KEY);
     return ret;
-  }
-
-  @Override
-  public String getSimType() {
-    return "Foraging Ants";
   }
 
   private Vec2D findMaxPheromoneFromList(PheromoneType type, List<Vec2D> neighbors) {

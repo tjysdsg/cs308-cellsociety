@@ -33,6 +33,7 @@ public class SimulationFire extends Simulation {
 
   public SimulationFire(int nRows, int nCols) {
     grid = new GridSq4(nRows, nCols, new State(StateEnumFire.EMPTY));
+    simType = "Fire";
   }
 
   @Override
@@ -58,11 +59,6 @@ public class SimulationFire extends Simulation {
     ret.add(N_TREES_KEY);
     ret.add(N_BURNING_KEY);
     return ret;
-  }
-
-  @Override
-  public String getSimType() {
-    return "Fire";
   }
 
   @Override

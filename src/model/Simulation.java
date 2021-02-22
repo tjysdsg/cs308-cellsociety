@@ -27,6 +27,7 @@ public abstract class Simulation {
 
   protected Grid grid;
   protected boolean isOver = false;
+  protected String simType = "NULL";
 
   /**
    * Set configuration variables
@@ -83,7 +84,9 @@ public abstract class Simulation {
   /**
    * Get simulation type name, such as "Fire", "Game of Life", "Wa-Tor", etc.
    */
-  public abstract String getSimType();
+  public String getSimType() {
+    return simType;
+  }
 
   /**
    * Set state of a cell
