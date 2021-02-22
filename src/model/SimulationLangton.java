@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,16 @@ public class SimulationLangton extends Simulation {
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
     for (int s : StateEnumLangton.ALL_VALS) {
-      ret.put("State " + s + ":", stateCounts.get(s));
+      ret.put("State" + s, stateCounts.get(s));
+    }
+    return ret;
+  }
+
+  @Override
+  public List<String> getStatsNames() {
+    ArrayList<String> ret = new ArrayList<>();
+    for (int s : StateEnumLangton.ALL_VALS) {
+      ret.add("State" + s);
     }
     return ret;
   }

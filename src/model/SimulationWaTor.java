@@ -29,6 +29,9 @@ import java.util.Map;
  */
 public class SimulationWaTor extends Simulation {
 
+  private static final String N_FISH_KEY = "nFish";
+  private static final String N_SHARK_KEY = "nShark";
+
   private int fishBreedDuration = 2;
   private int sharkBreedDuration = 4;
   private int sharkStarveDuration = 6;
@@ -63,8 +66,16 @@ public class SimulationWaTor extends Simulation {
   @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
-    ret.put("nFish", nFish);
-    ret.put("nShark", nShark);
+    ret.put(N_FISH_KEY, nFish);
+    ret.put(N_SHARK_KEY, nShark);
+    return ret;
+  }
+
+  @Override
+  public List<String> getStatsNames() {
+    ArrayList<String> ret = new ArrayList<>();
+    ret.add(N_FISH_KEY);
+    ret.add(N_SHARK_KEY);
     return ret;
   }
 

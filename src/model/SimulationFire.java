@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,9 @@ import java.util.Random;
  */
 public class SimulationFire extends Simulation {
 
+  private static final String N_TREES_KEY = "nTrees";
+  private static final String N_BURNING_KEY = "nBurning";
+
   private double probCatch = 0.5;
   private int nTrees = 0;
   private int nBurning = 0;
@@ -43,8 +47,16 @@ public class SimulationFire extends Simulation {
   @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
-    ret.put("nTrees", nTrees);
-    ret.put("nBurning", nBurning);
+    ret.put(N_TREES_KEY, nTrees);
+    ret.put(N_BURNING_KEY, nBurning);
+    return ret;
+  }
+
+  @Override
+  public List<String> getStatsNames() {
+    ArrayList<String> ret = new ArrayList<>();
+    ret.add(N_TREES_KEY);
+    ret.add(N_BURNING_KEY);
     return ret;
   }
 

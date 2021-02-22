@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -24,6 +25,10 @@ import java.util.Map.Entry;
  * @author jt304
  */
 public class SimulationRPS extends Simulation {
+
+  private static final String N_ROCKS_KEY = "nRocks";
+  private static final String N_PAPERS_KEY = "nPapers";
+  private static final String N_SCISSORS_KEY = "nScissors";
 
   private double threshold = 4;
   private int nRocks = 0;
@@ -55,9 +60,18 @@ public class SimulationRPS extends Simulation {
   @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
-    ret.put("nRocks", nRocks);
-    ret.put("nPapers", nPapers);
-    ret.put("nScissors", nScissors);
+    ret.put(N_ROCKS_KEY, nRocks);
+    ret.put(N_PAPERS_KEY, nPapers);
+    ret.put(N_SCISSORS_KEY, nScissors);
+    return ret;
+  }
+
+  @Override
+  public List<String> getStatsNames() {
+    ArrayList<String> ret = new ArrayList<>();
+    ret.add(N_ROCKS_KEY);
+    ret.add(N_PAPERS_KEY);
+    ret.add(N_SCISSORS_KEY);
     return ret;
   }
 

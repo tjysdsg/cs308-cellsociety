@@ -24,6 +24,9 @@ import java.util.Map;
  */
 public class SimulationSegregation extends Simulation {
 
+  private static final String N_SATISFIED_KEY = "nSatisfied";
+  private static final String N_DISSATISFIED_KEY = "nDissatisfied";
+
   private double threshold = 0.3;
   private int nSatisfied = 0;
   private int nDissatisfied = 0;
@@ -43,8 +46,16 @@ public class SimulationSegregation extends Simulation {
   @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
-    ret.put("nSatisfied", nSatisfied);
-    ret.put("nDissatisfied", nDissatisfied);
+    ret.put(N_SATISFIED_KEY, nSatisfied);
+    ret.put(N_DISSATISFIED_KEY, nDissatisfied);
+    return ret;
+  }
+
+  @Override
+  public List<String> getStatsNames() {
+    ArrayList<String> ret = new ArrayList<>();
+    ret.add(N_SATISFIED_KEY);
+    ret.add(N_DISSATISFIED_KEY);
     return ret;
   }
 

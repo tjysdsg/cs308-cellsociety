@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,8 @@ import java.util.Random;
  * @author jt304
  */
 public class SimulationSugar extends Simulation {
+
+  private static final String N_AGENTS_KEY = "nAgents";
 
   private int sugarGrowBackRate = 1;
   private int sugarGrowBackInterval = 1;
@@ -48,7 +51,14 @@ public class SimulationSugar extends Simulation {
   @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
-    ret.put("nAgents", nAgents);
+    ret.put(N_AGENTS_KEY, nAgents);
+    return ret;
+  }
+
+  @Override
+  public List<String> getStatsNames() {
+    ArrayList<String> ret = new ArrayList<>();
+    ret.add(N_AGENTS_KEY);
     return ret;
   }
 

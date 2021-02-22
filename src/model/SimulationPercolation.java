@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 public class SimulationPercolation extends Simulation {
 
+  private static final String N_PERCOLATED_KEY = "nPercolated";
   private int nPercolated = 0;
 
   public SimulationPercolation(int nRows, int nCols) {
@@ -24,7 +26,14 @@ public class SimulationPercolation extends Simulation {
   @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
-    ret.put("nPercolated", nPercolated);
+    ret.put(N_PERCOLATED_KEY, nPercolated);
+    return ret;
+  }
+
+  @Override
+  public List<String> getStatsNames() {
+    ArrayList<String> ret = new ArrayList<>();
+    ret.add(N_PERCOLATED_KEY);
     return ret;
   }
 

@@ -23,6 +23,8 @@ import java.util.Map;
  */
 public class SimulationAnt extends Simulation {
 
+  private static final String NEST_FOOD_KEY = "nestFood";
+
   private int nestFood = 0;
 
   public SimulationAnt(int nRows, int nCols) {
@@ -50,7 +52,14 @@ public class SimulationAnt extends Simulation {
   @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
-    // TODO
+    ret.put(NEST_FOOD_KEY, nestFood);
+    return ret;
+  }
+
+  @Override
+  public List<String> getStatsNames() {
+    ArrayList<String> ret = new ArrayList<>();
+    ret.add(NEST_FOOD_KEY);
     return ret;
   }
 
@@ -200,15 +209,5 @@ public class SimulationAnt extends Simulation {
         forage(r, c);
       }
     }
-  }
-
-  @Override
-  protected void updateStats() {
-    // TODO
-    for (int r = 0; r < grid.getNumRows(); ++r) {
-      for (int c = 0; c < grid.getNumCols(); ++c) {
-      }
-    }
-
   }
 }

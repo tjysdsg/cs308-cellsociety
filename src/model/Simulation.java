@@ -76,6 +76,11 @@ public abstract class Simulation {
   public abstract Map<String, Object> getStatsMap();
 
   /**
+   * Get names of statistics
+   */
+  public abstract List<String> getStatsNames();
+
+  /**
    * Get simulation type name, such as "Fire", "Game of Life", "Wa-Tor", etc.
    */
   public abstract String getSimType();

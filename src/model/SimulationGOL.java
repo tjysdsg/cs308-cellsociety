@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 public class SimulationGOL extends Simulation {
 
+  private static final String N_ALIVE_KEY = "nAlive";
   private int nAlive = 0;
 
   public SimulationGOL(int nRows, int nCols) {
@@ -24,7 +26,14 @@ public class SimulationGOL extends Simulation {
   @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
-    ret.put("nAlive", nAlive);
+    ret.put(N_ALIVE_KEY, nAlive);
+    return ret;
+  }
+
+  @Override
+  public List<String> getStatsNames() {
+    ArrayList<String> ret = new ArrayList<>();
+    ret.add(N_ALIVE_KEY);
     return ret;
   }
 
