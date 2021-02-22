@@ -124,6 +124,7 @@ public class Controller {
      else if (!pause || stepIsPressedFlag){
       return;
     } else {
+       view.displayControllableParams(getSettingConfigs());
       view.setGridPane(simulation.getGrid());
       view.displayStatus(simulation.getStatsMap());
       pause = false;

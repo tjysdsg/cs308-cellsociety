@@ -383,7 +383,7 @@ public class MainView {
 
     // init controllable params box
     paramsbox = new VBox(5);
-    displayControllableParams(controller.getSettingConfigs());
+    //displayControllableParams(controller.getSettingConfigs());
     //root.getChildren().add(paramsbox);
 
     HBox bigbox = new HBox(25);
