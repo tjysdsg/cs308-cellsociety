@@ -3,10 +3,16 @@ package view;
 import controller.Controller;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -60,6 +66,7 @@ public class MainView {
 
   public MainView(Controller controller) {
     this.controller = controller;
+    colors =spaceTheme;
   }
 
   /**
@@ -194,7 +201,7 @@ public class MainView {
     int i =0;
     VBox pg_labels = new VBox(10);
     for (String et : entity_name){
-      PopulationGraph pg = new PopulationGraph(new MoveTo(20,POPU_WDITH+10), et, colors[i]);
+      PopulationGraph pg = new PopulationGraph(new MoveTo(20,POPU_WDITH+20*i), et, colors[i+1]);
       root.getChildren().addAll(pg);
       popu_list.add(pg);
       pg_labels.getChildren().add(pg.getLabel());
@@ -228,7 +235,7 @@ public class MainView {
 
   }
 
-  private void setSpeed() {
+  private HBox setSpeed() {
     speedValue = new Label(Double.toString(speed.getValue()));
     speedLabel = new Label(labelResource.getString("SpeedLabel"));
     speed.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -237,9 +244,10 @@ public class MainView {
     });
     HBox hbox3 = new HBox(15);
     hbox3.getChildren().addAll(speedLabel, speed, speedValue);
-    hbox3.setTranslateX(700);
-    hbox3.setTranslateY(100);
-    root.getChildren().addAll(hbox3);
+    //hbox3.setTranslateX(700);
+    //hbox3.setTranslateY(100);
+    //root.getChildren().addAll(hbox3);
+    return hbox3;
   }
 
   public void setGridPane(List<List<Integer>> states) {
@@ -279,7 +287,7 @@ public class MainView {
   }
 
 
-  private void makeConfigDropDownList() {
+  private HBox makeConfigDropDownList() {
     File f = new File("data/gameconfig");
     ObservableList<String> options =
         FXCollections.observableArrayList(
@@ -289,8 +297,8 @@ public class MainView {
     HBox hbox4 = new HBox(10);
     Label configlabel = new Label(labelResource.getString("ConfigFiles"));
     hbox4.getChildren().addAll(configlabel, configlist);
-    hbox4.setTranslateX(20 + gridWidth);
-    hbox4.setTranslateY(200);
+    //hbox4.setTranslateX(20 + gridWidth);
+    //hbox4.setTranslateY(200);
     configlist.valueProperty().addListener((observable, oldValue, newValue) -> {
       configFile = newValue.toString();
       if (newValue != oldValue) {
@@ -305,10 +313,11 @@ public class MainView {
         alert.show();
       }
     });
-    root.getChildren().addAll(hbox4);
+    //root.getChildren().addAll(hbox4);
+    return hbox4;
   }
 
-  private void makeCSSDropDownList() {
+  private HBox makeCSSDropDownList() {
     File f = new File("data/cssfiles");
     ObservableList<String> options =
         FXCollections.observableArrayList(
@@ -318,8 +327,8 @@ public class MainView {
     HBox hbox5 = new HBox(10);
     Label csslabel = new Label(labelResource.getString("CSSFiles"));
     hbox5.getChildren().addAll(csslabel, csslist);
-    hbox5.setTranslateX(20 + gridWidth);
-    hbox5.setTranslateY(300);
+    //hbox5.setTranslateX(20 + gridWidth);
+    //hbox5.setTranslateY(300);
     csslist.valueProperty().addListener((observable, oldValue, newValue) -> {
 
         STYLESHEET = "cssfiles/"+newValue.toString();
@@ -329,12 +338,38 @@ public class MainView {
         scene.getStylesheets().add(getClass().getClassLoader().getResource(STYLESHEET).toExternalForm());}
 
     });
-    root.getChildren().addAll(hbox5);
+    //root.getChildren().addAll(hbox5);
+    return hbox5;
   }
+
+  private HBox makeColorDropDownList(){
+    ArrayList<String> options = new ArrayList<>();
+    options.add("water world");
+    options.add("outer space");
+    ComboBox colorlist = new ComboBox(FXCollections.observableArrayList(options));
+    HBox hbox6 = new HBox(10);
+    Label colorlabel= new Label(labelResource.getString("ColorOptions"));
+    //hbox6.setTranslateX(20 + gridWidth);
+    //hbox6.setTranslateY(350);
+    hbox6.getChildren().addAll(colorlabel,colorlist);
+    colorlist.valueProperty().addListener((observable, oldValue, newValue) ->{
+      switch (newValue.toString()){
+        case "water world":
+          colors = watorTheme;
+          break;
+        case "outer space":
+          colors = spaceTheme;
+          break;
+      }
+    });
+    //root.getChildren().add(hbox6);
+    return hbox6;
+  }
+
 
   public Scene createScene() {
     root = new Pane();
-    root.setPrefSize(1000, 600);
+    root.setPrefSize(1000, 1000);
 
     // get proper language
     labelResource = new LabelResource(this.language); // TODO: allow selection of language
@@ -351,11 +386,17 @@ public class MainView {
     paramsbox = new VBox(5);
     root.getChildren().add(paramsbox);
 
-    makeConfigDropDownList();
-    makeCSSDropDownList();
+    HBox hbox4 = makeConfigDropDownList();
+    HBox hbox5 = makeCSSDropDownList();
+    HBox hbox6 = makeColorDropDownList();
     makeAllButtons();
-    setSpeed();
+    HBox hbox3 = setSpeed();
 
+    VBox tempv = new VBox(25);
+    tempv.getChildren().addAll(hbox3,hbox4,hbox5,hbox6);
+    tempv.setTranslateX(150+gridWidth);
+    tempv.setTranslateY(50);
+    root.getChildren().add(tempv);
     scene = new Scene(root);
     return scene;
   }
