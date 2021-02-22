@@ -24,18 +24,21 @@ public class SettingReader {
       Object low;
       Object high;
       Object stepSize;
+      Object curVal;
       String type=configs[i*5+4];
       if(type.equals("Integer")) {
         low = Integer.parseInt(configs[i *5+ 1]);
         high = Integer.parseInt(configs[i*5+2]);
         stepSize= Integer.parseInt(configs[i*5+3]);
+        curVal = 0;
       }
       else{
         low = Double.parseDouble(configs[i*5 + 1]);
         high = Double.parseDouble(configs[i*5+2]);
         stepSize= Double.parseDouble(configs[i*5+3]);
+        curVal = 0.0;
       }
-      ControllableParam param= new ControllableParam(low,high,0,stepSize,name,type);
+      ControllableParam param= new ControllableParam(low,high,curVal,stepSize,name,type);
       settings.add(param);
     }
   }
