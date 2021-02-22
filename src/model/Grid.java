@@ -33,7 +33,8 @@ public abstract class Grid {
    *                  change the value of all cells
    */
   public void setState(int r, int c, State state, boolean immediate) {
-    grid.get(r).get(c).setState(state, immediate);
+    Vec2D coord = fixCoord(new Vec2D(r, c));
+    grid.get(coord.getX()).get(coord.getY()).setState(state, immediate);
   }
 
   /**
@@ -42,7 +43,8 @@ public abstract class Grid {
    * @see GridSq4#setState(int, int, State, boolean)
    */
   public void setState(int r, int c, State state) {
-    grid.get(r).get(c).setState(state, false);
+    Vec2D coord = fixCoord(new Vec2D(r, c));
+    grid.get(coord.getX()).get(coord.getY()).setState(state, false);
   }
 
   /**
@@ -80,11 +82,22 @@ public abstract class Grid {
   }
 
   protected Vec2D wrapAroundCoord(Vec2D coord) {
+    return new Vec2D(
+        Utils.wrapInt(coord.getX(), 0, nRows - 1),
+        Utils.wrapInt(coord.getY(), 0, nCols - 1)
+    );
+  }
+
+  /**
+   * Convert a coordinate to a valid one.
+   * <p>
+   * Returns as is if not possible.
+   */
+  public Vec2D fixCoord(Vec2D coord) {
     if (edgeType == EdgeType.WRAP) {
-      return new Vec2D(
-          Utils.wrapInt(coord.getX(), 0, nRows - 1),
-          Utils.wrapInt(coord.getY(), 0, nCols - 1)
-      );
+      wrapAroundCoord(coord);
+    } else if (edgeType == EdgeType.INFINITE) {
+      // TODO: expand grid
     }
     return coord;
   }
@@ -98,8 +111,8 @@ public abstract class Grid {
 
     // TODO: infinite edge type
     for (Vec2D delta : Neighborhood.ALL_NEIGHBOR_DIRECTIONS) {
-
-      if (delta.cosAngle(forwardDirection) < 0) { // check if forward using cosine
+      // check if forward using cosine
+      if (delta.cosAngle(forwardDirection) < 0) {
         continue;
       }
 
