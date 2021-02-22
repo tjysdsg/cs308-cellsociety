@@ -93,6 +93,13 @@ public class Vec2D {
     return dot(other) / (magnitude() * other.magnitude());
   }
 
+  public Vec2D mul(int s) {
+    Vec2D ret = new Vec2D(this);
+    ret.x *= s;
+    ret.y *= s;
+    return ret;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -80,10 +80,13 @@ public abstract class Grid {
   }
 
   protected Vec2D wrapAroundCoord(Vec2D coord) {
-    return new Vec2D(
-        Utils.wrapInt(coord.getX(), 0, nRows - 1),
-        Utils.wrapInt(coord.getY(), 0, nCols - 1)
-    );
+    if (edgeType == EdgeType.WRAP) {
+      return new Vec2D(
+          Utils.wrapInt(coord.getX(), 0, nRows - 1),
+          Utils.wrapInt(coord.getY(), 0, nCols - 1)
+      );
+    }
+    return coord;
   }
 
   /**
