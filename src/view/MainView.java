@@ -1,5 +1,6 @@
 package view;
 
+import cellsociety.Main;
 import controller.Controller;
 import java.io.File;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class MainView {
   private ArrayList<PopulationGraph> popu_list = new ArrayList<>();
@@ -103,7 +105,7 @@ public class MainView {
   private VBox makeAllButtons() {
     ActionButton pausebtn = new ActionButton(labelResource.getString("PauseButton"), 30, 100, 40, 0, e -> controller.setPause());
     ActionButton resumebtn = new ActionButton(labelResource.getString("ResumeButton"), 30, 100, 40, 0, e -> controller.setResume());
-    ActionButton exitbtn = new ActionButton(labelResource.getString("SpawnButton"), 30, 100, 40, 0, e -> System.exit(0));
+    ActionButton exitbtn = new ActionButton(labelResource.getString("SpawnButton"), 30, 100, 40, 0, e -> Main.runOneSimulation(new Stage()));
     HBox hbox1 = new HBox(15);
     hbox1.getChildren().addAll(pausebtn, resumebtn, exitbtn);
 

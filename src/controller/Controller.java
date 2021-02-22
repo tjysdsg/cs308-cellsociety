@@ -59,6 +59,7 @@ public class Controller {
     animation.getKeyFrames().add(frame);
   }
 
+
   public void intializeView(Stage stage){
     MainView view = new MainView(this);
     view.setLanguage(language);

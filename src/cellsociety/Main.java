@@ -8,12 +8,12 @@ import view.Language;
 import view.MainView;
 
 public class Main extends Application {
-  private int counter =0;
+  private static int counter =0;
   public static void main(String[] args) {
     launch(args);
   }
 
-  public void runOneSimulation(Stage newstage){
+  public static void runOneSimulation(Stage newstage){
     counter++;
     Controller controller = new Controller();
     Language lan_view = new Language(controller, newstage);
