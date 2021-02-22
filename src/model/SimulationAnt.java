@@ -107,16 +107,40 @@ public class SimulationAnt extends Simulation {
   }
 
   /**
+   * Returns INVALID_COORD if there's no valid neighbors
+   */
+  private Vec2D randomChooseValidNeighbor(List<Vec2D> neighbors) {
+    for (int i = neighbors.size() - 1; i >= 0; --i) {
+      // check if too crowded
+      var n = neighbors.get(i);
+      if (((StateAnt) grid.getState(n.getX(), n.getY())).getNAnts() >= maxNumAntsPerCell) {
+        neighbors.remove(i);
+      }
+    }
+    int idx = Utils.randomChoose(neighbors);
+    if (idx == -1) {
+      return INVALID_COORD;
+    }
+    return neighbors.get(idx);
+  }
+
+  /**
    * Returns the index of the ant after moving
    */
-  private int moveAntTo(Vec2D src, Vec2D dest, int antIdx) {
+  private void moveAntTo(Vec2D src, Vec2D dest, int antIdx) {
     StateAnt srcState = (StateAnt) grid.getState(src.getX(), src.getY());
     StateAnt destState = (StateAnt) grid.getState(dest.getX(), dest.getY());
 
-    Ant ant = srcState.removeAntAt(antIdx);
+    StateAnt newSrcState = new StateAnt(srcState);
+    StateAnt newDestState = new StateAnt(destState);
+
+    Ant ant = newSrcState.removeAntAt(antIdx);
     ant.setOrientation(dest.minus(src)); // update orientation
 
-    return destState.addAnt(ant);
+    newDestState.addAnt(ant);
+
+    grid.setState(src.getX(), src.getY(), newSrcState);
+    grid.setState(dest.getX(), dest.getY(), newDestState);
   }
 
   private void returnNest(int r, int c, int antIdx) {
@@ -165,37 +189,34 @@ public class SimulationAnt extends Simulation {
 
   private void findFood(int r, int c, int antIdx) {
     StateAnt s = (StateAnt) grid.getState(r, c);
-    Vec2D maxPheromoneNeighborCoord = findMaxPheromoneNeighbor(r, c, PheromoneType.FOOD);
     Ant ant = s.getAnt(antIdx);
 
-    // there is food pheromone around, so head towards that direction
-    if (!maxPheromoneNeighborCoord.equals(INVALID_COORD)) {
-      if (s.isNest()) {
-        ant.setOrientation(maxPheromoneNeighborCoord.minus(new Vec2D(r, c)));
-      }
+    // if at nest and there's food pheromone, head towards that direction
+    Vec2D maxPheromoneNeighborCoord = findMaxPheromoneNeighbor(r, c, PheromoneType.FOOD);
+    if (s.isNest() && !maxPheromoneNeighborCoord.equals(INVALID_COORD)) {
+      ant.setOrientation(maxPheromoneNeighborCoord.minus(new Vec2D(r, c)));
+    }
 
-      Vec2D dest = findMaxPheromoneForwardNeighbor(
-          r, c,
-          PheromoneType.FOOD, s.getAnt(antIdx).getOrientation()
-      );
-      if (dest.equals(INVALID_COORD)) {
-        dest = maxPheromoneNeighborCoord;
-      }
+    // check forward neighbors
+    List<Vec2D> neighbors = grid.getForwardNeighborsCoord(r, c, ant.getOrientation());
+    Vec2D dest = randomChooseValidNeighbor(neighbors);
+
+    if (dest.equals(INVALID_COORD)) {
+      // check all neighbors
+      neighbors = grid.getNeighborsCoord(r, c);
+      dest = randomChooseValidNeighbor(neighbors);
+    }
+
+    // if there's a valid destination, drop home pheromone and go to food source
+    if (!dest.equals(INVALID_COORD)) {
       dropPheromone(r, c, PheromoneType.HOME);
-      moveAntTo(new Vec2D(r, c), dest, antIdx);
-    } else { // no food pheromone around, go towards a random direction
-      var neighbors = grid.getNeighborsCoord(r, c);
+    }
+    moveAntTo(new Vec2D(r, c), dest, antIdx);
 
-      for (int i = neighbors.size() - 1; i >= 0; --i) {
-        // check if too crowded
-        var n = neighbors.get(i);
-        if (((StateAnt) grid.getState(n.getX(), n.getY())).getNAnts() >= maxNumAntsPerCell) {
-          neighbors.remove(i);
-        }
-      }
-      int idx = Utils.randomChoose(neighbors);
-      Vec2D dest = neighbors.get(idx);
-      moveAntTo(new Vec2D(r, c), dest, antIdx);
+    // pick up food if destination is a food source
+    StateAnt destState = (StateAnt) grid.getState(dest.getX(), dest.getY());
+    if (destState.isFoodSource()) {
+      ant.setHasFood(true);
     }
   }
 
@@ -210,17 +231,11 @@ public class SimulationAnt extends Simulation {
         findFood(r, c, i);
       }
     }
-
-    if (s.isFoodSource()) { // pick up food at food source
-      for (int i = s.getNAnts() - 1; i >= 0; --i) {
-        s.getAnt(i).setHasFood(true);
-      }
-    } else { // loop every ant and let them forage
-    }
   }
 
   /**
-   * In this simulation, all the updates are applied immediately for simplicity
+   * In this simulation, all the updates on Ants are applied immediately, but movement is not
+   * applied immediately
    */
   @Override
   protected void updateNextStates() {

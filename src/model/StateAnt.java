@@ -12,6 +12,14 @@ public class StateAnt extends State {
   private boolean isFoodSource;
   private boolean isNest;
 
+  public StateAnt(StateAnt other) {
+    super(other.stateType);
+    ants = other.ants;
+    pheromones = other.pheromones;
+    isFoodSource = other.isFoodSource;
+    isNest = other.isNest;
+  }
+
   public StateAnt(StateEnumAnt stateType, int nAnts, boolean isFoodSource, boolean isNest) {
     super(stateType);
     pheromones = new HashMap<>();
@@ -73,5 +81,16 @@ public class StateAnt extends State {
 
   public boolean isNest() {
     return isNest;
+  }
+
+  @Override
+  public String toString() {
+    if (isFoodSource) {
+      return "F";
+    }
+    if (isNest) {
+      return "N";
+    }
+    return "" + stateType;
   }
 }
