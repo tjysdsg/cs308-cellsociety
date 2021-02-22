@@ -55,7 +55,6 @@ public class MainView {
   private Controller controller;
   private LabelResource labelResource;
   private String language;
-  private Path path;
 
   public MainView(Controller controller) {
     this.controller = controller;
@@ -92,6 +91,8 @@ public class MainView {
     sec = 0;
     grid.getChildren().clear();
     gridelements.clear();
+    for (PopulationGraph pg : popu_list){ pg.getElements().clear();}
+    popu_list.clear();
     controller.setStart();
   }
 
@@ -191,6 +192,7 @@ public class MainView {
   }
 
   public void makePopulationGraph(Map<String, Object> statesMap, List<String> entity_name){
+    System.out.println("called");
     int i =0;
     VBox pg_labels = new VBox(10);
     for (String et : entity_name){
