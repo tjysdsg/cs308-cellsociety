@@ -6,6 +6,11 @@ import model.SimulationGOL;
 import model.State;
 import model.StateEnumGOL;
 
+/**
+ * XML writer class. Used to output the current state of the simulation
+ *
+ * @author Tinglong Zhu
+ */
 public class GOLXMLParser extends XMLParser {
 
   public GOLXMLParser(String fileName) {

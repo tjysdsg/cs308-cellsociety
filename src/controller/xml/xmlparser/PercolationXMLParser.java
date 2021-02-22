@@ -6,6 +6,11 @@ import model.SimulationPercolation;
 import model.State;
 import model.StateEnumPercolation;
 
+/**
+ * XML writer class. Used to output the current state of the simulation
+ *
+ * @author Tinglong Zhu
+ */
 public class PercolationXMLParser extends XMLParser {
 
   public PercolationXMLParser(String fileName) {

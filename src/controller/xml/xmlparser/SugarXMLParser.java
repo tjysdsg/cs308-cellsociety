@@ -2,12 +2,8 @@ package controller.xml.xmlparser;
 
 import controller.xml.XMLException;
 import model.Simulation;
-import model.SimulationAnt;
-import model.SimulationSegregation;
 import model.SimulationSugar;
 import model.State;
-import model.StateAnt;
-import model.StateEnumAnt;
 import model.StateEnumSugar;
 import model.StateSugar;
 import model.SugarAgent;
