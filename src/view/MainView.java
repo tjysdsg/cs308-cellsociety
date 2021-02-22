@@ -63,6 +63,7 @@ public class MainView {
   private VBox pg_labels;
   private ActionButton visiblebtn;
   private ActionButton invisiblebtn;
+  private ActionButton savebtn;
 
   public MainView(Controller controller) {
     this.controller = controller;
@@ -147,13 +148,21 @@ public class MainView {
     return ret;
   }
 
+
+  /**
+   * used by Controller to display warning e.g. during exception
+   * @param msg, error message
+   */
   public void catchError(String msg){
     Alert alert = new Alert(AlertType.ERROR);
     alert.setContentText(msg);
     alert.show();
   }
 
-
+  /**
+   * used by Controller to create Spinners for all controllable parameters.
+   * @param params, a list of Controllable Parameter objects
+   */
   public void displayControllableParams(List<ControllableParam> params){
     for (ControllableParam cp : params){
       // NOTE: make sure keys of paramsMap have values set in .properties file
@@ -201,6 +210,9 @@ public class MainView {
     }
   }
 
+  /**
+   * make a Show button to show  the Line Progression of Population Graph
+   */
   public void makeVisibilityButton(){
     visiblebtn = new ActionButton(labelResource.getString("Show"), 12, 40, 15, 0, e -> {
       visiblebtn.setVisible(false);
@@ -216,6 +228,9 @@ public class MainView {
     root.getChildren().add(visiblebtn);
   }
 
+  /**
+   * make a Hide Button to hide the Line Progression of Population Graph
+   */
   public void makeInVisibilityButton(){
     invisiblebtn = new ActionButton(labelResource.getString("Hide"), 12, 40, 15, 0, e -> {
       invisiblebtn.setVisible(false);
@@ -231,7 +246,14 @@ public class MainView {
     root.getChildren().add(invisiblebtn);
   }
 
-  public void makePopulationGraph(Map<String, Object> statesMap, List<String> entity_name){
+
+  /**
+   *
+   *
+   * @param entity_name, a list of names, each name is the name of a inherent parameter that can be changes
+   *                     during the simulation
+   */
+  public void makePopulationGraph(List<String> entity_name){
     int i =0;
     pg_labels = new VBox(10);
     for (String et : entity_name){
@@ -246,7 +268,11 @@ public class MainView {
     root.getChildren().add(pg_labels);
   }
 
-
+  /**
+   *
+   * @param statesMap, keys are name of parameters, e.g. fish number
+   *                   values are their current value at the time step, e.g. 93
+   */
   public void displayStatus(Map<String, Object> statesMap) {
     // time elapsed
     statusbox.getChildren().clear();
@@ -286,6 +312,10 @@ public class MainView {
     return hbox3;
   }
 
+  /**
+   *
+   * @param states double array of integers, that represent states
+   */
   public void setGridPane(List<List<Integer>> states) {
     int r = states.size();
     int c = states.get(0).size();
@@ -402,8 +432,21 @@ public class MainView {
     return hbox6;
   }
 
+  public void makeSaveButton(){
+      savebtn = new ActionButton(labelResource.getString("Save"), 30, 250, 40, 0, e ->{
+        String time = controller.getCurrentTime();
+        controller.XMLToFile("File_"+ configFile+ "Progress_at_"+time+".xml");
+      });
+      savebtn.setTranslateY(650);
+      savebtn.setTranslateX(500);
+      root.getChildren().add(savebtn);
+  }
 
 
+  /**
+   * to create and return a scene to set to a stage.
+   * @return
+   */
   public Scene createScene() {
     root = new Pane();
     root.setPrefSize(1000, 1000);
