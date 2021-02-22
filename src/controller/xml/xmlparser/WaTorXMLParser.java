@@ -5,6 +5,7 @@ import model.Simulation;
 import model.SimulationWaTor;
 import model.State;
 import model.StateEnumWaTor;
+import model.StateWaTor;
 
 public class WaTorXMLParser extends XMLParser {
 
@@ -36,7 +37,7 @@ public class WaTorXMLParser extends XMLParser {
     stateRange = StateEnumWaTor.ALL_VALS.length;
     states = new State[stateRange];
     for (int val : StateEnumWaTor.ALL_VALS) {
-      states[val] = new State(StateEnumWaTor.fromInt(val));
+      states[val] = new StateWaTor(StateEnumWaTor.fromInt(val));
     }
   }
 

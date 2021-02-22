@@ -5,6 +5,7 @@ import model.Simulation;
 import model.SimulationAnt;
 import model.SimulationSegregation;
 import model.State;
+import model.StateAnt;
 import model.StateEnumAnt;
 import model.StateEnumPercolation;
 
@@ -34,7 +35,8 @@ public class AntXMLParser extends XMLParser{
     stateRange = StateEnumAnt.ALL_VALS.length;
     states = new State[stateRange];
     for (int val : StateEnumAnt.ALL_VALS) {
-      states[val] = new State(StateEnumAnt.fromInt(val));
+      // TODO: load other information of ant cell from config files
+      states[val] = new StateAnt(StateEnumAnt.fromInt(val), 0, false, false);
     }
   }
 
