@@ -8,6 +8,15 @@ public class SugarAgent {
   private int vision = 4;
   private int metabolism = 3;
 
+  public SugarAgent() {
+  }
+
+  public SugarAgent(int sugar, int vision, int metabolism) {
+    this.sugar = sugar;
+    this.vision = vision;
+    this.metabolism = metabolism;
+  }
+
   public int getVision() {
     return vision;
   }

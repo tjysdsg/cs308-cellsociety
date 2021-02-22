@@ -13,11 +13,11 @@ public class StateSugar extends State {
     this.agent = other.agent;
   }
 
-  public StateSugar(StateEnumSugar stateType, int sugar) {
+  public StateSugar(StateEnumSugar stateType, int sugar, SugarAgent agent) {
     super(stateType);
 
     if (stateType == StateEnumSugar.AGENT) {
-      agent = new SugarAgent();
+      this.agent = agent;
     }
 
     this.sugar = sugar;

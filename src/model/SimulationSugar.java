@@ -23,18 +23,24 @@ import java.util.Random;
  */
 public class SimulationSugar extends Simulation {
 
-  private int sugarGrowBackRate = 3;
-  private int sugarGrowBackInterval = 2;
-  private int maxSugarPerPatch = 25;
+  private int sugarGrowBackRate = 1;
+  private int sugarGrowBackInterval = 1;
+  private int maxSugarPerPatch = 30;
 
   public SimulationSugar(int nRows, int nCols) {
-    grid = new GridSq4(nRows, nCols, new StateSugar(StateEnumSugar.EMPTY, 0));
+    grid = new GridSq4(nRows, nCols, new StateSugar(StateEnumSugar.EMPTY, 0, null));
   }
 
   @Override
   public <T> void setConfig(String name, T value) {
     super.setConfig(name, value);
-    // TODO
+    switch (name) {
+      case "sugarGrowBackRate" -> sugarGrowBackRate = (int) value;
+      case "sugarGrowBackInterval" -> sugarGrowBackInterval = (int) value;
+      case "maxSugarPerPatch" -> maxSugarPerPatch = (int) value;
+      default -> {
+      }
+    }
   }
 
   @Override
