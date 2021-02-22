@@ -4,6 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationFire;
 import model.State;
+import model.StateEnum;
 import model.StateEnumFire;
 
 /**
@@ -62,5 +63,10 @@ public class FireXMLParser extends XMLParser {
     }catch (Exception e){
       throw new XMLException("Invalid probcatch");
     }
+  }
+
+  @Override
+  public State newState(int val) {
+    return new State(StateEnumFire.fromInt(val));
   }
 }

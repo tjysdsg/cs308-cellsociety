@@ -13,6 +13,13 @@ import org.w3c.dom.NodeList;
 public class SugarXMLParser extends XMLParser{
 
   public static final String SUGARNUM = "sugar";
+  public static final String SUGAR_GROW_BACK_RATE = "sugarGrowBackRate";
+  public static final String SUGAR_GROW_BACK_INTERVAL = "sugarGrowBackInterval";
+  public static final String MAX_SUGAR_PER_PATCH = "maxSugarPerPatch";
+  private int sugarGrowBackRate;
+  private int sugarGrowBackInterval;
+  private int maxSugarPerPatch;
+
 
   /**
    * Create parser for XML files of given filename.
@@ -41,6 +48,29 @@ public class SugarXMLParser extends XMLParser{
       // TODO: load other information of ant cell from config files
       states[val] = new StateSugar(StateEnumSugar.fromInt(val),0,new SugarAgent());
     }
+  }
+
+  private void initSugarParams() throws XMLException{
+    try{
+      sugarGrowBackRate= getIntTextValue(root, SUGAR_GROW_BACK_RATE);
+      sugarGrowBackInterval = getIntTextValue(root, SUGAR_GROW_BACK_INTERVAL);
+      maxSugarPerPatch= getIntTextValue(root, MAX_SUGAR_PER_PATCH);
+      simulation.setConfig(SUGAR_GROW_BACK_RATE,sugarGrowBackRate);
+      simulation.setConfig(SUGAR_GROW_BACK_INTERVAL,sugarGrowBackInterval);
+      simulation.setConfig(MAX_SUGAR_PER_PATCH,maxSugarPerPatch);
+      params.put(SUGAR_GROW_BACK_RATE,sugarGrowBackRate);
+      params.put(SUGAR_GROW_BACK_INTERVAL,sugarGrowBackInterval);
+      params.put(MAX_SUGAR_PER_PATCH,maxSugarPerPatch);
+    }catch (Exception e){
+      throw new XMLException("Invalid config for sugar!");
+    }
+  }
+
+  @Override
+  public void initSimulation() throws XMLException {
+    simulation=new SimulationSugar(sizeX,sizeY);
+    super.initSimulation();
+    initSugarParams();
   }
 
   @Override

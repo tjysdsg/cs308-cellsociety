@@ -5,6 +5,7 @@ import model.Simulation;
 import model.SimulationLangton;
 import model.SimulationPercolation;
 import model.State;
+import model.StateEnumGOL;
 import model.StateEnumLangton;
 import model.StateEnumPercolation;
 
@@ -48,5 +49,9 @@ public class LangtonXMLParser extends XMLParser{
     for (int val : StateEnumLangton.ALL_VALS) {
       states[val] = new State(StateEnumLangton.fromInt(val));
     }
+  }
+  @Override
+  public State newState(int val) {
+    return new State(StateEnumLangton.fromInt(val));
   }
 }

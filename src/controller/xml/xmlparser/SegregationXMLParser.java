@@ -4,6 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationSegregation;
 import model.State;
+import model.StateEnumGOL;
 import model.StateEnumSegregation;
 
 /**
@@ -54,5 +55,9 @@ public class SegregationXMLParser extends XMLParser{
     }catch (Exception e){
       throw new XMLException("Invalid threshold");
     }
+  }
+  @Override
+  public State newState(int val) {
+    return new State(StateEnumSegregation.fromInt(val));
   }
 }

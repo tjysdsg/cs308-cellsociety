@@ -15,6 +15,7 @@ import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import model.StateEnum;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -132,7 +133,7 @@ public abstract class XMLParser {
         checkCoordinate(row,col);
         int stateNum = getIntTextValue(cell, STATE_TAG);
         checkStates(stateNum);
-        State cellState = states[stateNum];
+        State cellState = newState(stateNum);
         simulation.setState(row, col, cellState, true);
       }catch (Exception e){
         throw  new XMLException("Invalid Cell");
@@ -140,6 +141,14 @@ public abstract class XMLParser {
     }
   }
 
+  /**
+   * Generate state for each cell
+   * @param val value representing the state
+   * @return state class
+   */
+  public State newState(int val){
+    return new State(StateEnum.fromInt(val));
+  }
   /**
    * Put XML Description into map. Used for View's info display
    * @param map

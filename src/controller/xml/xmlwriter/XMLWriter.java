@@ -43,6 +43,7 @@ public class XMLWriter {
       statesWriter(states, root, document);
       gridWriter(states,root,document);
       paramWriter(params,root,document);
+      document.appendChild(root);
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
       Transformer transformer = transformerFactory.newTransformer();
       transformer.setOutputProperty("encoding", "UTF-8");

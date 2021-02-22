@@ -51,8 +51,14 @@ Features implemented:
    during the simulation, such as fish breed time.
    * etc.
    
-
-
+2. Configuration:
+   * Allow random cell initialization.
+   * Allow cell initialization by locations.
+   * Connect the backend model and front end view.
+   * Output current state
+   * XML expert (including initialization and xml r/w)
+   * check invalid xml files(including all kinds of invalid values, forms, etc.)
+   * provide some APIs needed by UI part
 
 ### Notes/Assumptions
 
@@ -64,6 +70,7 @@ We like the italian.properties file, which we translated on our own
 with using google
 
 Known Bugs:
+Ants simulation may not work properly.
 
 Extra credit:
 

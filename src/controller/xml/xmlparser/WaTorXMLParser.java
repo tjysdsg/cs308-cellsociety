@@ -4,6 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationWaTor;
 import model.State;
+import model.StateEnumGOL;
 import model.StateEnumWaTor;
 import model.StateWaTor;
 
@@ -81,5 +82,9 @@ public class WaTorXMLParser extends XMLParser {
     }catch (Exception e){
       throw new XMLException("Invalid shark starve duration");
     }
+  }
+  @Override
+  public State newState(int val) {
+    return new State(StateEnumWaTor.fromInt(val));
   }
 }

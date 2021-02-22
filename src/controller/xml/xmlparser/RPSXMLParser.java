@@ -4,6 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationRPS;
 import model.State;
+import model.StateEnumGOL;
 import model.StateEnumRPS;
 
 /**
@@ -56,5 +57,9 @@ public class RPSXMLParser extends XMLParser{
       System.out.println(e);
     }
 
+  }
+  @Override
+  public State newState(int val) {
+    return new State(StateEnumRPS.fromInt(val));
   }
 }

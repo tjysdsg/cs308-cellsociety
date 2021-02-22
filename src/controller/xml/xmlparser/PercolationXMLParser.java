@@ -4,6 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationPercolation;
 import model.State;
+import model.StateEnumGOL;
 import model.StateEnumPercolation;
 
 /**
@@ -41,5 +42,9 @@ public class PercolationXMLParser extends XMLParser {
     for (int val : StateEnumPercolation.ALL_VALS) {
       states[val] = new State(StateEnumPercolation.fromInt(val));
     }
+  }
+  @Override
+  public State newState(int val) {
+    return new State(StateEnumPercolation.fromInt(val));
   }
 }

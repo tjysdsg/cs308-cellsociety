@@ -4,6 +4,7 @@ import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationGOL;
 import model.State;
+import model.StateEnumFire;
 import model.StateEnumGOL;
 
 /**
@@ -42,5 +43,9 @@ public class GOLXMLParser extends XMLParser {
     for (int val : StateEnumGOL.ALL_VALS) {
       states[val] = new State(StateEnumGOL.fromInt(val));
     }
+  }
+  @Override
+  public State newState(int val) {
+    return new State(StateEnumGOL.fromInt(val));
   }
 }
