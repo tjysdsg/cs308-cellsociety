@@ -38,6 +38,7 @@ public class Controller {
   private Simulation simulation;
   private MainView view;
   private Timeline animation;
+  private String simulationType;
   public static final int FRAMES_PER_SECOND = 1;
   public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
   public static final String DATA_GAMECONFIG="data/gameconfig/";
@@ -166,7 +167,7 @@ public class Controller {
     try{
       configName = filename;
       xmlReader = new SimulationTypeParser(filename);
-      String simulationType = xmlReader.getSimulationType();
+      simulationType = xmlReader.getSimulationType();
       setXMLParser(simulationType);
       simulation = xmlParser.getSimulation();
     }catch (Exception e){
@@ -205,9 +206,9 @@ public class Controller {
     }
   }
 
-  public void XMLToFile(){
+  public void XMLToFile(String filename){
     XMLWriter writer= new XMLWriter();
-    writer.XML2File(simulation.getGrid(),xmlParser.params,configName);
+    writer.XML2File(simulation.getGrid(),xmlParser.params,simulationType,filename);
   }
 
   public Map<String, Object> ConfigSettings(){

@@ -1,10 +1,18 @@
 package controller.xml.xmlwriter;
 
+import java.io.File;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -21,7 +29,7 @@ public class XMLWriter {
    * @param params          all parameters of the simulation including title author etc.
    * @param simulationType  type of the simulation
    */
-  public  void XML2File(List<List<Integer> > states, Map<String, Object> params, String simulationType){
+  public  void XML2File(List<List<Integer> > states, Map<String, Object> params, String simulationType, String filename){
     try {
       DocumentBuilderFactory factory =  DocumentBuilderFactory.newInstance();
       DocumentBuilder builder;
@@ -29,12 +37,23 @@ public class XMLWriter {
       Document document = builder.newDocument();
 
       Element root = document.createElement("data");
-      root.setAttribute("simulation", SIMULATION_ATTRIBUTE);
+      root.setAttribute(SIMULATION_ATTRIBUTE, simulationType);
       statesWriter(states, root, document);
       gridWriter(states,root,document);
       paramWriter(params,root,document);
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer transformer = transformerFactory.newTransformer();
+      transformer.setOutputProperty("encoding", "UTF-8");
 
-    } catch (ParserConfigurationException e) {
+      StringWriter writer = new StringWriter();
+      transformer.transform(new DOMSource(document), new StreamResult(writer));
+      //          System.out.println(writer.toString());
+
+      transformer.transform(new DOMSource(document), new StreamResult(new File("data/"+filename)));
+
+    } catch (ParserConfigurationException | TransformerConfigurationException e) {
+      e.printStackTrace();
+    } catch (TransformerException e) {
       e.printStackTrace();
     }
     return;
