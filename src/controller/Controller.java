@@ -221,7 +221,12 @@ public class Controller {
   }
 
   public List<ControllableParam> getSettingConfigs(){
-    return settingReader.getSettings();
+    List<ControllableParam> settingList= settingReader.getSettings();
+    for(int i=0;i<settingList.size();i++){
+      String name=settingList.get(i).getName();
+      settingList.get(i).setCurrent_val(xmlParser.params.get(name));
+    }
+    return settingList;
   }
 
   public void setConfigValues(String name, Object val){
@@ -230,7 +235,7 @@ public class Controller {
 
   public void XMLToFile(String filename){
     XMLWriter writer= new XMLWriter();
-    writer.XML2File(simulation.getGrid(),xmlParser.params,simulationType,filename);
+    writer.XML2File(simulation.getGrid(),xmlParser.params,simulationType,filename+simulationType);
   }
 
   public Map<String, Object> ConfigSettings(){
