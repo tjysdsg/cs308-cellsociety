@@ -51,6 +51,13 @@ public class Controller {
     this.setView(view);
   }
 
+  private void makePopulationGraph(){
+    ArrayList<String> temp = new ArrayList<>();
+    temp.add("nFish");
+    temp.add("nShark");
+    view.makePopulationGraph(simulation.getStatsMap(), temp);
+  }
+
   public void setView(MainView view) {
     this.view = view;
   }
@@ -95,6 +102,7 @@ public class Controller {
       view.displayStatus(simulation.getStatsMap());
       pause = false;
       animation.play();
+      makePopulationGraph();
     }
   }
 

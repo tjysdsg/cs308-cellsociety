@@ -15,8 +15,8 @@ public class Language {
       controller.setLanguage("English");
       controller.intializeView(stage);
     });
-    this.ch = new ActionButton("??", 50, 300, 100, 0, e -> {
-      controller.setLanguage("Chinese");
+    this.ch = new ActionButton("Italiano", 50, 300, 100, 0, e -> {
+      controller.setLanguage("Italiano");
       controller.intializeView(stage);
     });
   }
