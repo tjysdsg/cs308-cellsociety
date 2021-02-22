@@ -1,0 +1,1 @@
+sugarGrowBackRate,1,10,1,Integer,sugarGrowBackInterval,1,10,1,Integer,maxSugarPerPatch,1,50,1,Integer
