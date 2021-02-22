@@ -3,8 +3,6 @@ package cellsociety;
 import java.util.Random;
 import model.Simulation;
 import model.SimulationSugar;
-import model.State;
-import model.StateEnumFire;
 import model.StateSugar;
 import model.StateEnumSugar;
 

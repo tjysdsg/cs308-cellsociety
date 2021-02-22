@@ -2,7 +2,7 @@ package model;
 
 public class StateSugar extends State {
 
-  private int sugar = 0;
+  private int sugar;
   private int sugarGrowTime = 0;
   private SugarAgent agent;
 

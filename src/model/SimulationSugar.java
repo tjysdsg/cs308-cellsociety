@@ -25,6 +25,7 @@ public class SimulationSugar extends Simulation {
 
   private int sugarGrowBackRate = 3;
   private int sugarGrowBackInterval = 2;
+  private int maxSugarPerPatch = 25;
 
   public SimulationSugar(int nRows, int nCols) {
     grid = new GridSq4(nRows, nCols, new StateSugar(StateEnumSugar.EMPTY, 0));
@@ -59,6 +60,9 @@ public class SimulationSugar extends Simulation {
         int sugar = s.getSugar();
         if (growTime >= sugarGrowBackInterval) {
           sugar += sugarGrowBackRate;
+          if (sugar > maxSugarPerPatch) {
+            sugar = maxSugarPerPatch;
+          }
           s.setSugar(sugar);
           s.setSugarGrowTime(0);
         } else {
