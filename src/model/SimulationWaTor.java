@@ -67,16 +67,16 @@ public class SimulationWaTor extends Simulation {
   @Override
   public Map<String, Object> getStatsMap() {
     HashMap<String, Object> ret = new HashMap<>();
-    ret.put(N_FISH_KEY, nFish);
     ret.put(N_SHARK_KEY, nShark);
+    ret.put(N_FISH_KEY, nFish);
     return ret;
   }
 
   @Override
   public List<String> getStatsNames() {
     ArrayList<String> ret = new ArrayList<>();
-    ret.add(N_FISH_KEY);
     ret.add(N_SHARK_KEY);
+    ret.add(N_FISH_KEY);
     return ret;
   }
 
