@@ -1,6 +1,8 @@
 package controller;
 
 import controller.xml.XMLException;
+import controller.xml.xmlparser.AntXMLParser;
+import controller.xml.xmlparser.LangtonXMLParser;
 import controller.xml.xmlparser.RPSXMLParser;
 import controller.xml.xmlparser.SegregationXMLParser;
 import controller.xml.xmlwriter.XMLWriter;
@@ -15,6 +17,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Simulation;
+import view.ControllableParam;
 import view.LabelResource;
 import controller.xml.xmlparser.FireXMLParser;
 import controller.xml.xmlparser.GOLXMLParser;
@@ -35,6 +38,7 @@ public class Controller {
   private SimulationTypeParser xmlReader;
   private String configName;
   private boolean pause;
+  private SettingReader settingReader;
   private Simulation simulation;
   private MainView view;
   private Timeline animation;
@@ -168,6 +172,7 @@ public class Controller {
       configName = filename;
       xmlReader = new SimulationTypeParser(filename);
       simulationType = xmlReader.getSimulationType();
+      settingReader= new SettingReader(simulationType);
       setXMLParser(simulationType);
       simulation = xmlParser.getSimulation();
     }catch (Exception e){
@@ -198,12 +203,31 @@ public class Controller {
 
       case "Segregation":
         xmlParser = new SegregationXMLParser(configName);
+        break;
 
       case "RPS":
         xmlParser= new RPSXMLParser(configName);
+        break;
+
+      case "Ant":
+        xmlParser= new AntXMLParser(configName);
+        break;
+
+      case "Langton":
+        xmlParser= new LangtonXMLParser(configName);
+        break;
+
       default:
         break;
     }
+  }
+
+  public List<ControllableParam> getSettingConfigs(){
+    return settingReader.getSettings();
+  }
+
+  public void setConfigValues(String name, Object val){
+    simulation.setConfig(name,val);
   }
 
   public void XMLToFile(String filename){
