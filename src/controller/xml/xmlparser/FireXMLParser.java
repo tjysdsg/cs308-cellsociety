@@ -1,12 +1,10 @@
-package controller.xml;
+package controller.xml.xmlparser;
 
-import static model.StateFire.BURNING;
-import static model.StateFire.EMPTY;
-import static model.StateFire.TREE;
-
+import controller.xml.XMLException;
 import model.Simulation;
 import model.SimulationFire;
 import model.State;
+import model.StateEnumFire;
 
 public class FireXMLParser extends XMLParser {
 
@@ -27,12 +25,13 @@ public class FireXMLParser extends XMLParser {
 
   @Override
   public void initStateArray() {
-    stateRange = 3;
+    stateRange = StateEnumFire.ALL_VALS.length;
     states = new State[stateRange];
-    states[0] = EMPTY;
-    states[1] = TREE;
-    states[2] = BURNING;
+    for (int val : StateEnumFire.ALL_VALS) {
+      states[val] = new State(StateEnumFire.fromInt(val));
+    }
   }
+
 
   @Override
   public Simulation getSimulation() throws XMLException {
@@ -45,14 +44,19 @@ public class FireXMLParser extends XMLParser {
   }
 
   @Override
-  public void initSimulation() {
+  public void initSimulation() throws XMLException{
     simulation = new SimulationFire(sizeX,sizeY);
     super.initSimulation();
     initProbCatch();
   }
 
-  private void initProbCatch(){
-    probCatch=getDoubleTextValue(root, PROB_CATCH_TAG);
-    simulation.setConfig(PROB_CATCH_TAG,probCatch);
+  private void initProbCatch() throws XMLException{
+    try {
+      probCatch=getDoubleTextValue(root, PROB_CATCH_TAG);
+      simulation.setConfig(PROB_CATCH_TAG,probCatch);
+      params.put(PROB_CATCH_TAG,probCatch);
+    }catch (Exception e){
+      throw new XMLException("Invalid probcatch");
+    }
   }
 }
