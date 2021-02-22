@@ -7,6 +7,7 @@ public class Line extends LineTo {
   public Line(double x, double y, int l) {
     super(x, y);
     life = l;
+
   }
 
 

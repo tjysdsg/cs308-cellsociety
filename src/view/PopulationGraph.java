@@ -23,6 +23,7 @@ public class PopulationGraph extends Path {
     this.y = mt.getY();
     this.name = name;
     this.color = col;
+    this.setFill(this.color);
   }
 
   public String getName(){return this.name;}
@@ -31,7 +32,6 @@ public class PopulationGraph extends Path {
   public double getY(){return this.y;}
 
   public void addNewLine(LineTo lt){
-
     this.getElements().add(lt);
     x= lt.getX();
     y= lt.getY();
