@@ -28,6 +28,12 @@ public class StateAnt extends State {
   }
 
   public int getPheromone(PheromoneType type) {
+    if (type == PheromoneType.HOME && isNest) {
+      return Integer.MAX_VALUE;
+    }
+    if (type == PheromoneType.FOOD && isFoodSource) {
+      return Integer.MAX_VALUE;
+    }
     return pheromones.get(type);
   }
 

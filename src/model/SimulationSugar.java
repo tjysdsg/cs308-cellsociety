@@ -101,7 +101,7 @@ public class SimulationSugar extends Simulation {
               Vec2D dest = dir.mul(i + 1).add(currCoord);
 
               // wrap coord if wrap is enabled
-              dest = grid.wrapAroundCoord(dest);
+              dest = grid.fixCoord(dest);
               if (!grid.isInside(dest.getX(), dest.getY())) {
                 continue;
               }
