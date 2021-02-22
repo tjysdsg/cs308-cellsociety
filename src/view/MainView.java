@@ -5,6 +5,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -14,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -96,7 +99,7 @@ public class MainView {
     controller.setStart();
   }
 
-  private void makeAllButtons() {
+  private VBox makeAllButtons() {
     ActionButton pausebtn = new ActionButton(labelResource.getString("PauseButton"), 30, 100, 40, 0, e -> controller.setPause());
     ActionButton resumebtn = new ActionButton(labelResource.getString("ResumeButton"), 30, 100, 40, 0, e -> controller.setResume());
     ActionButton exitbtn = new ActionButton(labelResource.getString("ExitButton"), 30, 100, 40, 0, e -> System.exit(0));
@@ -110,11 +113,12 @@ public class MainView {
     hbox2.getChildren().addAll(resetbtn, startbtn, ffbtn);
 
     VBox allbtn = new VBox(15);
-    allbtn.setTranslateX(400);
-    allbtn.setTranslateY(500);
+    //allbtn.setTranslateX(400);
+    //allbtn.setTranslateY(500);
     allbtn.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     allbtn.getChildren().addAll(hbox1, hbox2);
-    root.getChildren().addAll(allbtn);
+    //root.getChildren().addAll(allbtn);
+    return allbtn;
   }
 
   private HBox buildStatusItem(String label, String value) {
@@ -144,7 +148,7 @@ public class MainView {
   }
 
 
-  /*public void displayControllableParams(List<ControllableParam> params){
+  public void displayControllableParams(List<ControllableParam> params){
     for (ControllableParam cp : params){
       // NOTE: make sure keys of paramsMap have values set in .properties file
       if (cp.getType().equals("Integer")){
@@ -158,7 +162,7 @@ public class MainView {
         public void changed(ObservableValue<? extends Integer> observable, Integer oldValue,
             Integer newValue) {
           cp.setCurrent_val(newValue);
-          controller.setConfig(cp);
+          controller.setConfigValues(cp.getName(),cp.getCurrVal());
         }
       });
       paramsbox.getChildren().addAll(buildParamsItem(labelResource.getString(cp.getName()),spinner));
@@ -174,14 +178,14 @@ public class MainView {
           public void changed(ObservableValue<? extends Double> observable, Double oldValue,
               Double newValue) {
             cp.setCurrent_val(newValue);
-            controller.setConfig(cp);
+            controller.setConfigValues(cp.getName(),cp.getCurrVal());
           }
         });
         paramsbox.getChildren().addAll(buildParamsItem(labelResource.getString(cp.getName()),spinner));
       }
       }
 
-    }*/
+    }
 
   private void updatePopulationGraph(Map<String, Object> statesMap){
     for (PopulationGraph pg : popu_list){
@@ -265,8 +269,8 @@ public class MainView {
       }
       gridelements.add(temp);
     }
-    statusbox.setTranslateX(15);
-    statusbox.setTranslateY(30 + gridHeight);
+    //statusbox.setTranslateX(15);
+    //statusbox.setTranslateY(30 + gridHeight);
     //root.getChildren().addAll(grid);
   }
 
@@ -375,20 +379,27 @@ public class MainView {
 
     // init status box
     statusbox = new VBox(5);
-    root.getChildren().add(statusbox);
+    //root.getChildren().add(statusbox);
 
     // init controllable params box
     paramsbox = new VBox(5);
-    root.getChildren().add(paramsbox);
+    displayControllableParams(controller.getSettingConfigs());
+    //root.getChildren().add(paramsbox);
+
+    HBox bigbox = new HBox(25);
+    bigbox.getChildren().addAll(statusbox, paramsbox);
+    bigbox.setTranslateX(15);
+    bigbox.setTranslateY(200 + gridHeight);
+    root.getChildren().add(bigbox);
 
     HBox hbox4 = makeConfigDropDownList();
     HBox hbox5 = makeCSSDropDownList();
     HBox hbox6 = makeColorDropDownList();
-    makeAllButtons();
+    //makeAllButtons();
     HBox hbox3 = setSpeed();
 
     VBox tempv = new VBox(25);
-    tempv.getChildren().addAll(hbox3,hbox4,hbox5,hbox6);
+    tempv.getChildren().addAll(hbox3,hbox4,hbox5,hbox6, makeAllButtons());
     tempv.setTranslateX(150+gridWidth);
     tempv.setTranslateY(50);
     root.getChildren().add(tempv);
