@@ -103,7 +103,7 @@ public class MainView {
   private VBox makeAllButtons() {
     ActionButton pausebtn = new ActionButton(labelResource.getString("PauseButton"), 30, 100, 40, 0, e -> controller.setPause());
     ActionButton resumebtn = new ActionButton(labelResource.getString("ResumeButton"), 30, 100, 40, 0, e -> controller.setResume());
-    ActionButton exitbtn = new ActionButton(labelResource.getString("ExitButton"), 30, 100, 40, 0, e -> System.exit(0));
+    ActionButton exitbtn = new ActionButton(labelResource.getString("SpawnButton"), 30, 100, 40, 0, e -> System.exit(0));
     HBox hbox1 = new HBox(15);
     hbox1.getChildren().addAll(pausebtn, resumebtn, exitbtn);
 
@@ -365,6 +365,7 @@ public class MainView {
     //root.getChildren().add(hbox6);
     return hbox6;
   }
+
 
 
   public Scene createScene() {
