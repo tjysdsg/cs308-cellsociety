@@ -187,7 +187,7 @@ public class MainView {
     for (PopulationGraph pg : popu_list){
       double nfish = (double) Integer.parseInt(statesMap.get(pg.getName()).toString());
       int total = gridelements.size()*gridelements.get(0).size();
-      pg.addNewLine(new LineTo(pg.getX()+10, POPU_WDITH*(1-nfish/total)+10));
+      pg.addNewLine(new Line(pg.getX()+10, POPU_WDITH*(1-nfish/total)+10, (int) gridWidth/10));
     }
   }
 
@@ -196,7 +196,7 @@ public class MainView {
     int i =0;
     VBox pg_labels = new VBox(10);
     for (String et : entity_name){
-      PopulationGraph pg = new PopulationGraph(new MoveTo(20,POPU_WDITH+20*i), et, colors[i+1]);
+      PopulationGraph pg = new PopulationGraph(new MoveTo(20,POPU_WDITH+20*i), et, colors[i+1], (int) gridWidth/10);
       root.getChildren().addAll(pg);
       popu_list.add(pg);
       pg_labels.getChildren().add(pg.getLabel());
