@@ -8,8 +8,15 @@ import model.State;
 import model.StateAnt;
 import model.StateEnumAnt;
 import model.StateEnumPercolation;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class AntXMLParser extends XMLParser{
+
+  public static final String ANTSNUM = "antsnum";
+  public static final String FOODSOURCE = "foodsource";
+  public static final String NEST = "nest";
+  public static final String TRUE = "true";
 
   /**
    * Create parser for XML files of given filename.
@@ -44,5 +51,28 @@ public class AntXMLParser extends XMLParser{
   public void initSimulation() throws XMLException {
     simulation=new SimulationAnt(sizeX,sizeY);
     super.initSimulation();
+  }
+
+  @Override
+  public void initCellByLocation() throws XMLException {
+    NodeList stateList = root.getElementsByTagName(CELL_TAG);
+    for (int i = 0; i < stateList.getLength(); i++) {
+      try{
+        Element cell = (Element) stateList.item(i);
+        int row = getIntTextValue(cell, ROW_TAG);
+        int col = getIntTextValue(cell, COL_TAG);
+        int ants = getIntTextValue(cell, ANTSNUM);
+        String isFoodSource= getTextValue(cell, FOODSOURCE);
+        String isNest= getTextValue(cell, NEST);
+        checkCoordinate(row,col);
+        int stateNum = getIntTextValue(cell, STATE_TAG);
+        checkStates(stateNum);
+        State cellState = new StateAnt(StateEnumAnt.fromInt(stateNum), ants, isFoodSource.equals(
+            TRUE), isNest.equals(TRUE));
+        simulation.setState(row, col, cellState, true);
+      }catch (Exception e){
+        throw  new XMLException("Invalid Cell");
+      }
+    }
   }
 }
