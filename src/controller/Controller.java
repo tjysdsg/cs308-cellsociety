@@ -128,6 +128,8 @@ public class Controller {
        view.displayControllableParams(getSettingConfigs());
       view.setGridPane(simulation.getGrid());
       view.displayStatus(simulation.getStatsMap());
+      view.makeVisibilityButton();
+      view.makeInVisibilityButton();
       pause = false;
       animation.play();
       makePopulationGraph();

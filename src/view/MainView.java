@@ -60,6 +60,9 @@ public class MainView {
   private Controller controller;
   private LabelResource labelResource;
   private String language;
+  private VBox pg_labels;
+  private ActionButton visiblebtn;
+  private ActionButton invisiblebtn;
 
   public MainView(Controller controller) {
     this.controller = controller;
@@ -198,17 +201,48 @@ public class MainView {
     }
   }
 
+  public void makeVisibilityButton(){
+    visiblebtn = new ActionButton(labelResource.getString("Show"), 12, 40, 15, 0, e -> {
+      visiblebtn.setVisible(false);
+      invisiblebtn.setVisible(true);
+      pg_labels.setVisible(true);
+      for (PopulationGraph pg : popu_list){
+        pg.setVisible(true);
+      }
+    });
+    visiblebtn.setVisible(true);
+    visiblebtn.setTranslateX(15);
+    visiblebtn.setTranslateY(POPU_WDITH+25);
+    root.getChildren().add(visiblebtn);
+  }
+
+  public void makeInVisibilityButton(){
+    invisiblebtn = new ActionButton(labelResource.getString("Hide"), 12, 40, 15, 0, e -> {
+      invisiblebtn.setVisible(false);
+      visiblebtn.setVisible(true);
+      pg_labels.setVisible(false);
+      for (PopulationGraph pg : popu_list){
+        pg.setVisible(false);
+      }
+    });
+    invisiblebtn.setVisible(false);
+    invisiblebtn.setTranslateX(15);
+    invisiblebtn.setTranslateY(POPU_WDITH+25);
+    root.getChildren().add(invisiblebtn);
+  }
+
   public void makePopulationGraph(Map<String, Object> statesMap, List<String> entity_name){
-    System.out.println("called");
     int i =0;
-    VBox pg_labels = new VBox(10);
+    pg_labels = new VBox(10);
     for (String et : entity_name){
       PopulationGraph pg = new PopulationGraph(new MoveTo(20,POPU_WDITH+20*i), et, colors[i+1], (int) gridWidth/10);
+      pg.setVisible(false);
       root.getChildren().addAll(pg);
       popu_list.add(pg);
       pg_labels.getChildren().add(pg.getLabel());
       i++;
     }
+    pg_labels.setVisible(false);
     root.getChildren().add(pg_labels);
   }
 
@@ -407,6 +441,9 @@ public class MainView {
     tempv.setTranslateX(150+gridWidth);
     tempv.setTranslateY(50);
     root.getChildren().add(tempv);
+
+
+    // make visioble/invisible button
     scene = new Scene(root);
     return scene;
   }
