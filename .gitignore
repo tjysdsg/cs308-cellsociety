@@ -3,6 +3,7 @@
 *.ipr
 *.iws
 *.iml
+*ms.xml
 .idea/
 out/
 local.properties

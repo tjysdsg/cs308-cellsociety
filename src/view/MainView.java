@@ -1,5 +1,6 @@
 package view;
 
+import cellsociety.Main;
 import controller.Controller;
 import java.io.File;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class MainView {
   private ArrayList<PopulationGraph> popu_list = new ArrayList<>();
@@ -39,8 +41,8 @@ public class MainView {
   private Scene scene;
   private String STYLESHEET = "cssfiles/none.css";
   private Color[] colors;
-  private Color[] spaceTheme = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,Color.rgb(255,255,0),Color.rgb(210,105,30),Color.rgb(	47,79,79),Color.rgb(	230,230,250)};
-  private Color[] watorTheme = {Color.rgb(248,248,255),Color.rgb(	0,0,255),Color.rgb(	25,25,112),Color.rgb(	65,105,225),Color.rgb(30,144,255),Color.rgb(	0,191,255),Color.rgb(	95,158,160),Color.rgb(0,255,255)};
+  private Color[] spaceTheme = {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,Color.rgb(255,255,0),Color.rgb(210,105,30),Color.rgb(	47,79,79),Color.rgb(	230,230,250),Color.rgb(	110,200,180)};
+  private Color[] watorTheme = {Color.rgb(248,248,255),Color.rgb(	0,0,255),Color.rgb(	25,25,112),Color.rgb(	65,105,225),Color.rgb(30,144,255),Color.rgb(	0,191,255),Color.rgb(	95,158,160),Color.rgb(0,255,255), Color.rgb(10, 200, 50)};
   private final double gridHeight = 300.0;
   private final double gridWidth = 500.0;
   private String configFile;
@@ -56,6 +58,10 @@ public class MainView {
   private Controller controller;
   private LabelResource labelResource;
   private String language;
+  private VBox pg_labels;
+  private ActionButton visiblebtn;
+  private ActionButton invisiblebtn;
+  private ActionButton savebtn;
 
   public MainView(Controller controller) {
     this.controller = controller;
@@ -101,7 +107,7 @@ public class MainView {
   private VBox makeAllButtons() {
     ActionButton pausebtn = new ActionButton(labelResource.getString("PauseButton"), 30, 100, 40, 0, e -> controller.setPause());
     ActionButton resumebtn = new ActionButton(labelResource.getString("ResumeButton"), 30, 100, 40, 0, e -> controller.setResume());
-    ActionButton exitbtn = new ActionButton(labelResource.getString("ExitButton"), 30, 100, 40, 0, e -> System.exit(0));
+    ActionButton exitbtn = new ActionButton(labelResource.getString("SpawnButton"), 30, 100, 40, 0, e -> Main.runOneSimulation(new Stage()));
     HBox hbox1 = new HBox(15);
     hbox1.getChildren().addAll(pausebtn, resumebtn, exitbtn);
 
@@ -140,13 +146,21 @@ public class MainView {
     return ret;
   }
 
+
+  /**
+   * used by Controller to display warning e.g. during exception
+   * @param msg, error message
+   */
   public void catchError(String msg){
     Alert alert = new Alert(AlertType.ERROR);
     alert.setContentText(msg);
     alert.show();
   }
 
-
+  /**
+   * used by Controller to create Spinners for all controllable parameters.
+   * @param params, a list of Controllable Parameter objects
+   */
   public void displayControllableParams(List<ControllableParam> params){
     for (ControllableParam cp : params){
       // NOTE: make sure keys of paramsMap have values set in .properties file
@@ -194,21 +208,69 @@ public class MainView {
     }
   }
 
-  public void makePopulationGraph(Map<String, Object> statesMap, List<String> entity_name){
-    System.out.println("called");
+  /**
+   * make a Show button to show  the Line Progression of Population Graph
+   */
+  public void makeVisibilityButton(){
+    visiblebtn = new ActionButton(labelResource.getString("Show"), 12, 40, 15, 0, e -> {
+      visiblebtn.setVisible(false);
+      invisiblebtn.setVisible(true);
+      pg_labels.setVisible(true);
+      for (PopulationGraph pg : popu_list){
+        pg.setVisible(true);
+      }
+    });
+    visiblebtn.setVisible(true);
+    visiblebtn.setTranslateX(15);
+    visiblebtn.setTranslateY(POPU_WDITH+25);
+    root.getChildren().add(visiblebtn);
+  }
+
+  /**
+   * make a Hide Button to hide the Line Progression of Population Graph
+   */
+  public void makeInVisibilityButton(){
+    invisiblebtn = new ActionButton(labelResource.getString("Hide"), 12, 40, 15, 0, e -> {
+      invisiblebtn.setVisible(false);
+      visiblebtn.setVisible(true);
+      pg_labels.setVisible(false);
+      for (PopulationGraph pg : popu_list){
+        pg.setVisible(false);
+      }
+    });
+    invisiblebtn.setVisible(false);
+    invisiblebtn.setTranslateX(15);
+    invisiblebtn.setTranslateY(POPU_WDITH+25);
+    root.getChildren().add(invisiblebtn);
+  }
+
+
+  /**
+   *
+   *
+   * @param entity_name, a list of names, each name is the name of a inherent parameter that can be changes
+   *                     during the simulation
+   */
+  public void makePopulationGraph(List<String> entity_name){
     int i =0;
-    VBox pg_labels = new VBox(10);
+    pg_labels = new VBox(10);
     for (String et : entity_name){
       PopulationGraph pg = new PopulationGraph(new MoveTo(20,POPU_WDITH+20*i), et, colors[i+1], (int) gridWidth/10);
+      pg.setVisible(false);
       root.getChildren().addAll(pg);
       popu_list.add(pg);
       pg_labels.getChildren().add(pg.getLabel());
       i++;
     }
+    pg_labels.setVisible(false);
     root.getChildren().add(pg_labels);
   }
 
-
+  /**
+   *
+   * @param statesMap, keys are name of parameters, e.g. fish number
+   *                   values are their current value at the time step, e.g. 93
+   */
   public void displayStatus(Map<String, Object> statesMap) {
     // time elapsed
     statusbox.getChildren().clear();
@@ -248,6 +310,10 @@ public class MainView {
     return hbox3;
   }
 
+  /**
+   *
+   * @param states double array of integers, that represent states
+   */
   public void setGridPane(List<List<Integer>> states) {
     int r = states.size();
     int c = states.get(0).size();
@@ -364,10 +430,24 @@ public class MainView {
     return hbox6;
   }
 
+  public void makeSaveButton(){
+      savebtn = new ActionButton(labelResource.getString("Save"), 30, 250, 40, 0, e ->{
+        String time = controller.getCurrentTime();
+        controller.XMLToFile("File_"+ configFile+ "Progress_at_"+time+".xml");
+      });
+      savebtn.setTranslateY(650);
+      savebtn.setTranslateX(500);
+      root.getChildren().add(savebtn);
+  }
 
+
+  /**
+   * to create and return a scene to set to a stage.
+   * @return
+   */
   public Scene createScene() {
     root = new Pane();
-    root.setPrefSize(1000, 1000);
+    root.setPrefSize(1300, 1000);
 
     // get proper language
     labelResource = new LabelResource(this.language); // TODO: allow selection of language
@@ -402,6 +482,9 @@ public class MainView {
     tempv.setTranslateX(150+gridWidth);
     tempv.setTranslateY(50);
     root.getChildren().add(tempv);
+
+
+    // make visioble/invisible button
     scene = new Scene(root);
     return scene;
   }

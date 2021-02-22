@@ -62,11 +62,10 @@ public class Controller {
     animation.getKeyFrames().add(frame);
   }
 
-  /**
-   * Initialize the view of the stage.
-   *
-   * @param stage
-   */
+  public String getCurrentTime(){return animation.getCurrentTime().toString();}
+
+
+
   public void intializeView(Stage stage){
     MainView view = new MainView(this);
     view.setLanguage(language);
@@ -76,7 +75,7 @@ public class Controller {
   }
 
   private void makePopulationGraph(){
-    view.makePopulationGraph(simulation.getStatsMap(), simulation.getStatsNames());
+    view.makePopulationGraph( simulation.getStatsNames());
   }
 
   public void setView(MainView view) {
@@ -135,6 +134,9 @@ public class Controller {
       view.displayControllableParams(getSettingConfigs());
       view.setGridPane(simulation.getGrid());
       view.displayStatus(simulation.getStatsMap());
+      view.makeVisibilityButton();
+      view.makeInVisibilityButton();
+      view.makeSaveButton();
       pause = false;
       animation.play();
       makePopulationGraph();
