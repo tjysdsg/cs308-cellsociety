@@ -6,6 +6,13 @@ public class StateSugar extends State {
   private int sugarGrowTime = 0;
   private SugarAgent agent;
 
+  public StateSugar(StateSugar other) {
+    super(other.stateType);
+    this.sugar = other.sugar;
+    this.sugarGrowTime = other.sugarGrowTime;
+    this.agent = other.agent;
+  }
+
   public StateSugar(StateEnumSugar stateType, int sugar) {
     super(stateType);
 

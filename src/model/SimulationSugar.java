@@ -66,19 +66,18 @@ public class SimulationSugar extends Simulation {
         }
 
         // agent
-        // TODO: starve to death
-        SugarAgent agent = s.getAgent();
-        int maxSugar = 0;
-        Vec2D currCoord = new Vec2D(r, c);
-        Vec2D bestCoord = new Vec2D(r, c);
-        // FIXME: don't use hardcoded directions
-        Vec2D[] directions = new Vec2D[]{
-            new Vec2D(1, 0),
-            new Vec2D(-1, 0),
-            new Vec2D(0, 1),
-            new Vec2D(0, -1),
-        };
         if (s.getStateType() == StateEnumSugar.AGENT) {
+          SugarAgent agent = s.getAgent();
+          int maxSugar = 0;
+          Vec2D currCoord = new Vec2D(r, c);
+          Vec2D bestCoord = new Vec2D(r, c);
+          // FIXME: don't use hardcoded directions
+          Vec2D[] directions = new Vec2D[]{
+              new Vec2D(1, 0),
+              new Vec2D(-1, 0),
+              new Vec2D(0, 1),
+              new Vec2D(0, -1),
+          };
           for (Vec2D dir : directions) { // check next several tiles in a direction
             for (int i = 0; i < agent.getVision(); ++i) {
               Vec2D dest = dir.mul(i + 1).add(currCoord);
@@ -102,17 +101,29 @@ public class SimulationSugar extends Simulation {
             }
           }
 
-          // move to best patch
           if (!bestCoord.equals(currCoord)) {
-            ((StateSugar) grid.getState(currCoord.getX(), currCoord.getY())).removeAgent();
-            ((StateSugar) grid.getState(bestCoord.getX(), bestCoord.getY())).setAgent(agent);
+            // remove agent in current patch
+            StateSugar newState = new StateSugar(s);
+            newState.removeAgent();
+            grid.setState(currCoord.getX(), currCoord.getY(), newState);
+
+            // move agent to destination
+            s = (StateSugar) grid.getState(bestCoord.getX(), bestCoord.getY());
+            newState = new StateSugar(s);
+            newState.setAgent(agent);
+            grid.setState(bestCoord.getX(), bestCoord.getY(), newState);
 
             // take sugar
-            agent.setSugar(s.getSugar());
-            s.setSugar(0);
+            agent.setSugar(newState.getSugar());
+            newState.setSugar(0);
 
             // metabolism
             agent.setSugar(agent.getSugar() - agent.getMetabolism());
+
+            // starve to death
+            if (agent.getSugar() < 0) {
+              newState.removeAgent();
+            }
           }
         }
       }
