@@ -79,6 +79,7 @@ public abstract class XMLParser {
     DOCUMENT_BUILDER = getDocumentBuilder();
     FILENAME = fileName;
     xmlFile = new File(DATA_GAMECONFIG + FILENAME);
+    initStateArray();
   }
 
 

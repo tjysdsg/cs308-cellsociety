@@ -5,6 +5,7 @@ import controller.xml.xmlparser.AntXMLParser;
 import controller.xml.xmlparser.LangtonXMLParser;
 import controller.xml.xmlparser.RPSXMLParser;
 import controller.xml.xmlparser.SegregationXMLParser;
+import controller.xml.xmlparser.SugarXMLParser;
 import controller.xml.xmlwriter.XMLWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -214,6 +215,9 @@ public class Controller {
       case "Langton":
         xmlParser= new LangtonXMLParser(configName);
         break;
+
+      case "SugarScape":
+        xmlParser= new SugarXMLParser(configName);
 
       default:
         break;
