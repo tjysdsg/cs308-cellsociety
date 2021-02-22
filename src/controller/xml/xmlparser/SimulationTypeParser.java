@@ -3,6 +3,11 @@ package controller.xml.xmlparser;
 import controller.xml.XMLException;
 import model.Simulation;
 
+/**
+ * XML writer class. Used to output the current state of the simulation
+ *
+ * @author Tinglong Zhu
+ */
 public class SimulationTypeParser extends XMLParser {
 
   public SimulationTypeParser(String fileName) {

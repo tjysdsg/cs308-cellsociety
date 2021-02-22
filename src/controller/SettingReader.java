@@ -9,6 +9,9 @@ import java.util.Set;
 import view.ControllableParam;
 
 
+/**
+ * Reader of the setting.
+ */
 public class SettingReader {
   private List<ControllableParam> settings;
 

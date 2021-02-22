@@ -18,6 +18,8 @@ import org.w3c.dom.Element;
 
 /**
  * XML writer class. Used to output the current state of the simulation
+ *
+ * @author Tinglong Zhu
  */
 public class XMLWriter {
   private static final String SIMULATION_ATTRIBUTE ="simulation";
@@ -100,4 +102,5 @@ public class XMLWriter {
     }
     return;
   }
+
 }

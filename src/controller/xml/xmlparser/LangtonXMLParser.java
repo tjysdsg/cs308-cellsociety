@@ -8,12 +8,17 @@ import model.State;
 import model.StateEnumLangton;
 import model.StateEnumPercolation;
 
+/**
+ * XML writer class. Used to output the current state of the simulation
+ *
+ * @author Tinglong Zhu
+ */
 public class LangtonXMLParser extends XMLParser{
 
   /**
    * Create parser for XML files of given filename.
    *
-   * @param fileName
+   * @param fileName file name
    */
   public LangtonXMLParser(String fileName) throws XMLException {
     super(fileName);

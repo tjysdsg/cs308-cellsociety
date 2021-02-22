@@ -7,6 +7,11 @@ import model.State;
 import model.StateEnumWaTor;
 import model.StateWaTor;
 
+/**
+ * XML writer class. Used to output the current state of the simulation
+ *
+ * @author Tinglong Zhu
+ */
 public class WaTorXMLParser extends XMLParser {
 
   public static final String FISH_BREED_DURATION_TAG = "fishBreedDuration";

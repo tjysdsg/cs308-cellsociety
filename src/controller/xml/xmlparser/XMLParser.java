@@ -24,8 +24,7 @@ import org.xml.sax.SAXException;
 /**
  * This class handles parsing XML files and returning a completed object.
  *
- * @author Rhondu Smithwick
- * @author Robert C. Duvall
+ * @author Tinglong Zhu
  */
 public abstract class XMLParser {
 
@@ -79,6 +78,7 @@ public abstract class XMLParser {
     DOCUMENT_BUILDER = getDocumentBuilder();
     FILENAME = fileName;
     xmlFile = new File(DATA_GAMECONFIG + FILENAME);
+    initStateArray();
   }
 
 

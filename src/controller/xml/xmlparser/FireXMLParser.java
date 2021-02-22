@@ -6,8 +6,12 @@ import model.SimulationFire;
 import model.State;
 import model.StateEnumFire;
 
+/**
+ * XML writer class. Used to output the current state of the simulation
+ *
+ * @author Tinglong Zhu
+ */
 public class FireXMLParser extends XMLParser {
-
 
   public static final String PROB_CATCH_TAG ="probCatch";
   /**

@@ -5,6 +5,7 @@ import controller.xml.xmlparser.AntXMLParser;
 import controller.xml.xmlparser.LangtonXMLParser;
 import controller.xml.xmlparser.RPSXMLParser;
 import controller.xml.xmlparser.SegregationXMLParser;
+import controller.xml.xmlparser.SugarXMLParser;
 import controller.xml.xmlwriter.XMLWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,9 @@ import controller.xml.xmlparser.XMLParser;
 import view.MainView;
 
 /**
+ * Controller class
  *
+ * @author Tinglong Zhu
  */
 public class Controller {
 
@@ -49,7 +52,7 @@ public class Controller {
   private LabelResource labelResource;
 
   /**
-   * Constructor of the controller. Initialization.
+   * Constructor of the controller.
    */
   public Controller() {
     labelResource = new LabelResource("English"); // TODO: allow selection of language
@@ -128,7 +131,7 @@ public class Controller {
      else if (!pause || stepIsPressedFlag){
       return;
     } else {
-       view.displayControllableParams(getSettingConfigs());
+      view.displayControllableParams(getSettingConfigs());
       view.setGridPane(simulation.getGrid());
       view.displayStatus(simulation.getStatsMap());
       view.makeVisibilityButton();
@@ -165,7 +168,6 @@ public class Controller {
     Map<String, Object> mapToStatus=simulation.getStatsMap();
     xmlParser.addXMLDescription(mapToStatus);
     view.step(simulation.getGrid(), mapToStatus);
-
   }
 
   /**
@@ -222,11 +224,19 @@ public class Controller {
         xmlParser= new LangtonXMLParser(configName);
         break;
 
+      case "SugarScape":
+        xmlParser= new SugarXMLParser(configName);
+
       default:
         break;
     }
   }
 
+  /**
+   * Provide the setting list for view to modify them
+   *
+   * @return Setting configs for display buttons to change them
+   */
   public List<ControllableParam> getSettingConfigs(){
     List<ControllableParam> settingList= settingReader.getSettings();
     for(int i=0;i<settingList.size();i++){
@@ -236,6 +246,12 @@ public class Controller {
     return settingList;
   }
 
+  /**
+   * Set config Values. Calling model API
+   *
+   * @param name name of the config
+   * @param val value of the config to update
+   */
   public void setConfigValues(String name, Object val){
     simulation.setConfig(name,val);
   }

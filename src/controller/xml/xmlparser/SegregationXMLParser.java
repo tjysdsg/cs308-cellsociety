@@ -6,6 +6,11 @@ import model.SimulationSegregation;
 import model.State;
 import model.StateEnumSegregation;
 
+/**
+ * XML writer class. Used to output the current state of the simulation
+ *
+ * @author Tinglong Zhu
+ */
 public class SegregationXMLParser extends XMLParser{
 
   public static final String THRESHOLD_TAG = "threshold";

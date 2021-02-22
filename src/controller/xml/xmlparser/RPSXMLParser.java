@@ -6,6 +6,11 @@ import model.SimulationRPS;
 import model.State;
 import model.StateEnumRPS;
 
+/**
+ * XML writer class. Used to output the current state of the simulation
+ *
+ * @author Tinglong Zhu
+ */
 public class RPSXMLParser extends XMLParser{
   public static final String THRESHOLD_TAG="threshold";
   private int threshold;
