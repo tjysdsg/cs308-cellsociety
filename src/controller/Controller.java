@@ -48,7 +48,7 @@ public class Controller {
   private String simulationType;
   public static final int FRAMES_PER_SECOND = 1;
   public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-  public static final String DATA_GAMECONFIG="data/gameconfig/";
+  public static final String DATA_GAMECONFIG = "data/gameconfig/";
   private LabelResource labelResource;
 
   /**
@@ -62,11 +62,12 @@ public class Controller {
     animation.getKeyFrames().add(frame);
   }
 
-  public String getCurrentTime(){return animation.getCurrentTime().toString();}
+  public String getCurrentTime() {
+    return animation.getCurrentTime().toString();
+  }
 
 
-
-  public void intializeView(Stage stage){
+  public void intializeView(Stage stage) {
     MainView view = new MainView(this);
     view.setLanguage(language);
     Scene scene = view.createScene();
@@ -74,15 +75,15 @@ public class Controller {
     this.setView(view);
   }
 
-  private void makePopulationGraph(){
-    view.makePopulationGraph( simulation.getStatsNames());
+  private void makePopulationGraph() {
+    view.makePopulationGraph(simulation.getStatsNames());
   }
 
   public void setView(MainView view) {
     this.view = view;
   }
 
-  public void setLanguage(String lan){
+  public void setLanguage(String lan) {
     this.language = lan;
   }
 
@@ -103,18 +104,19 @@ public class Controller {
    * Resume the simulation
    */
   public void setResume() {
-    if (view.getConfig()!= null && pause){
-    pause = false;
-    animation.play();
-    if (stepIsPressedFlag){
-      stepIsPressedFlag = false;
-    }}
+    if (view.getConfig() != null && pause) {
+      pause = false;
+      animation.play();
+      if (stepIsPressedFlag) {
+        stepIsPressedFlag = false;
+      }
+    }
   }
 
   /**
    * Step over 1 step of the simulation
    */
-  public void stepIsPressed(){
+  public void stepIsPressed() {
     stepIsPressedFlag = true;
   }
 
@@ -123,12 +125,11 @@ public class Controller {
    */
   public void setStart() {
 //    Alert alert = new Alert(AlertType.WARNING);
-    if(view.getConfig()==null){
+    if (view.getConfig() == null) {
       Alert alert = new Alert(AlertType.WARNING);
       alert.setContentText(view.getLabelResource().getString("NoConfigFileWarning"));
       alert.show();
-    }
-     else if (!pause || stepIsPressedFlag){
+    } else if (!pause || stepIsPressedFlag) {
       return;
     } else {
       view.displayControllableParams(getSettingConfigs());
@@ -147,12 +148,12 @@ public class Controller {
    * Reset the simulation
    */
   public void reset() {
-    if (stepIsPressedFlag){
+    if (stepIsPressedFlag) {
       return;
     }
     setPause();
     xmlParser.initSimulation();
-    simulation=xmlParser.simulation;
+    simulation = xmlParser.simulation;
     view.resetSimulation(simulation.getGrid(), simulation.getStatsMap());
   }
 
@@ -165,24 +166,25 @@ public class Controller {
     simulation.update();
 
     // view update
-    Map<String, Object> mapToStatus=simulation.getStatsMap();
+    Map<String, Object> mapToStatus = simulation.getStatsMap();
     xmlParser.addXMLDescription(mapToStatus);
     view.step(simulation.getGrid(), mapToStatus);
   }
 
   /**
    * Set up the configuration based on the certain XML file.
+   *
    * @param filename XML file name
    */
   public void setConfig(String filename) {
-    try{
+    try {
       configName = filename;
       xmlReader = new SimulationTypeParser(filename);
       simulationType = xmlReader.getSimulationType();
-      settingReader= new SettingReader(simulationType);
+      settingReader = new SettingReader(simulationType);
       setXMLParser(simulationType);
       simulation = xmlParser.getSimulation();
-    }catch (Exception e){
+    } catch (Exception e) {
       System.out.println(e);
       view.catchError(labelResource.getString("ConfigFileError"));
     }
@@ -213,19 +215,19 @@ public class Controller {
         break;
 
       case "RPS":
-        xmlParser= new RPSXMLParser(configName);
+        xmlParser = new RPSXMLParser(configName);
         break;
 
       case "Ant":
-        xmlParser= new AntXMLParser(configName);
+        xmlParser = new AntXMLParser(configName);
         break;
 
       case "Langton":
-        xmlParser= new LangtonXMLParser(configName);
+        xmlParser = new LangtonXMLParser(configName);
         break;
 
       case "SugarScape":
-        xmlParser= new SugarXMLParser(configName);
+        xmlParser = new SugarXMLParser(configName);
 
       default:
         break;
@@ -237,11 +239,16 @@ public class Controller {
    *
    * @return Setting configs for display buttons to change them
    */
-  public List<ControllableParam> getSettingConfigs(){
-    List<ControllableParam> settingList= settingReader.getSettings();
-    for(int i=0;i<settingList.size();i++){
-      String name=settingList.get(i).getName();
-      settingList.get(i).setCurrent_val(xmlParser.params.get(name));
+  public List<ControllableParam> getSettingConfigs() {
+    List<ControllableParam> settingList = settingReader.getSettings();
+    for (int i = 0; i < settingList.size(); i++) {
+      String name = settingList.get(i).getName();
+      Object val = xmlParser.params.get(name);
+
+      // if val is null, don't override the default value specified in files in simulationControl/
+      if (val != null) {
+        settingList.get(i).setCurrent_val(val);
+      }
     }
     return settingList;
   }
@@ -250,18 +257,19 @@ public class Controller {
    * Set config Values. Calling model API
    *
    * @param name name of the config
-   * @param val value of the config to update
+   * @param val  value of the config to update
    */
-  public void setConfigValues(String name, Object val){
-    simulation.setConfig(name,val);
+  public void setConfigValues(String name, Object val) {
+    simulation.setConfig(name, val);
   }
 
-  public void XMLToFile(String filename){
-    XMLWriter writer= new XMLWriter();
-    writer.XML2File(simulation.getGrid(),xmlParser.params,simulationType,filename+simulationType);
+  public void XMLToFile(String filename) {
+    XMLWriter writer = new XMLWriter();
+    writer.XML2File(simulation.getGrid(), xmlParser.params, simulationType,
+        filename + simulationType);
   }
 
-  public Map<String, Object> ConfigSettings(){
+  public Map<String, Object> ConfigSettings() {
     return xmlParser.params;
   }
 
