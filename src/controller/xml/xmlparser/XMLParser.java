@@ -303,13 +303,16 @@ public abstract class XMLParser {
 }
 
   private void initCellByDist() throws XMLException{
-    Random r =new Random();
     distribution=getTextValue(root,CELL_INIT_DIST_TAG);
     switch (distribution){
       case "Gaussian":
-        int state=(int) ((r.nextGaussian()+1.0)/2.0*stateRange);
+        int state;
         for(int i=0;i<sizeX;i++){
           for(int j=0;j<sizeY;j++){
+            Random r =new Random();
+            System.out.println(r.nextGaussian());
+            state=(int) ((r.nextGaussian()+3.0)/6.0*stateRange);
+            if(state>=stateRange)state=stateRange-1;
             simulation.setState(i,j,states[state],true);
           }
         }
