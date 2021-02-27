@@ -6,6 +6,9 @@ public class StateSugar extends State {
   private int sugarGrowTime = 0;
   private SugarAgent agent;
 
+  /**
+   * Copy constructor
+   */
   public StateSugar(StateSugar other) {
     super(other.stateType);
     this.sugar = other.sugar;
@@ -13,6 +16,13 @@ public class StateSugar extends State {
     this.agent = other.agent;
   }
 
+  /**
+   * Constructor
+   *
+   * @param stateType see {@link State#State(StateEnum)}
+   * @param sugar     current available sugar in a cell
+   * @param agent     {@link SugarAgent}
+   */
   public StateSugar(StateEnumSugar stateType, int sugar, SugarAgent agent) {
     super(stateType);
 

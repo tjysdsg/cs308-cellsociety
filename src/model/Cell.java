@@ -23,10 +23,16 @@ public class Cell {
     }
   }
 
+  /**
+   * Get current cell state
+   */
   public State getState() {
     return state;
   }
 
+  /**
+   * If lazy written, call this to do the actually update
+   */
   public void update() {
     if (needUpdate) {
       state = nextState;
@@ -34,6 +40,9 @@ public class Cell {
     }
   }
 
+  /**
+   * @see State#toString()
+   */
   @Override
   public String toString() {
     return state.toString();

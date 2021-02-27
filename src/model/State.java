@@ -11,14 +11,25 @@ public class State {
 
   protected StateEnum stateType;
 
+  /**
+   * Constructor
+   *
+   * @param stateType: type of the state, such as EMPTY vs FIRE, FISH vs SHARK, etc.
+   */
   public State(StateEnum stateType) {
     this.stateType = stateType;
   }
 
+  /**
+   * Get current state type
+   */
   StateEnum getStateType() {
     return stateType;
   }
 
+  /**
+   * Boilerplate for comparing State objects
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -31,6 +42,9 @@ public class State {
     return stateType == state.stateType;
   }
 
+  /**
+   * Boilerplate for hashing a State object
+   */
   @Override
   public int hashCode() {
     return Objects.hash(stateType);
@@ -44,6 +58,9 @@ public class State {
     return stateType.toInteger();
   }
 
+  /**
+   * Controls how the state is printed on terminal, doesn't affect View at all
+   */
   @Override
   public String toString() {
     return stateType.toString();

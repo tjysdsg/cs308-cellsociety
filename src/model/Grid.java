@@ -11,6 +11,8 @@ import java.util.List;
  * Supports changing edge type or neighborhood on the fly
  * <p>
  * Automatically fix invalid coordinate if edge type is not finite
+ * <p>
+ * NOTE: doesn't support infinite edge type YET
  */
 public abstract class Grid {
 
@@ -20,6 +22,13 @@ public abstract class Grid {
   protected Neighborhood neighborhood;
   protected EdgeType edgeType = EdgeType.FINITE;
 
+  /**
+   * Initialize the grid with a default state value
+   *
+   * @param nRows        Total number of rows
+   * @param nCols        Total number of columns
+   * @param defaultState Default state value
+   */
   public Grid(int nRows, int nCols, State defaultState) {
     this.nRows = nRows;
     this.nCols = nCols;
@@ -87,6 +96,9 @@ public abstract class Grid {
     this.edgeType = edgeType;
   }
 
+  /**
+   * Wrap around a coordinate if the edge type is toroidal
+   */
   protected Vec2D wrapAroundCoord(Vec2D coord) {
     return new Vec2D(
         Utils.wrapInt(coord.getX(), 0, nRows - 1),

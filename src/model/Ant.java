@@ -1,8 +1,18 @@
 package model;
 
+/**
+ * Represents an ant in Foraging Ant
+ */
 public class Ant {
 
+  /**
+   * Does the ant have food
+   */
   private boolean hasFood = false;
+
+  /**
+   * The orientation of the ant
+   */
   private Vec2D orientation = new Vec2D();
 
   public boolean hasFood() {

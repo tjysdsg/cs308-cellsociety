@@ -95,6 +95,12 @@ public class Neighborhood {
 
   private List<Vec2D> validDirections;
 
+  /**
+   * Initialize with valid directions
+   *
+   * @param directions All valid directions for a cell to be the neighbor of another cell
+   * @see Neighborhood
+   */
   public Neighborhood(Vec2D[] directions) {
     this.validDirections = Arrays.asList(directions);
   }

@@ -8,6 +8,9 @@ package model;
  */
 public class GridTriangle extends Grid {
 
+  /**
+   * @see Grid#Grid(int, int, State)
+   */
   public GridTriangle(int nRows, int nCols, State defaultState) {
     super(nRows, nCols, defaultState);
     setNeighborhood(Neighborhood.Triangle());

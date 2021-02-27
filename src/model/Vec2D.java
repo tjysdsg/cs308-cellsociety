@@ -3,7 +3,7 @@ package model;
 import java.util.Objects;
 
 /**
- * 2D Vector
+ * 2D Vector for representing coordinate
  */
 public class Vec2D {
 
@@ -81,18 +81,30 @@ public class Vec2D {
     return ret;
   }
 
+  /**
+   * Dot product
+   */
   public double dot(Vec2D other) {
     return (double) x * other.x + (double) y * other.y;
   }
 
+  /**
+   * Magnitude of the vector
+   */
   public double magnitude() {
     return Math.sqrt(dot(this));
   }
 
+  /**
+   * Calculate the cosine of the angle between two vectors
+   */
   public double cosAngle(Vec2D other) {
     return dot(other) / (magnitude() * other.magnitude());
   }
 
+  /**
+   * Scalar-vector multiplication
+   */
   public Vec2D mul(int s) {
     Vec2D ret = new Vec2D(this);
     ret.x *= s;

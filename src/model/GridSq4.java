@@ -8,6 +8,9 @@ package model;
  */
 public class GridSq4 extends Grid {
 
+  /**
+   * @see Grid#Grid(int, int, State)
+   */
   public GridSq4(int nRows, int nCols, State defaultState) {
     super(nRows, nCols, defaultState);
     setNeighborhood(Neighborhood.Square4());
