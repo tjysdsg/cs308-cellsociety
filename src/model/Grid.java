@@ -5,6 +5,12 @@ import java.util.List;
 
 /**
  * Base class of grid.
+ * <p>
+ * Access/modify a cell or a state using (r, c) where r is the row index and c is the column index
+ * <p>
+ * Supports changing edge type or neighborhood on the fly
+ * <p>
+ * Automatically fix invalid coordinate if edge type is not finite
  */
 public abstract class Grid {
 
